@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,6 +81,16 @@ Route::prefix('admin')->group(function () {
     Route::get('category/edit', function () {
         return view('admin.categories.edit');
     })->name('admin.category.edit');
+
+    Route::get('/account', [UserController::class, 'index'])->name('admin.account');
+    
+    Route::get('account/create', function () {
+        return view('admin.accounts.add');
+    })->name('admin.account.create');
+    Route::get('account/edit', function () {
+        return view('admin.accounts.edit');
+    })->name('admin.account.edit');
+
     Route::get('/tag', function () {
         return view('admin.tags.list');
     })->name('admin.tag');

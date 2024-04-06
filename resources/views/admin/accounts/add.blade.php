@@ -7,7 +7,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        Category
+                        Product
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -26,7 +26,7 @@
                         <div class="col-12">
                             <form class="card">
                                 <div class="card-body">
-                                    <h3 class="card-title">Add Category</h3>
+                                    <h3 class="card-title">Add Product</h3>
                                     <div class="row row-cards">
                                         <div class="col-md-5">
                                             <div class="mb-3">
@@ -103,10 +103,10 @@
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <a href="{{route('admin.category')}}" class="btn btn-secondary">
+                                    <a href="{{route('admin.product')}}" class="btn btn-secondary">
                                         Cancel
                                     </a>
-                                    <button type="submit" class="btn btn-primary">Add Category</button>
+                                    <button type="submit" class="btn btn-primary">Add Product</button>
                                 </div>
                             </form>
                         </div>
