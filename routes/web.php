@@ -57,12 +57,12 @@ Route::get('/reset-password', function () {
 Route::get('/product-details', function () {
     return view('user.product-details');
 })->name('product-details');
-  
+
 
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
-    })->name('admin.dashboard'); 
+    })->name('admin.dashboard');
     Route::get('/product', function () {
         return view('admin.products.list');
     })->name('admin.product');
@@ -83,13 +83,15 @@ Route::prefix('admin')->group(function () {
     })->name('admin.category.edit');
 
     Route::get('/account', [UserController::class, 'index'])->name('admin.account');
-    
-    Route::get('account/create', function () {
-        return view('admin.accounts.add');
-    })->name('admin.account.create');
-    Route::get('account/edit', function () {
-        return view('admin.accounts.edit');
-    })->name('admin.account.edit');
+
+    Route::get('account/create', [UserController::class, 'create'])->name('admin.account.create');
+    Route::post('account/create', [UserController::class, 'store'])->name('admin.account.store');
+    Route::get('account/edit/{id}', [UserController::class, 'edit'])->name('admin.account.edit');
+    Route::put('account/edit/{id}', [UserController::class, 'update'])->name('admin.account.update');
+    Route::get('account/delete/{id}', [UserController::class, 'delete'])->name('admin.account.delete');
+    Route::get('account/trash', [UserController::class, 'trash'])->name('admin.account.trash');
+    Route::get('account/restore/{id}', [UserController::class, 'restore'])->name('admin.account.restore');
+    Route::get('account/destroy/{id}', [UserController::class, 'destroy'])->name('admin.account.destroy');
 
     Route::get('/tag', function () {
         return view('admin.tags.list');

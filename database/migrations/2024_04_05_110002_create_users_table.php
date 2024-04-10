@@ -17,17 +17,17 @@ return new class extends Migration
             $table->string('fullname');
             $table->string('avatar')->default('profile.png');
             $table->string('password');
-            $table->string('email')->unique(); 
-            // Role 1 = Admin, 2 = User
-            $table->unsignedInteger('role_id')->default(2);
-            $table->foreign('role_id')->references('id')->on('user_roles')->onDelete('cascade');
-            // Status 1 = Active, 2 = Inactive 
-            $table->unsignedInteger('status_id')->default(1);
-            $table->foreign('status_id')->references('id')->on('user_statuses')->onDelete('cascade');
+            $table->string('email')->unique();
+            $table->string('phone')->unique();
+            $table->string('address');
+            // Role 1 = Admin, 2 = Client
+            $table->unsignedInteger('role')->default(2);
+            // Status 1 = Active, 2 = Inactive, 3 = Banned
+            $table->unsignedInteger('status')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

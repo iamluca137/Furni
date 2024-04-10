@@ -7,7 +7,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        Product
+                        Add Account
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -24,89 +24,128 @@
                 <div class="col-12">
                     <div class="row row-cards">
                         <div class="col-12">
-                            <form class="card">
+                            <form class="card" method="post" action="{{ route('admin.account.store') }}"
+                                enctype="multipart/form-data">
+                                @csrf
                                 <div class="card-body">
-                                    <h3 class="card-title">Add Product</h3>
                                     <div class="row row-cards">
-                                        <div class="col-md-5">
-                                            <div class="mb-3">
-                                                <label class="form-label">Company</label>
-                                                <input type="text" class="form-control" disabled=""
-                                                    placeholder="Company" value="Creative Code Inc.">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
                                                 <label class="form-label">Username</label>
-                                                <input type="text" class="form-control" placeholder="Username"
-                                                    value="michael23">
+                                                <input type="text" class="form-control" name="username"
+                                                    placeholder="Username">
+                                                @error('username')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-4">
                                             <div class="mb-3">
-                                                <label class="form-label">Email address</label>
-                                                <input type="email" class="form-control" placeholder="Email">
+                                                <label class="form-label">Fullname</label>
+                                                <input type="text" class="form-control" name="fullname"
+                                                    placeholder="Fullname">
+                                                @error('fullname')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" name="email" class="form-control"
+                                                    placeholder="Email">
+                                                @error('email')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">First Name</label>
-                                                <input type="text" class="form-control" placeholder="Company"
-                                                    value="Chet">
+                                                <label class="form-label">Password</label>
+                                                <input type="password" class="form-control" placeholder="Password"
+                                                    name="password">
+                                                @error('password')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" placeholder="Last Name"
-                                                    value="Faker">
+                                                <label class="form-label">Confirm Password</label>
+                                                <input type="password" class="form-control" placeholder="Confirm Password"
+                                                    name="password_confirmation">
+                                                @error('password_confirmation')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Address</label>
-                                                <input type="text" class="form-control" placeholder="Home Address"
-                                                    value="Melbourne, Australia">
+                                                <input type="text" name="address" class="form-control"
+                                                    placeholder="Address">
+                                                @error('address')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-4">
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">City</label>
-                                                <input type="text" class="form-control" placeholder="City"
-                                                    value="Melbourne">
+                                                <label class="form-label">Phone</label>
+                                                <input type="text" name="phone" class="form-control"
+                                                    placeholder="Phone">
+                                                @error('phone')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Postal Code</label>
-                                                <input type="test" class="form-control" placeholder="ZIP Code">
+                                                <label class="form-label">Avatar</label>
+                                                <input type="file" class="form-control" name="avatar">
+                                                @error('avatar')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
-                                            <div class="mb-3">
-                                                <label class="form-label">Country</label>
-                                                <select class="form-control form-select">
-                                                    <option value="">Germany</option>
+                                        <div class="col-md-3">
+                                            <div class="mb-3 me-3">
+                                                <div class="form-label">Status</div>
+                                                <select class="form-select" name="status">
+                                                    @foreach ($statuses as $status)
+                                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
+                                            @error('status')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3 mb-0">
-                                                <label class="form-label">About Me</label>
-                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
-                                                    You doubt I'll bother, reading into it
-                                                    I'll probably won't, left to my own devices
-                                                    But that's the difference in our opinions.
-                                                    </textarea>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <div class="form-label mb-3">Role</div>
+                                                <div class="">
+                                                    @foreach ($roles as $role)
+                                                        <label class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="role"
+                                                                value="{{ $role->id }}"
+                                                                {{ $role->id == 2 ? 'checked' : '' }}>
+                                                            <span class="form-check-label">{{ $role->name }}</span>
+                                                        </label>
+                                                    @endforeach
+                                                </div>
+                                                @error('role')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <a href="{{route('admin.product')}}" class="btn btn-secondary">
+                                    <a href="{{ route('admin.account') }}" class="btn btn-secondary">
                                         Cancel
                                     </a>
-                                    <button type="submit" class="btn btn-primary">Add Product</button>
+                                    <button type="submit" class="btn btn-primary">Add Account</button>
                                 </div>
                             </form>
                         </div>
