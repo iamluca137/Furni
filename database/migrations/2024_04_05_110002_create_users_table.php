@@ -24,6 +24,8 @@ return new class extends Migration
             $table->unsignedInteger('role')->default(2);
             // Status 1 = Active, 2 = Inactive, 3 = Banned
             $table->unsignedInteger('status')->default(1);
+            $table->foreign('status')->references('id')->on('user_statuses')->onDelete('cascade');
+            $table->foreign('role')->references('id')->on('user_roles')->onDelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

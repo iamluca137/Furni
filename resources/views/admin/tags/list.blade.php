@@ -1,19 +1,46 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none position-relative">
         <div class="container-xl">
+            @if (session('success') || session('error'))
+                <div class="position-absolute top-0 end-0">
+                    <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                {{ session('success') ?? session('error') }}
+                            </div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                    <script>
+                        window.setTimeout(function() {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    </script>
+                </div>
+            @endif
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        Tag
+                        Tags
                     </h2>
                 </div>
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{route('admin.tag.create')}}" class="btn btn-primary d-none d-sm-inline-block" >
+                        <a href="{{ route('admin.tag.create') }}" class="btn btn-primary d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -32,6 +59,45 @@
         <div class="container-xl">
             <div class="row row-cards">
                 <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Manager tags</h3>
+                            <div class="tags-list">
+                                @foreach ($tags as $tag)
+                                    <span class="tag">
+                                        <p class="px-2 m-0" title="{{ $tag->description }}" style="cursor: pointer">
+                                            {{ $tag->name }}</p>
+                                        <a href="{{ route('admin.tag.edit', $tag->id) }}" class="link-secondary"
+                                            data-bs-toggle="tooltip">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                                <path
+                                                    d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                                <path d="M16 5l3 3" />
+                                            </svg>
+                                        </a>
+                                        <a href="{{ route('admin.tag.delete', $tag->id) }}" class="link-secondary"
+                                            onclick="return confirm('Are you sure delete this tag?')"
+                                            data-bs-toggle="tooltip">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M18 6l-12 12"></path>
+                                                <path d="M6 6l12 12"></path>
+                                            </svg>
+                                        </a>
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="col-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Invoices</h3>
@@ -382,7 +448,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

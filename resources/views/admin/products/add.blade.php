@@ -1,13 +1,40 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none position-relative">
         <div class="container-xl">
+            @if (session('success') || session('error'))
+                <div class="position-absolute top-0 end-0">
+                    <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                {{ session('success') ?? session('error') }}
+                            </div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                    <script>
+                        window.setTimeout(function() {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    </script>
+                </div>
+            @endif
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        Product
+                        Add Product
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -24,86 +51,115 @@
                 <div class="col-12">
                     <div class="row row-cards">
                         <div class="col-12">
-                            <form class="card">
+                            <form class="card" method="post" action="{{ route('admin.product.store') }}"
+                                enctype="multipart/form-data">
+                                @csrf
                                 <div class="card-body">
-                                    <h3 class="card-title">Add Product</h3>
                                     <div class="row row-cards">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <div class="mb-3">
-                                                <label class="form-label">Company</label>
-                                                <input type="text" class="form-control" disabled=""
-                                                    placeholder="Company" value="Creative Code Inc.">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Username</label>
-                                                <input type="text" class="form-control" placeholder="Username"
-                                                    value="michael23">
+                                                <label class="form-label">Name</label>
+                                                <input type="text" class="form-control" name="name"
+                                                    placeholder="Name">
+                                                @error('name')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-4">
                                             <div class="mb-3">
-                                                <label class="form-label">Email address</label>
-                                                <input type="email" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">First Name</label>
-                                                <input type="text" class="form-control" placeholder="Company"
-                                                    value="Chet">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" placeholder="Last Name"
-                                                    value="Faker">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Address</label>
-                                                <input type="text" class="form-control" placeholder="Home Address"
-                                                    value="Melbourne, Australia">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">City</label>
-                                                <input type="text" class="form-control" placeholder="City"
-                                                    value="Melbourne">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Postal Code</label>
-                                                <input type="test" class="form-control" placeholder="ZIP Code">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="mb-3">
-                                                <label class="form-label">Country</label>
-                                                <select class="form-control form-select">
-                                                    <option value="">Germany</option>
+                                                <div class="form-label">Category</div>
+                                                <select class="form-select" name="category_product_id">
+                                                    <option selected disabled>-- Select Category --</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
+                                            @error('category_product_id')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3 mb-0">
-                                                <label class="form-label">About Me</label>
-                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
-                                                    You doubt I'll bother, reading into it
-                                                    I'll probably won't, left to my own devices
-                                                    But that's the difference in our opinions.
-                                                    </textarea>
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Price</label>
+                                                <input type="text" name="price" class="form-control"
+                                                    placeholder="Price">
+                                                @error('price')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Image</label>
+                                                <input type="file" multiple class="form-control" name="images[]"
+                                                    placeholder="Image">
+                                                @error('images')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
+                                                @error('images.*')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="mb-3">
+                                                <label class="form-label">Quantity</label>
+                                                <input type="text" name="quantity" class="form-control"
+                                                    placeholder="Quantity">
+                                                @error('quantity')
+                                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-4">
+                                            <div class="mb-3">
+                                                <div class="form-label">Status</div>
+                                                <select class="form-select" name="status">
+                                                    @foreach ($statuses as $status)
+                                                        <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('status')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tags </label>
+                                            <select type="text" class="form-select" placeholder="Select tags"
+                                                name="tags[]" id="select-tags" multiple>
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('tags')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Info</label>
+                                                <textarea class="form-control" name="info" id="" rows="5"></textarea>
+                                            </div>
+                                            @error('info')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Description</label>
+                                                <textarea class="form-control" name="description" id="" rows="5"></textarea>
+                                            </div>
+                                            @error('description')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <a href="{{route('admin.product')}}" class="btn btn-secondary">
+                                    <a href="{{ route('admin.product') }}" class="btn btn-secondary">
                                         Cancel
                                     </a>
                                     <button type="submit" class="btn btn-primary">Add Product</button>
@@ -116,3 +172,31 @@
         </div>
     </div>
 @endsection
+<script>
+    // @formatter:off
+    document.addEventListener("DOMContentLoaded", function() {
+        var el;
+        window.TomSelect && (new TomSelect(el = document.getElementById('select-tags'), {
+            copyClassesToDropdown: false,
+            dropdownParent: 'body',
+            controlInput: '<input>',
+            render: {
+                item: function(data, escape) {
+                    if (data.customProperties) {
+                        return '<div><span class="dropdown-item-indicator">' + data
+                            .customProperties + '</span>' + escape(data.text) + '</div>';
+                    }
+                    return '<div>' + escape(data.text) + '</div>';
+                },
+                option: function(data, escape) {
+                    if (data.customProperties) {
+                        return '<div><span class="dropdown-item-indicator">' + data
+                            .customProperties + '</span>' + escape(data.text) + '</div>';
+                    }
+                    return '<div>' + escape(data.text) + '</div>';
+                },
+            },
+        }));
+    });
+    // @formatter:on
+</script>

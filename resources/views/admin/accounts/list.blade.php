@@ -1,8 +1,35 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none position-relative">
         <div class="container-xl">
+            @if (session('success') || session('error'))
+                <div class="position-absolute top-0 end-0">
+                    <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                {{ session('success') ?? session('error') }}
+                            </div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                    <script>
+                        window.setTimeout(function() {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    </script>
+                </div>
+            @endif
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -53,12 +80,10 @@
                         <div class="card-header">
                             <h3 class="card-title">Accounts</h3>
                         </div>
-                        <div class="">
+                        <div>
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr>
-                                        <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select all invoices"></th>
+                                    <tr> 
                                         <th>ID</th>
                                         <th>Username</th>
                                         <th>Fullname</th>
@@ -70,9 +95,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
-                                        <tr>
-                                            <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                    aria-label="Select invoice"></td>
+                                        <tr> 
                                             <td>{{ $user->id }}</td>
                                             <td>
                                                 <div class="d-flex py-1 align-items-center">
@@ -84,9 +107,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><a href="invoice.html" class="text-reset"
-                                                    tabindex="-1">{{ $user->fullname }}</a>
-                                            </td>
+                                            <td>{{ $user->fullname }} </td>
                                             <td>
                                                 {{ $user['created_at'] }}
                                             </td>
@@ -129,42 +150,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card-footer d-flex align-items-center">
-                            <p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of
-                                <span>16</span> entries
-                            </p>
-                            <ul class="pagination m-0 ms-auto">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M15 6l-6 6l6 6" />
-                                        </svg>
-                                        prev
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        next
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M9 6l6 6l-6 6" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="card-footer">
+                            {{ $users->onEachSide(2)->links() }}
                         </div>
                     </div>
                 </div>

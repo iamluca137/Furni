@@ -12,5 +12,14 @@ class ProductTag extends Model
     protected $table = 'product_tags';
     
     protected $primaryKey = 'id';
-    
+
+    protected $fillable = [
+        'tag_id',
+        'product_id',
+    ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }   
 }

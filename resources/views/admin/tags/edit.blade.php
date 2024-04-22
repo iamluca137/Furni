@@ -1,13 +1,40 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none position-relative">
         <div class="container-xl">
+            @if (session('success') || session('error'))
+                <div class="position-absolute top-0 end-0">
+                    <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                {{ session('success') ?? session('error') }}
+                            </div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                    <script>
+                        window.setTimeout(function() {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    </script>
+                </div>
+            @endif
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        Tag
+                        Edit Tag
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -24,89 +51,38 @@
                 <div class="col-12">
                     <div class="row row-cards">
                         <div class="col-12">
-                            <form class="card">
+                            <form class="card" method="post" action="{{ route('admin.tag.update', $tag->id) }}">
+                                @csrf
+                                @method('PUT')
                                 <div class="card-body">
-                                    <h3 class="card-title">Update Tag</h3>
                                     <div class="row row-cards">
-                                        <div class="col-md-5">
+                                        <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Company</label>
-                                                <input type="text" class="form-control" disabled=""
-                                                    placeholder="Company" value="Creative Code Inc.">
+                                                <label class="form-label">Name</label>
+                                                <input type="text" class="form-control" placeholder="Name"
+                                                    value="{{ $tag->name }}" name="name">
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Username</label>
-                                                <input type="text" class="form-control" placeholder="Username"
-                                                    value="michael23">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">Email Updateress</label>
-                                                <input type="email" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">First Name</label>
-                                                <input type="text" class="form-control" placeholder="Company"
-                                                    value="Chet">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" placeholder="Last Name"
-                                                    value="Faker">
-                                            </div>
+                                            @error('name')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Updateress</label>
-                                                <input type="text" class="form-control" placeholder="Home Updateress"
-                                                    value="Melbourne, Australia">
+                                                <label class="form-label">Description</label>
+                                                <input type="text" class="form-control" placeholder="Description"
+                                                    value="{{ $tag->description }}" name="description">
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-4">
-                                            <div class="mb-3">
-                                                <label class="form-label">City</label>
-                                                <input type="text" class="form-control" placeholder="City"
-                                                    value="Melbourne">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-3">
-                                            <div class="mb-3">
-                                                <label class="form-label">Postal Code</label>
-                                                <input type="test" class="form-control" placeholder="ZIP Code">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="mb-3">
-                                                <label class="form-label">Country</label>
-                                                <select class="form-control form-select">
-                                                    <option value="">Germany</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3 mb-0">
-                                                <label class="form-label">About Me</label>
-                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Oh so, your weak rhyme
-                                                    You doubt I'll bother, reading into it
-                                                    I'll probably won't, left to my own devices
-                                                    But that's the difference in our opinions.
-                                                    </textarea>
-                                            </div>
+                                            @error('description')
+                                                <div class="mt-1 text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-end">
-                                    <a href="{{route('admin.tag')}}" class="btn btn-secondary">
+                                    <a href="{{ route('admin.tag') }}" class="btn btn-secondary">
                                         Cancel
                                     </a>
-                                    <button type="submit" class="btn btn-primary">Update Tag</button>
+                                    <button type="submit" class="btn btn-primary">Edit Tag</button>
                                 </div>
                             </form>
                         </div>

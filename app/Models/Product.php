@@ -4,17 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory; 
+    use HasFactory, SoftDeletes;
 
     protected $table = 'products';
-    
+
     protected $primaryKey = 'id';
-    
+
     protected $fillable = [
         'name',
+        'slug',
         'price',
         'sku',
         'info',
@@ -22,7 +24,7 @@ class Product extends Model
         'quantity',
         'category_product_id',
         'product_status_id',
-    ]; 
+    ];
 
     public function products()
     {

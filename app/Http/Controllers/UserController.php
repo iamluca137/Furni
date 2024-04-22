@@ -15,7 +15,7 @@ class UserController extends Controller
     // List accounts
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(10);
         $trashes = User::onlyTrashed()->get();
         return view('admin.accounts.list', compact('users', 'trashes'));
     }
@@ -46,7 +46,7 @@ class UserController extends Controller
             $file = $request->file('avatar');
             $extention = $file->getClientOriginalName();
             $filename = time() . "_" . $extention;
-
+            $filename = $this->formatImage($filename);
             $file->move('assets/images/accounts/', $filename);
         } else {
             $filename = "profile.png";
@@ -64,8 +64,11 @@ class UserController extends Controller
             'status' => (int)$request->status,
         ];
 
-        User::create($dataUsers);
-        return redirect()->route('admin.account');
+        if (User::create($dataUsers)) {
+            return redirect()->route('admin.account')->with('success', 'Account created successfully');
+        } else {
+            return redirect()->route('admin.account.create')->with('error', 'Failed to create account');
+        }
     }
 
     public function edit(string $id)
@@ -111,7 +114,7 @@ class UserController extends Controller
             $file = $request->file('avatar');
             $extention = $file->getClientOriginalName();
             $filename = time() . "_" . $extention;
-
+            $filename = $this->formatImage($filename);
             $file->move('assets/images/accounts/', $filename);
             if ($user->avatar != "profile.png") {
                 unlink('assets/images/accounts/' . $user->avatar);
@@ -132,32 +135,50 @@ class UserController extends Controller
         ];
 
 
-        $user->update($dataUpdate);
-        return redirect()->route('admin.account');
+        if ($user->update($dataUpdate)) {
+            return redirect()->route('admin.account')->with('success', 'Account updated successfully');
+        } else {
+            return redirect()->route('admin.account.edit', $id)->with('error', 'Failed to update account');
+        }
     }
 
     public function delete(string $id)
     {
         $user = User::find($id);
-        $user->delete();
-        return redirect()->route('admin.account');
+        if ($user->delete()) {
+            return redirect()->route('admin.account')->with('success', 'Account deleted successfully');
+        } else {
+            return redirect()->route('admin.account')->with('error', 'Failed to delete account');
+        }
     }
 
     public function trash()
     {
-        $trashes = User::onlyTrashed()->get();
+        $trashes = User::onlyTrashed()->paginate(10);
         return view('admin.accounts.trash', compact('trashes'));
     }
 
     public function restore(string $id)
     {
-        $user = User::onlyTrashed()->find($id)->restore();
-        return redirect()->route('admin.account');
+        $user = User::onlyTrashed()->find($id);
+        if ($user->restore()) {
+            return redirect()->route('admin.account')->with('success', 'Account restored successfully');
+        } else {
+            return redirect()->route('admin.account.trash')->with('error', 'Failed to restore account');
+        }
     }
 
     public function destroy(string $id)
     {
-        $user = User::onlyTrashed()->find($id)->forceDelete();
-        return redirect()->route('admin.account');
+        $user = User::onlyTrashed()->find($id);
+
+        if ($user->forceDelete()) {
+            if ($user->avatar != "profile.png") {
+                unlink('assets/images/accounts/' . $user->avatar);
+            }
+            return redirect()->route('admin.account')->with('success', 'Account deleted permanently');
+        } else {
+            return redirect()->route('admin.account.trash')->with('error', 'Failed to delete account permanently');
+        }
     }
 }

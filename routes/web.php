@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,43 +66,49 @@ Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
-    Route::get('/product', function () {
-        return view('admin.products.list');
-    })->name('admin.product');
-    Route::get('product/create', function () {
-        return view('admin.products.add');
-    })->name('admin.product.create');
-    Route::get('product/edit', function () {
-        return view('admin.products.edit');
-    })->name('admin.product.edit');
-    Route::get('/category', function () {
-        return view('admin.categories.list');
-    })->name('admin.category');
-    Route::get('category/create', function () {
-        return view('admin.categories.add');
-    })->name('admin.category.create');
-    Route::get('category/edit', function () {
-        return view('admin.categories.edit');
-    })->name('admin.category.edit');
-
-    Route::get('/account', [UserController::class, 'index'])->name('admin.account');
-
-    Route::get('account/create', [UserController::class, 'create'])->name('admin.account.create');
-    Route::post('account/create', [UserController::class, 'store'])->name('admin.account.store');
-    Route::get('account/edit/{id}', [UserController::class, 'edit'])->name('admin.account.edit');
-    Route::put('account/edit/{id}', [UserController::class, 'update'])->name('admin.account.update');
-    Route::get('account/delete/{id}', [UserController::class, 'delete'])->name('admin.account.delete');
-    Route::get('account/trash', [UserController::class, 'trash'])->name('admin.account.trash');
-    Route::get('account/restore/{id}', [UserController::class, 'restore'])->name('admin.account.restore');
-    Route::get('account/destroy/{id}', [UserController::class, 'destroy'])->name('admin.account.destroy');
-
-    Route::get('/tag', function () {
-        return view('admin.tags.list');
-    })->name('admin.tag');
-    Route::get('tag/create', function () {
-        return view('admin.tags.add');
-    })->name('admin.tag.create');
-    Route::get('tag/edit', function () {
-        return view('admin.tags.edit');
-    })->name('admin.tag.edit');
+    // Product Management
+    Route::prefix('product')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('admin.product');
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
+        Route::post('/create', [ProductController::class, 'store'])->name('admin.product.store'); 
+        Route::get('/{slug}/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
+        Route::put('/{slug}/edit', [ProductController::class, 'update'])->name('admin.product.update');
+        Route::get('/{slug}/delete', [ProductController::class, 'delete'])->name('admin.product.delete');
+        Route::get('/trash', [ProductController::class, 'trash'])->name('admin.product.trash');
+        Route::get('/{slug}/restore', [ProductController::class, 'restore'])->name('admin.product.restore');
+        Route::get('/{slug}/destroy', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+    });
+    // Category Management
+    Route::prefix('category')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('admin.category');
+        Route::get('/create', [CategoryController::class, 'create'])->name('admin.category.create');
+        Route::post('/create', [CategoryController::class, 'store'])->name('admin.category.store');
+        Route::get('/{slug}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
+        Route::put('/{slug}/edit', [CategoryController::class, 'update'])->name('admin.category.update');
+        Route::get('/{slug}/delete', [CategoryController::class, 'delete'])->name('admin.category.delete');
+        Route::get('/trash', [CategoryController::class, 'trash'])->name('admin.category.trash');
+        Route::get('/{slug}/restore', [CategoryController::class, 'restore'])->name('admin.category.restore');
+        Route::get('/{slug}/destroy', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+    });
+    // Account Management
+    Route::prefix('account')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('admin.account');
+        Route::get('/create', [UserController::class, 'create'])->name('admin.account.create');
+        Route::post('/create', [UserController::class, 'store'])->name('admin.account.store');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('admin.account.edit');
+        Route::put('/{id}/edit', [UserController::class, 'update'])->name('admin.account.update');
+        Route::get('/{id}/delete', [UserController::class, 'delete'])->name('admin.account.delete');
+        Route::get('/trash', [UserController::class, 'trash'])->name('admin.account.trash');
+        Route::get('/{id}/restore', [UserController::class, 'restore'])->name('admin.account.restore');
+        Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('admin.account.destroy');
+    });
+    // Tag Management
+    Route::prefix('tag')->group(function () {
+        Route::get('/', [TagController::class, 'index'])->name('admin.tag');
+        Route::get('/create', [TagController::class, 'create'])->name('admin.tag.create');
+        Route::post('/create', [TagController::class, 'store'])->name('admin.tag.store');
+        Route::get('/{id}/edit', [TagController::class, 'edit'])->name('admin.tag.edit');
+        Route::put('/{id}/edit', [TagController::class, 'update'])->name('admin.tag.update');
+        Route::get('/{id}/delete', [TagController::class, 'destroy'])->name('admin.tag.delete');
+    });
 });

@@ -1,8 +1,35 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none position-relative">
         <div class="container-xl">
+            @if (session('success') || session('error'))
+                <div class="position-absolute top-0 end-0">
+                    <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M5 12l5 5l10 -10"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                {{ session('success') ?? session('error') }}
+                            </div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                    <script>
+                        window.setTimeout(function() {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function() {
+                                $(this).remove();
+                            });
+                        }, 3000);
+                    </script>
+                </div>
+            @endif
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -13,7 +40,24 @@
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{route('admin.category.create')}}" class="btn btn-primary d-none d-sm-inline-block" >
+                        <a href="{{ route('admin.category.trash') }}" class="btn btn-danger d-none d-sm-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 7l16 0" />
+                                <path d="M10 11l0 6" />
+                                <path d="M14 11l0 6" />
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                            </svg>
+                            Trash ({{ $trashes->count() }})
+                        </a>
+                    </div>
+                </div>
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="{{ route('admin.category.create') }}" class="btn btn-primary d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -34,356 +78,68 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Category</h3>
+                            <h3 class="card-title">Categories</h3>
                         </div>
-                        <div class="table-responsive">
+                        <div>
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
                                     <tr>
-                                        <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select all invoices"></th>
-                                        <th class="w-1">No.
-                                            <!-- Download SVG icon from http://tabler-icons.io/i/chevron-up -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm icon-thick"
-                                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                stroke="currentColor" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M6 15l6 -6l6 6" />
-                                            </svg>
-                                        </th>
-                                        <th>Invoice Subject</th>
-                                        <th>Client</th>
-                                        <th>VAT No.</th>
+                                        <th>ID</th>
+                                        <th>Image</th>
+                                        <th>Name</th>
                                         <th>Created</th>
                                         <th>Status</th>
-                                        <th>Price</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001401</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">Design Works</a>
-                                        </td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-us me-2"></span>
-                                            Carlson Limited
-                                        </td>
-                                        <td>
-                                            87956621
-                                        </td>
-                                        <td>
-                                            15 Dec 2017
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-success me-1"></span> Paid
-                                        </td>
-                                        <td>$887</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
+                                    @foreach ($categories as $category)
+                                        <tr>
+                                            <td>{{ $category->id }}</td>
+                                            <td>
+                                                <div class="d-flex py-1 align-items-center">
+                                                    <span class="avatar me-2"
+                                                        style="background-image: url({{ asset('assets/images/categories/' . $category->image) }});">
+                                                    </span>
                                                 </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001402</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">UX
-                                                Wireframes</a></td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-gb me-2"></span>
-                                            Adobe
-                                        </td>
-                                        <td>
-                                            87956421
-                                        </td>
-                                        <td>
-                                            12 Apr 2017
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-warning me-1"></span> Pending
-                                        </td>
-                                        <td>$1200</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001403</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">New
-                                                Dashboard</a></td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-de me-2"></span>
-                                            Bluewolf
-                                        </td>
-                                        <td>
-                                            87952621
-                                        </td>
-                                        <td>
-                                            23 Oct 2017
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-warning me-1"></span> Pending
-                                        </td>
-                                        <td>$534</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001404</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">Landing Page</a>
-                                        </td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-br me-2"></span>
-                                            Salesforce
-                                        </td>
-                                        <td>
-                                            87953421
-                                        </td>
-                                        <td>
-                                            2 Sep 2017
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-secondary me-1"></span> Due in 2 Weeks
-                                        </td>
-                                        <td>$1500</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001405</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">Marketing
-                                                Templates</a></td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-pl me-2"></span>
-                                            Printic
-                                        </td>
-                                        <td>
-                                            87956621
-                                        </td>
-                                        <td>
-                                            29 Jan 2018
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-danger me-1"></span> Paid Today
-                                        </td>
-                                        <td>$648</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001406</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">Sales
-                                                Presentation</a></td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-br me-2"></span>
-                                            Tabdaq
-                                        </td>
-                                        <td>
-                                            87956621
-                                        </td>
-                                        <td>
-                                            4 Feb 2018
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-secondary me-1"></span> Due in 3 Weeks
-                                        </td>
-                                        <td>$300</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001407</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">Logo
-                                                & Print</a></td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-us me-2"></span>
-                                            Apple
-                                        </td>
-                                        <td>
-                                            87956621
-                                        </td>
-                                        <td>
-                                            22 Mar 2018
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-success me-1"></span> Paid Today
-                                        </td>
-                                        <td>$2500</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="form-check-input m-0 align-middle" type="checkbox"
-                                                aria-label="Select invoice"></td>
-                                        <td><span class="text-secondary">001408</span></td>
-                                        <td><a href="invoice.html" class="text-reset" tabindex="-1">Icons</a></td>
-                                        <td>
-                                            <span class="flag flag-xs flag-country-pl me-2"></span>
-                                            Tookapic
-                                        </td>
-                                        <td>
-                                            87956621
-                                        </td>
-                                        <td>
-                                            13 May 2018
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-success me-1"></span> Paid Today
-                                        </td>
-                                        <td>$940</td>
-                                        <td class="text-end">
-                                            <span class="dropdown">
-                                                <button class="btn dropdown-toggle align-text-top"
-                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="#">
-                                                        Action
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        Another action
-                                                    </a>
-                                                </div>
-                                            </span>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td>{{ $category->name }}</td>
+                                            <td class="col-3">{{ $category->created_at }}</td>
+                                            <td>
+                                                @if ($category->status == 1)
+                                                    <span class="badge bg-green me-1"></span> Active
+                                                @else
+                                                    <span class="badge bg-red me-1"></span> Inactive
+                                                @endif
+                                            </td>
+                                            <td class="text-center col-1">
+                                                <span class="dropdown">
+                                                    <button class="btn dropdown-toggle align-text-top"
+                                                        data-bs-boundary="viewport"
+                                                        data-bs-toggle="dropdown">Actions</button>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item text-info"
+                                                            href="{{ route('admin.category.edit', $category->slug) }}">
+                                                            Edit
+                                                        </a>
+                                                        <a class="dropdown-item text-danger"
+                                                            onclick="return confirm('Are you sure?')"
+                                                            href="{{ route('admin.category.delete', $category->slug) }}">
+                                                            Delete
+                                                        </a>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card-footer d-flex align-items-center">
-                            <p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of
-                                <span>16</span> entries
-                            </p>
-                            <ul class="pagination m-0 ms-auto">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M15 6l-6 6l6 6" />
-                                        </svg>
-                                        prev
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">
-                                        next
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M9 6l6 6l-6 6" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="card-footer">
+                            {{ $categories->onEachSide(2)->links() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection
