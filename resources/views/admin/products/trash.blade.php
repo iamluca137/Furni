@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none position-relative">
+    <div class="page-header d-print-none">
         <div class="container-xl">
             @if (session('success') || session('error'))
-                <div class="position-absolute top-0 end-0">
+                <div>
                     <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
                         <div class="d-flex">
                             <div>
@@ -34,7 +34,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <h2 class="page-title">
-                        Trash Account
+                        Trash Product
                     </h2>
                 </div>
             </div>
@@ -46,55 +46,53 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Accounts</h3>
+                            <h3 class="card-title">Products</h3>
                         </div>
                         <div class="">
                             <table class="table card-table table-vcenter text-nowrap datatable">
                                 <thead>
-                                    <tr> 
+                                    <tr>
                                         <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Fullname</th>
-                                        <th>Created</th>
-                                        <th>Role</th>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
                                         <th>Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($trashes as $trash)
-                                        <tr> 
+                                        <tr>
                                             <td>{{ $trash->id }}</td>
                                             <td>
                                                 <div class="d-flex py-1 align-items-center">
                                                     <span class="avatar me-2"
-                                                        style="background-image: url({{ asset('assets/images/accounts/' . $trash->avatar) }})"></span>
-                                                    <div class="flex-fill">
-                                                        <div class="font-weight-medium">{{ $trash->username }}</div>
-                                                        <div class="text-secondary">{{ $trash->email }}</div>
-                                                    </div>
+                                                        style="background-image: url({{ asset('assets/images/products/' . $trash->image) }})">
+                                                    </span>
                                                 </div>
                                             </td>
-                                            <td><a href="invoice.html" class="text-reset"
-                                                    tabindex="-1">{{ $trash->fullname }}</a>
+                                            <td>{{ $trash->name }} </td>
+                                            <td>
+                                                {{ $trash->category->name }}
                                             </td>
                                             <td>
-                                                {{ $trash['created_at'] }}
+                                                {{ number_format($trash->price) }} VND
                                             </td>
                                             <td>
-                                                @if ($trash->role == 1)
-                                                    <span class="badge bg-indigo text-indigo-fg">Admin</span>
+                                                {{ number_format($trash->quantity) }}
+                                            </td>
+                                            <td>
+                                                @if ($trash->product_status_id == 1)
+                                                    <span class="badge bg-green me-1"></span>
+                                                    {{ $trash->status->name }}
+                                                @elseif ($trash->product_status_id == 2)
+                                                    <span class="badge bg-red me-1"></span>
+                                                    {{ $trash->status->name }}
                                                 @else
-                                                    <span class="badge bg-green text-green-fg">Client</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if ($trash->status == 1)
-                                                    <span class="badge bg-green me-1"></span> Active
-                                                @elseif ($trash->status == 2)
-                                                    <span class="badge bg-warning me-1"></span> Inactive
-                                                @else
-                                                    <span class="badge bg-red me-1"></span> Banned
+                                                    <span class="badge bg-yellow me-1"></span>
+                                                    {{ $trash->status->name }}
                                                 @endif
                                             </td>
                                             <td class="text-end">
@@ -105,12 +103,12 @@
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item text-info"
                                                             onclick="return confirm('Are you sure?')"
-                                                            href="{{ route('admin.account.restore', $trash->id) }}">
+                                                            href="{{ route('admin.product.restore', $trash->slug) }}">
                                                             Restore
                                                         </a>
                                                         <a class="dropdown-item text-danger"
                                                             onclick="return confirm('Are you sure?')"
-                                                            href="{{ route('admin.account.destroy', $trash->id) }}">
+                                                            href="{{ route('admin.product.destroy', $trash->slug) }}">
                                                             Delete
                                                         </a>
                                                     </div>

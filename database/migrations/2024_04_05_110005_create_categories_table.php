@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('image')->nullable();
+            $table->unsignedInteger('status')->default(1);
+            $table->foreign('status')->references('id')->on('category_statuses')->onDelete('cascade');
             $table->timestamps();
         });
     }

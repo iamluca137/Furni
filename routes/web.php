@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\TagController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -90,6 +90,18 @@ Route::prefix('admin')->group(function () {
         Route::get('/{slug}/restore', [CategoryController::class, 'restore'])->name('admin.category.restore');
         Route::get('/{slug}/destroy', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
     });
+    // Sub Category Management
+    Route::prefix('subcategory')->group(function () {
+        Route::get('/', [SubCategoryController::class, 'index'])->name('admin.subcategory');
+        Route::get('/create', [SubCategoryController::class, 'create'])->name('admin.subcategory.create');
+        Route::post('/create', [SubCategoryController::class, 'store'])->name('admin.subcategory.store');
+        Route::get('/{slug}/edit', [SubCategoryController::class, 'edit'])->name('admin.subcategory.edit');
+        Route::put('/{slug}/edit', [SubCategoryController::class, 'update'])->name('admin.subcategory.update');
+        Route::get('/{slug}/delete', [SubCategoryController::class, 'delete'])->name('admin.subcategory.delete');
+        Route::get('/trash', [SubCategoryController::class, 'trash'])->name('admin.subcategory.trash');
+        Route::get('/{slug}/restore', [SubCategoryController::class, 'restore'])->name('admin.subcategory.restore');
+        Route::get('/{slug}/destroy', [SubCategoryController::class, 'destroy'])->name('admin.subcategory.destroy');
+    });
     // Account Management
     Route::prefix('account')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('admin.account');
@@ -101,14 +113,5 @@ Route::prefix('admin')->group(function () {
         Route::get('/trash', [UserController::class, 'trash'])->name('admin.account.trash');
         Route::get('/{id}/restore', [UserController::class, 'restore'])->name('admin.account.restore');
         Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('admin.account.destroy');
-    });
-    // Tag Management
-    Route::prefix('tag')->group(function () {
-        Route::get('/', [TagController::class, 'index'])->name('admin.tag');
-        Route::get('/create', [TagController::class, 'create'])->name('admin.tag.create');
-        Route::post('/create', [TagController::class, 'store'])->name('admin.tag.store');
-        Route::get('/{id}/edit', [TagController::class, 'edit'])->name('admin.tag.edit');
-        Route::put('/{id}/edit', [TagController::class, 'update'])->name('admin.tag.update');
-        Route::get('/{id}/delete', [TagController::class, 'destroy'])->name('admin.tag.delete');
-    });
+    }); 
 });

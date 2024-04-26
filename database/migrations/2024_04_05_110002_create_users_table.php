@@ -13,16 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable(false);
             $table->string('fullname');
             $table->string('avatar')->default('profile.png');
-            $table->string('password');
-            $table->string('email')->unique();
+            $table->string('password')->nullable(false);
+            $table->string('email')->unique()->nullable(false);
             $table->string('phone')->unique();
             $table->string('address');
-            // Role 1 = Admin, 2 = Client
             $table->unsignedInteger('role')->default(2);
-            // Status 1 = Active, 2 = Inactive, 3 = Banned
             $table->unsignedInteger('status')->default(1);
             $table->foreign('status')->references('id')->on('user_statuses')->onDelete('cascade');
             $table->foreign('role')->references('id')->on('user_roles')->onDelete('cascade');

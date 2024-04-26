@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none position-relative">
+    <div class="page-header d-print-none">
         <div class="container-xl">
             @if (session('success') || session('error'))
-                <div class="position-absolute top-0 end-0">
+                <div>
                     <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
                         <div class="d-flex">
                             <div>

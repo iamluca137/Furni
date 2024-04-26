@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none position-relative">
+    <div class="page-header d-print-none">
         <div class="container-xl">
             @if (session('success') || session('error'))
-                <div class="position-absolute top-0 end-0">
+                <div>
                     <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
                         <div class="d-flex">
                             <div>
@@ -40,7 +40,7 @@
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{ route('admin.account.trash') }}" class="btn btn-danger d-none d-sm-inline-block">
+                        <a href="{{ route('admin.product.trash') }}" class="btn btn-danger d-none d-sm-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
@@ -151,7 +151,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            {{ $products->onEachSide(2)->links() }}
+                            {{ $products->onEachSide(2)->links() }} 
                         </div>
                     </div>
                 </div>

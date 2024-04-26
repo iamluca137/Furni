@@ -25,15 +25,17 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|min:2|max:50|unique:categories',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:51200',
             'status' => 'required',
         ]);
 
-        $file = $request->file('image');
-        $extention = $file->getClientOriginalName();
-        $filename = time() . "_" . $extention;
-        $filename = $this->formatImage($filename);
-        $file->move('assets/images/categories/', $filename);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extention = $file->getClientOriginalName();
+            $filename = time() . "_" . $extention;
+            $filename = $this->formatImage($filename);
+            $file->move('assets/images/categories/', $filename);
+        }
 
         $dataCat = [
             'name' => $request->name,
@@ -62,7 +64,7 @@ class CategoryController extends Controller
 
         $request->validate([
             'name' => 'required|min:2|max:50|unique:categories,name,' . $category->id,
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:51200',
             'status' => 'required',
         ]);
 
@@ -72,7 +74,7 @@ class CategoryController extends Controller
             $filename = time() . "_" . $extention;
             $filename = $this->formatImage($filename);
             $file->move('assets/images/categories/', $filename);
-            unlink('assets/images/categories/' . $category->avatar);
+            unlink('assets/images/categories/' . $category->image);
         } else {
             $filename = $category->image;
         }
@@ -95,6 +97,9 @@ class CategoryController extends Controller
     {
         $category = Category::where('slug', $slug)->first();
         if ($category->delete()) {
+            // Update status category and sub category
+            $category->update(['status' => 2]);
+            // $category->subCategories()->update(['status' => 2]);
             return redirect()->route('admin.category')->with('success', 'Category deleted successfully');
         } else {
             return redirect()->route('admin.category')->with('error', 'Failed to delete category');
@@ -111,6 +116,7 @@ class CategoryController extends Controller
     {
         $category = Category::onlyTrashed()->where('slug', $slug)->first();
         if ($category->restore()) {
+            $category->update(['status' => 1]);
             return redirect()->route('admin.category')->with('success', 'Category restored successfully');
         } else {
             return redirect()->route('admin.category.trash')->with('error', 'Failed to restore category');
@@ -119,7 +125,7 @@ class CategoryController extends Controller
 
     public function destroy(string $slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        $category = Category::onlyTrashed()->where('slug', $slug)->first();
         if ($category->forceDelete()) {
             unlink('assets/images/categories/' . $category->image);
             return redirect()->route('admin.category')->with('success', 'Category deleted permanently');

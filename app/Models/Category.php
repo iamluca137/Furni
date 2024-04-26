@@ -19,10 +19,5 @@ class Category extends Model
         'slug',
         'image',
         'status',
-    ];
-
-    public function products()
-    {
-        return $this->hasMany(Product::class, 'category_product_id', 'id');
-    }
+    ]; 
 }

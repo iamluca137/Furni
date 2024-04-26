@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
     <!-- Page header -->
-    <div class="page-header d-print-none position-relative">
+    <div class="page-header d-print-none">
         <div class="container-xl">
             @if (session('success') || session('error'))
-                <div class="position-absolute top-0 end-0">
+                <div>
                     <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} alert-dismissible" role="alert">
                         <div class="d-flex">
                             <div>
@@ -98,9 +98,12 @@
                                             <td>{{ $category->id }}</td>
                                             <td>
                                                 <div class="d-flex py-1 align-items-center">
-                                                    <span class="avatar me-2"
-                                                        style="background-image: url({{ asset('assets/images/categories/' . $category->image) }});">
-                                                    </span>
+                                                    <a data-fslightbox="gallery"
+                                                        href="{{ asset('assets/images/categories/' . $category->image) }}">
+                                                        <span class="avatar me-2"
+                                                            style="background-image: url({{ asset('assets/images/categories/' . $category->image) }}); background-size: contain; background-position: center; ">
+                                                        </span>
+                                                    </a>
                                                 </div>
                                             </td>
                                             <td>{{ $category->name }}</td>
@@ -142,4 +145,34 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    // @formatter:off
+    document.addEventListener("DOMContentLoaded", function() {
+        var el;
+        window.TomSelect && (new TomSelect(el = document.getElementById('select-tags'), {
+            copyClassesToDropdown: false,
+            dropdownParent: 'body',
+            controlInput: '<input>',
+            render: {
+                item: function(data, escape) {
+                    if (data.customProperties) {
+                        return '<div><span class="dropdown-item-indicator">' + data
+                            .customProperties + '</span>' + escape(data.text) + '</div>';
+                    }
+                    return '<div>' + escape(data.text) + '</div>';
+                },
+                option: function(data, escape) {
+                    if (data.customProperties) {
+                        return '<div><span class="dropdown-item-indicator">' + data
+                            .customProperties + '</span>' + escape(data.text) + '</div>';
+                    }
+                    return '<div>' + escape(data.text) + '</div>';
+                },
+            },
+        }));
+    });
+    // @formatter:on
+</script>
