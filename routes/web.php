@@ -1,26 +1,14 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
-Route::get('/', function () {
-    return view('user.home');
-})->name('home');
 Route::get('/about', function () {
     return view('user.about');
 })->name('about');
@@ -70,7 +58,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('admin.product');
         Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
-        Route::post('/create', [ProductController::class, 'store'])->name('admin.product.store'); 
+        Route::post('/create', [ProductController::class, 'store'])->name('admin.product.store');
         Route::get('/{slug}/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
         Route::put('/{slug}/edit', [ProductController::class, 'update'])->name('admin.product.update');
         Route::get('/{slug}/delete', [ProductController::class, 'delete'])->name('admin.product.delete');
@@ -113,5 +101,5 @@ Route::prefix('admin')->group(function () {
         Route::get('/trash', [UserController::class, 'trash'])->name('admin.account.trash');
         Route::get('/{id}/restore', [UserController::class, 'restore'])->name('admin.account.restore');
         Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('admin.account.destroy');
-    }); 
+    });
 });

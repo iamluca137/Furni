@@ -5,61 +5,13 @@
         <div class="container-xxl">
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-6 p-0 ">
-                    <h1 class="m-0">Shop</h1>
-                </div>
-                <div class="col-lg-6 p-0 align-middle">
-                    <div class="cover">
-                        <button class="left btn-scroll" onclick="leftScroll()">
-                            <i class="fas fa-angle-double-left"></i>
-                        </button>
-                        <div class="scroll-images">
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check1</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check2</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check3</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check4</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check5</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check6</span>
-                            </div>
-                        </div>
-                        <button class="right btn-scroll" onclick="rightScroll()">
-                            <i class="fas fa-angle-double-right"></i>
-                        </button>
+                    <div class="mb-5">
+                        <a href="#" class="text-decoration-none">
+                            <i class="fa-solid fa-arrow-left-long "></i>
+                            <span class="ps-1">Accessories</span>
+                        </a>
                     </div>
+                    <h1 class="m-0">Small furniture</h1>
                 </div>
             </div>
         </div>
