@@ -3,11 +3,15 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
+Route::get('/shop/{category}', [HomeController::class, 'shopCategory'])->name('shopCategory');
+Route::get('/shop/{category}/{subCategory}', [HomeController::class, 'shopSubCategory'])->name('shopSubCategory');
 
 Route::get('/about', function () {
     return view('user.about');
@@ -27,9 +31,7 @@ Route::get('/contact', function () {
 Route::get('/services', function () {
     return view('user.services');
 })->name('services');
-Route::get('/shop', function () {
-    return view('user.shop');
-})->name('shop');
+
 Route::get('/thankyou', function () {
     return view('user.thankyou');
 })->name('thankyou');

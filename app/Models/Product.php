@@ -41,9 +41,9 @@ class Product extends Model
         return $this->hasMany(Comment::class, 'product_id', 'id');
     }
 
-    public function category()
+    public function subCategory()
     {
-        return $this->belongsTo(Category::class, 'category_product_id', 'id');
+        return $this->belongsTo(SubCategory::class, 'category_product_id', 'id');
     }
 
     public function images()
@@ -54,10 +54,5 @@ class Product extends Model
     public function status()
     {
         return $this->belongsTo(ProductStatus::class, 'product_status_id', 'id');
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id');
     }
 }

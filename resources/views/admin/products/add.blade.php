@@ -125,28 +125,7 @@
                                             @error('status')
                                                 <div class="mt-1 text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Tags </label>
-                                            <select type="text" class="form-select" placeholder="Select tags"
-                                                name="tags[]" id="select-tags" multiple>
-                                                @foreach ($tags as $tag)
-                                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('tags')
-                                                <div class="mt-1 text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-sm-12 col-md-12">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Info</label>
-                                                <textarea class="form-control" name="info" id="" rows="5"></textarea>
-                                            </div>
-                                            @error('info')
-                                                <div class="mt-1 text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                        </div>  
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Description</label>
@@ -171,32 +150,4 @@
             </div>
         </div>
     </div>
-@endsection
-<script>
-    // @formatter:off
-    document.addEventListener("DOMContentLoaded", function() {
-        var el;
-        window.TomSelect && (new TomSelect(el = document.getElementById('select-tags'), {
-            copyClassesToDropdown: false,
-            dropdownParent: 'body',
-            controlInput: '<input>',
-            render: {
-                item: function(data, escape) {
-                    if (data.customProperties) {
-                        return '<div><span class="dropdown-item-indicator">' + data
-                            .customProperties + '</span>' + escape(data.text) + '</div>';
-                    }
-                    return '<div>' + escape(data.text) + '</div>';
-                },
-                option: function(data, escape) {
-                    if (data.customProperties) {
-                        return '<div><span class="dropdown-item-indicator">' + data
-                            .customProperties + '</span>' + escape(data.text) + '</div>';
-                    }
-                    return '<div>' + escape(data.text) + '</div>';
-                },
-            },
-        }));
-    });
-    // @formatter:on
-</script>
+@endsection 

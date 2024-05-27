@@ -975,7 +975,7 @@ input.search-product:focus-visible {
     width: 100%;
     padding: 40px 0px;
     height: auto;
-    display: flex;
+    display: flex; 
     flex-wrap: nowrap;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -988,14 +988,12 @@ input.search-product:focus-visible {
     justify-content: center;
     align-items: center;
     min-width: 170px;
+    max-width: 170px;
     height: 170px;
     border-radius: 7px;
-    padding: 0px 15px;
     margin: 1px 10px;
     border: 1px solid #f1f1f1;
     overflow: hidden;
-    -webkit-box-shadow: 0px 0px 15px 2px rgb(0 0 0 / 10%);
-    box-shadow: 0px 0px 15px 2px rgb(0 0 0 / 10%);
 }
 
 .child img {
@@ -1022,22 +1020,22 @@ input.search-product:focus-visible {
 }
 
 .card-item {
-    width: 300px;
-    height: 320px;
+    width: 250px;
+    height: 400px;
 }
 
 .card-item img {
     width: 100%;
-    object-fit: contain;
+    max-height: 320px;
 }
 
-.location-store {
-    padding: 1rem 0 5rem 0;
-}
-
-.location-store img { 
-    inset: 0px;
+.image-product {
+    width: 100%;
+    height: 250px;
     object-fit: cover;
-    object-position: 50% 31.501%;
-    opacity: 0.8;
-} 
+    background-color: rgb(247, 247, 247);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px; 
+}

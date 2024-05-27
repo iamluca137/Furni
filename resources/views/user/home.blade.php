@@ -28,7 +28,12 @@
     <div class="product-section d-flex justify-content-center mb-5">
         <div class="container">
             <div class="row">
-                <h3 class="mb-4 p-0 section-title">What are you looking for?</h3>
+                <div class="d-flex justify-content-between p-0">
+                    <h3 class="mb-4 p-0 section-title">What are you looking for?</h3>
+                    <div class="d-flex align-items-center">
+                        <a href="#" class="more">See more</a>
+                    </div>
+                </div>
                 <div class="cat-list d-flex flex-nowrap justify-content-center">
                     @foreach ($categories as $category)
                         <div class="card-item">
@@ -37,6 +42,7 @@
                         </div>
                     @endforeach
                 </div>
+
             </div>
         </div>
     </div>

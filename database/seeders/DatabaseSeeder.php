@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Product;
+use App\Models\ImageProduct;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Product::factory(20)->create()->each(function ($product) {
+            $product->images()->saveMany(ImageProduct::factory(4)->make());
+        });
     }
 }

@@ -101,16 +101,17 @@
                                             <td>
                                                 <div class="d-flex py-1 align-items-center">
                                                     <span class="avatar me-2"
-                                                        style="background-image: url({{ asset('assets/images/products/' . $product->image) }})">
+                                                        style="background-image: url({{ asset('assets/images/products/' . $product->images->first()->image
+                                                        ) }})">
                                                     </span>
                                                 </div>
                                             </td>
                                             <td>{{ $product->name }} </td>
                                             <td>
-                                                {{ $product->category->name }}
+                                                {{ $product->subCategory->name }}
                                             </td>
                                             <td>
-                                                {{ number_format($product->price) }} VND
+                                                ${{ number_format($product->price) }}
                                             </td>
                                             <td>
                                                 {{ number_format($product->quantity) }}
@@ -132,7 +133,7 @@
                                                     <button class="btn dropdown-toggle align-text-top"
                                                         data-bs-boundary="viewport"
                                                         data-bs-toggle="dropdown">Actions</button>
-                                                    <div class="dropdown-menu dropdown-menu-end"> 
+                                                    <div class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item text-info"
                                                             href="{{ route('admin.product.edit', $product->slug) }}">
                                                             Edit
@@ -151,7 +152,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            {{ $products->onEachSide(2)->links() }} 
+                            {{ $products->onEachSide(2)->links() }}
                         </div>
                     </div>
                 </div>

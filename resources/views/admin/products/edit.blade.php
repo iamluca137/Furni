@@ -116,7 +116,7 @@
                                                                 <div class="img-responsive img-responsive-1x1 rounded-3 border"
                                                                     style="background-image: url({{ asset('assets/images/products/' . $image->image) }})">
                                                                 </div>
-                                                            </a> 
+                                                            </a>
                                                             <input type="hidden" name="old_images[]"
                                                                 value="{{ $image->image }}">
                                                             <button type="button" class="btn-close position-absolute"
@@ -150,30 +150,7 @@
                                             @error('status')
                                                 <div class="mt-1 text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Tags </label>
-                                            <select type="text" class="form-select" placeholder="Select tags"
-                                                name="tags[]" id="select-tags" multiple>
-                                                @foreach ($tags as $tag)
-                                                    <option value="{{ $tag->id }}"
-                                                        {{ $product->tags->contains($tag->id) ? 'selected' : '' }}>
-                                                        {{ $tag->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('tags')
-                                                <div class="mt-1 text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-sm-12 col-md-12">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Info</label>
-                                                <textarea class="form-control" name="info" id="" rows="5">{{ $product->info }}</textarea>
-                                            </div>
-                                            @error('info')
-                                                <div class="mt-1 text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                        </div> 
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Description</label>
@@ -200,34 +177,6 @@
     </div>
 @endsection
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-    // @formatter:off
-    document.addEventListener("DOMContentLoaded", function() {
-        var el;
-        window.TomSelect && (new TomSelect(el = document.getElementById('select-tags'), {
-            copyClassesToDropdown: false,
-            dropdownParent: 'body',
-            controlInput: '<input>',
-            render: {
-                item: function(data, escape) {
-                    if (data.customProperties) {
-                        return '<div><span class="dropdown-item-indicator">' + data
-                            .customProperties + '</span>' + escape(data.text) + '</div>';
-                    }
-                    return '<div>' + escape(data.text) + '</div>';
-                },
-                option: function(data, escape) {
-                    if (data.customProperties) {
-                        return '<div><span class="dropdown-item-indicator">' + data
-                            .customProperties + '</span>' + escape(data.text) + '</div>';
-                    }
-                    return '<div>' + escape(data.text) + '</div>';
-                },
-            },
-        }));
-    });
-    // @formatter:on
-</script>
 <script>
     $(document).ready(function() {
         $('.btn-close').click(function() {

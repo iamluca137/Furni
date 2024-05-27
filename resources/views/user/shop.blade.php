@@ -10,54 +10,25 @@
                 <div class="col-lg-6 p-0 align-middle">
                     <div class="cover">
                         <button class="left btn-scroll" onclick="leftScroll()">
-                            <i class="fas fa-angle-double-left"></i>
+                            <i class="fas fa-angle-left"></i>
                         </button>
-                        <div class="scroll-images">
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
+                        <div class="scroll-images {{ count($subCategories) < 4 ? 'justify-content-end' : '' }}">
+                            @foreach ($categories as $category)
+                                <div>
+                                    <div class="child">
+                                        <a class="text-decoration-none" href="{{ route('shopCategory', $category->slug) }}">
+                                            <img src="{{ asset('assets/images/categories/' . $category->image) }}"
+                                                class="card-img-top">
+                                        </a>
+                                    </div>
+                                    <a class="text-decoration-none" href="{{ route('shopCategory', $category->slug) }}">
+                                        <span style="margin: 1px 10px;">{{ $category->name }}</span>
+                                    </a>
                                 </div>
-                                <span style="margin: 1px 10px;">check</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check1</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check2</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check3</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check4</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check5</span>
-                            </div>
-                            <div>
-                                <div class="child">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
-                                </div>
-                                <span style="margin: 1px 10px;">check6</span>
-                            </div>
+                            @endforeach
                         </div>
                         <button class="right btn-scroll" onclick="rightScroll()">
-                            <i class="fas fa-angle-double-right"></i>
+                            <i class="fas fa-angle-right"></i>
                         </button>
                     </div>
                 </div>
@@ -73,30 +44,11 @@
                     <h2 class="p-0 text-dark">Categories</h2>
                     <span class="border mb-4 border-dark" style="width: 90px"></span>
                     <ul class="p-0">
-                        <li class="cat-list pb-1">
-                            <a href="#" class="text-decoration-none cat-link">Decoration</a>
-                            <span>(18)</span>
-                        </li>
-                        <li class="cat-list pb-1">
-                            <a href="#" class="text-decoration-none cat-link">Decoration</a>
-                            <span>(18)</span>
-                        </li>
-                        <li class="cat-list pb-1">
-                            <a href="#" class="text-decoration-none cat-link">Decoration</a>
-                            <span>(18)</span>
-                        </li>
-                        <li class="cat-list pb-1">
-                            <a href="#" class="text-decoration-none cat-link">Decoration</a>
-                            <span>(18)</span>
-                        </li>
-                        <li class="cat-list pb-1">
-                            <a href="#" class="text-decoration-none cat-link">Decoration</a>
-                            <span>(18)</span>
-                        </li>
-                        <li class="cat-list pb-1">
-                            <a href="#" class="text-decoration-none cat-link">Decoration</a>
-                            <span>(18)</span>
-                        </li>
+                        @foreach ($categories as $category)
+                            <li class="cat-list pb-1">
+                                <a href="#" class="text-decoration-none cat-link">{{ $category->name }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="row categories mb-3 ms-2">
@@ -118,27 +70,28 @@
             </div>
             <div class="col col-md-10 mb-5">
                 <div class="row row-cols-1 row-cols-md-4 g-4">
-                    @for ($i = 0; $i < 7; $i++)
+                    @foreach ($products as $product)
                         <div class="col card-pro">
-                            <div class="bg-light">
+                            <div class="image-product">
                                 <a href="{{ route('product-details') }}" class="text-decoration-none">
-                                    <img src="{{ asset('assets/images/user/product-3.png') }}" class="card-img-top">
+                                    <img src="{{ asset('assets/images/products/' . $product->images->first()->image) }}"
+                                        class="card-img-top ">
                                 </a>
                             </div>
                             <div class="mt-2">
                                 <a href="{{ route('product-details') }}"
                                     class="text-decoration-none d-flex justify-content-between">
-                                    <p class="fw-bold m-0 fs-6">Green Plates</p>
-                                    <p class="fw-bold m-0 fs-6">$60.00</p>
+                                    <p class="fw-bold m-0 fs-6">{{ $product->name }}</p>
+                                    <p class="fw-bold m-0 fs-6">${{ $product->price }}</p>
                                 </a>
                             </div>
                             <div>
                                 <a href="#" class="text-decoration-none">
-                                    <p>Dinnerware</p>
+                                    <p>{{ $product->subCategory->name }}</p>
                                 </a>
                             </div>
                         </div>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
         </div>

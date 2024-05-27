@@ -13,11 +13,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(10);
-        foreach ($products as $product) {
-            $image = ImageProduct::where('product_id', $product->id)->first();
-            $product->image = $image->image ?? 'no-image.png';
-        }
+        $products = Product::paginate(10); 
         $trashes = Product::onlyTrashed()->get();
         return view('admin.products.list', compact('products', 'trashes'));
     }
@@ -47,8 +43,7 @@ class ProductController extends Controller
         $dataProduct = [
             'name' => $request->name,
             'price' => (int)$request->price,
-            'description' => $request->description,
-            'info' => $request->info,
+            'description' => $request->description, 
             'quantity' => (int)$request->quantity,
             'category_product_id' => (int)$request->category_product_id,
             'product_status_id' => (int)$request->status,
@@ -108,8 +103,7 @@ class ProductController extends Controller
         $dataProduct = [
             'name' => $request->name,
             'price' => (int)$request->price,
-            'description' => $request->description,
-            'info' => $request->info,
+            'description' => $request->description, 
             'quantity' => (int)$request->quantity,
             'category_product_id' => (int)$request->category_product_id,
             'product_status_id' => (int)$request->status,
@@ -179,8 +173,7 @@ class ProductController extends Controller
     public function destroy(string $slug)
     {
         $product = Product::onlyTrashed()->where('slug', $slug)->first();
-        if ($product->forceDelete()) {
-            // delete images
+        if ($product->forceDelete()) { 
             $images = ImageProduct::where('product_id', $product->id)->get();
             foreach ($images as $image) {
                 unlink('assets/images/products/' . $image->image);
