@@ -1,34 +1,21 @@
 @extends('layouts.user')
 @section('content')
     <!-- Start Hero Section -->
-    <div class="hero mb-5">
-        <div class="container">
+    <div class="hero">
+        <div class="container-xxl">
             <div class="row justify-content-between align-items-center">
-                <div class="col-lg-6">
+                <div class="col-lg-6 p-0 ">
                     <h1 class="m-0">Cart</h1>
-                </div>
-                <div class="col-lg-6">
-                    <nav>
-                        <ol class="breadcrumb m-0 justify-content-lg-end">
-                            <li class="breadcrumb-item fw-bold">
-                                <a href="{{ route('home') }}" class="text-light text-decoration-none">Home</a>
-                            </li>
-                            <li class="breadcrumb-item fw-bold active" aria-current="page">Cart</li>
-
-                        </ol>
-                    </nav>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Hero Section -->
+    <div class="container-xxl border-bottom"></div>
 
-
-
-    <div class="untree_co-section before-footer-section">
+    <div class="untree_co-section pt-5">
         <div class="container">
             <div class="row mb-5">
-                <form class="col-md-12" method="post">
+                <form class="col-md-8" method="post">
                     <div class="site-blocks-table">
                         <table class="table">
                             <thead>
@@ -96,7 +83,6 @@
                                                     type="button">&plus;</button>
                                             </div>
                                         </div>
-
                                     </td>
                                     <td>$49.00</td>
                                     <td><a href="#" class="btn btn-black btn-sm">X</a></td>
@@ -105,60 +91,51 @@
                         </table>
                     </div>
                 </form>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row mb-5">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <button class="btn btn-black btn-sm btn-block">Update Cart</button>
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label class="text-black h4" for="coupon">Coupon</label>
-                            <p>Enter your coupon code if you have one.</p>
-                        </div>
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-black">Apply Coupon</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 pl-5">
-                    <div class="row justify-content-end">
-                        <div class="col-md-7">
-                            <div class="row">
-                                <div class="col-md-12 text-right border-bottom mb-5">
-                                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <span class="text-black">Subtotal</span>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
-                                </div>
+                <div class="col-md-4 ps-5">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="text-black h4" for="coupon">Coupon</label>
+                                <p>Enter your coupon code if you have one.</p>
                             </div>
                             <div class="row mb-5">
-                                <div class="col-md-6">
-                                    <span class="text-black">Total</span>
+                                <div class="col-md-8 mb-3 mb-md-0">
+                                    <input type="text" class="form-control py-3" id="coupon"
+                                        placeholder="Coupon Code">
                                 </div>
-                                <div class="col-md-6 text-right">
-                                    <strong class="text-black">$230.00</strong>
+                                <div class="col-md-4">
+                                    <button class="btn btn-black">Apply</button>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-black btn-lg py-3 btn-block"
-                                        onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 text-right border-bottom mb-5">
+                                        <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <span class="text-black">Subtotal</span>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <strong class="text-black">$230.00</strong>
+                                    </div>
+                                </div>
+                                <div class="row mb-5">
+                                    <div class="col-md-6">
+                                        <span class="text-black">Total</span>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <strong class="text-black">$230.00</strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-black btn-lg py-3 btn-block"
+                                            onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -12,16 +12,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 Route::get('/shop/{category}', [HomeController::class, 'shopCategory'])->name('shopCategory');
 Route::get('/shop/{category}/{subCategory}', [HomeController::class, 'shopSubCategory'])->name('shopSubCategory');
+Route::get('/product/{slug}', [ShopController::class, 'productDetails'])->name('productDetails');
+Route::get('/cart', [ShopController::class, 'cart'])->name('cart');
 
 Route::get('/about', function () {
     return view('user.about');
 })->name('about');
 Route::get('/blog', function () {
     return view('user.blog');
-})->name('blog');
-Route::get('/cart', function () {
-    return view('user.cart');
-})->name('cart');
+})->name('blog'); 
 Route::get('/checkout', function () {
     return view('user.checkout');
 })->name('checkout');
@@ -47,9 +46,7 @@ Route::get('/forgot-password', function () {
 Route::get('/reset-password', function () {
     return view('user.reset-password');
 })->name('reset-password');
-Route::get('/product-details', function () {
-    return view('user.product-details');
-})->name('product-details');
+
 
 
 Route::prefix('admin')->group(function () {

@@ -12,7 +12,7 @@
                         <button class="left btn-scroll" onclick="leftScroll()">
                             <i class="fas fa-angle-left"></i>
                         </button>
-                        <div class="scroll-images {{ count($subCategories) < 4 ? 'justify-content-end' : '' }}">
+                        <div class="scroll-images">
                             @foreach ($categories as $category)
                                 <div>
                                     <div class="child">
@@ -73,13 +73,13 @@
                     @foreach ($products as $product)
                         <div class="col card-pro">
                             <div class="image-product">
-                                <a href="{{ route('product-details') }}" class="text-decoration-none">
+                                <a href="{{ route('productDetails', $product->slug) }}" class="text-decoration-none">
                                     <img src="{{ asset('assets/images/products/' . $product->images->first()->image) }}"
                                         class="card-img-top ">
                                 </a>
                             </div>
                             <div class="mt-2">
-                                <a href="{{ route('product-details') }}"
+                                <a href="{{ route('productDetails', $product->slug) }}"
                                     class="text-decoration-none d-flex justify-content-between">
                                     <p class="fw-bold m-0 fs-6">{{ $product->name }}</p>
                                     <p class="fw-bold m-0 fs-6">${{ $product->price }}</p>
@@ -107,14 +107,18 @@
         function checkScroll() {
             const currentScroll = scrollImages.scrollLeft;
             if (currentScroll === 0) {
-                leftButton.setAttribute("disabled", "true");
-                rightButton.removeAttribute("disabled");
+                // remove left button
+                leftButton.style.display = "none";
+                // add right button
+                rightButton.style.display = "block";
             } else if (currentScroll === scrollLength) {
-                rightButton.setAttribute("disabled", "true");
-                leftButton.removeAttribute("disabled");
+                // remove right button
+                rightButton.style.display = "none";
+                // add left button
+                leftButton.style.display = "block";
             } else {
-                leftButton.removeAttribute("disabled");
-                rightButton.removeAttribute("disabled");
+                leftButton.style.display = "block";
+                rightButton.style.display = "block";
             }
         }
 

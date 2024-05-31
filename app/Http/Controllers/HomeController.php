@@ -36,6 +36,10 @@ class HomeController extends Controller
 
     public function shopSubCategory($category, $subCategory)
     {
-        echo 2433;
+        $categories = Category::all();
+        $category = Category::where('slug', $category)->first();
+        $subCategory = $category->subCategories->where('slug', $subCategory)->first();
+        $products = Product::where('category_product_id', $subCategory->id)->get();
+        return view('user.shop-by-subCategory', compact('category', 'categories', 'subCategory', 'products'));
     }
 }

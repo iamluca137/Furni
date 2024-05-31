@@ -18,17 +18,17 @@ class ImageProductFactory extends Factory
     {
         return [
             'image' => fake()->randomElement([
-                '1716384080_1531629_PNG-Web-72dpi.jpg', 
-                '1716384080_1531630_PNG-Web-72dpi.jpg', 
-                '1716384080_1531631_PNG-Web-72dpi.jpg', 
-                '1716384080_1531632_PNG-Web-72dpi.jpg',
-                '1234d001.jpg',
-                '1234d002.jpg',
-                '1234d003.jpg',
-                '1234d004.jpg',
-                '1234d005.jpg',
-                '1234d006.jpg',
-                '1234d007.jpg',
+                '1.png',
+                '2.png',
+                '3.png',
+                '4.png',
+                '5.png',
+                '6.png',
+                '7.png',
+                '8.png',
+                '9.png',
+                '10.png',
+                '11.png'
             ]),
             'created_at' => fake()->dateTime(),
             'updated_at' => fake()->dateTime()

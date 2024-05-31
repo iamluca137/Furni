@@ -1,27 +1,22 @@
 @extends('layouts.user')
 @section('content')
-    <div class="mt-5 pt-5">
+    <div class="mt-5">
         <div class="container">
             <div class="row main-product justify-content-between mb-5">
-                <div class="col col-md-12 col-lg-6">
-                    <div class="row">
-                        <div class="col col-md-12 col-lg-3 more-image d-flex flex-column justify-content-between">
-                            <div class="border rounded d-flex justify-content-center">
-                                <img src="{{ asset('assets/images/user/product-3.png') }}" width="150px">
-                            </div>
-                            <div class="border rounded d-flex justify-content-center">
-                                <img src="{{ asset('assets/images/user/product-3.png') }}" width="150px">
-                            </div>
-                            <div class="border rounded d-flex justify-content-center">
-                                <img src="{{ asset('assets/images/user/product-3.png') }}" width="150px">
-                            </div>
-                        </div>
-                        <div class="col col-md-12 col-lg-9 main-image border rounded">
-                            <img src="{{ asset('assets/images/user/product-3.png') }}">
+                <div class="col col-md-12 col-lg-8">
+                    <div class="ecommerce-gallery">
+                        <div class="row shadow-5">
+                            @foreach ($product->images as $image)
+                                <div class="col-6 mb-1 ps-0 pb-2">
+                                    <div class="lightbox card-img h-100">
+                                        <img src="{{ asset('assets/images/products/' . $image->image) }}" class="w-100" />
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="col col-md-12 col-lg-6 ps-4">
+                <div class="col col-md-12 col-lg-4 ps-4">
                     <div class="col">
                         <h2 class="name-product text-dark">SONDE MATTE NIGHTSTAND WITH DRAWER</h2>
                         <p class="price-product text-dark fs-4 pt-3">$ 120.00</p>
@@ -30,7 +25,7 @@
                             imperdiet dolor tempor tristique.</p>
                     </div>
                     <div class="col mb-5 mt-4">
-                        <form action="#" method="post" class="d-flex align-items-center">
+                        <form action="{{ route('cart') }}" class="d-flex align-items-center">
                             <div class="box-quantity me-4 border bg-light py-2">
                                 <span class="px-3 fs-5 text-dark fw-bold btn-quantity-minus"
                                     style="cursor: pointer">-</span>
@@ -42,23 +37,15 @@
                         </form>
                     </div>
                     <div class="col">
-                        {{-- <div class="row mb-1">
-                            <div class="col-2 fw-bold">Code:</div>
-                            <div class="col">FSDE343</div>
-                        </div> --}}
                         <div class="row mb-1">
                             <div class="col-2 fw-bold">Category:</div>
                             <div class="col">
-                                <a href="#" class="text-decoration-none category-product">Chair</a>
+                                <a href="{{ route('shopSubCategory', ['category' => $product->subCategory->category->slug, 'subCategory' => $product->subCategory->slug]) }}"
+                                    class="category-product px-1">{{ $product->subCategory->name }}</a>,
+                                <a href="{{ route('shopCategory', $product->subCategory->category->slug) }}"
+                                    class="category-product px-1">{{ $product->subCategory->category->name }}</a>
                             </div>
                         </div>
-                        {{-- <div class="row mb-1">
-                            <div class="col-2 fw-bold">Tags:</div>
-                            <div class="col">
-                                <a href="#"><span class="badge bg-secondary me-2">Modern</span></a>
-                                <a href="#"><span class="badge bg-secondary me-2">Wood</span></a>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -68,8 +55,6 @@
                         <button class="nav-link text-dark active" id="nav-description-tab" data-bs-toggle="tab"
                             data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description"
                             aria-selected="true">Description</button>
-                        <button class="nav-link text-dark" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info"
-                            type="button" role="tab" aria-controls="nav-info" aria-selected="false">Info</button>
                         <button class="nav-link text-dark" id="nav-review-tab" data-bs-toggle="tab"
                             data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
                             aria-selected="false">Review
@@ -80,18 +65,8 @@
                     <div class="tab-pane fade show active" id="nav-description" role="tabpanel"
                         aria-labelledby="nav-description-tab">
                         <p class="mt-4">
-                            Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut
-                            metus
-                            varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur
-                            ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
-                            condimentum
-                            rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit
-                            vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec
-                            vitae
-                            sapien ut libero venenatis.
+                            {{ $product->description }}
                         </p>
-                    </div>
-                    <div class="tab-pane fade" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
                         <div class="row mt-4">
                             <div class="col-2 fw-bold">Weight:</div>
                             <div class="col">0.5 kg</div>
@@ -168,37 +143,40 @@
                     </div>
                 </div>
             </div>
-            <div class="related-product">
-                <h3 class="mb-5 text-dark">Related Product</h3>
-                <div class="container product-section p-0 mb-4">
-                    <div class="row">
-                        @for ($i = 0; $i < 4; $i++)
-                            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                <div class="col card-pro">
-                                    <div class="bg-light">
-                                        <a href="{{ route('product-details') }}" class="text-decoration-none">
-                                            <img src="{{ asset('assets/images/user/product-3.png') }}"
-                                                class="card-img-top">
-                                        </a>
-                                    </div>
-                                    <div class="mt-2">
-                                        <a href="{{ route('product-details') }}"
-                                            class="text-decoration-none d-flex justify-content-between">
-                                            <p class="fw-bold m-0 fs-6">Green Plates</p>
-                                            <p class="fw-bold m-0 fs-6">$60.00</p>
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-decoration-none">
-                                            <p>Dinnerware</p>
-                                        </a>
+            {{-- @if (!empty($relatedProducts))
+                <div class="related-product">
+                    <h3 class="mb-5 text-dark">Related Product</h3>
+                    <div class="container p-0 mb-4">
+                        <div class="row">
+                            @foreach ($relatedProducts as $product)
+                                <div class="col-12 col-md-4 col-lg-3 mb-5">
+                                    <div class="col card-pro">
+                                        <div class="image-related-product">
+                                            <a href="{{ route('productDetails', $product->slug) }}"
+                                                class="text-decoration-none">
+                                                <img src="{{ asset('assets/images/products/' . $product->images->first()->image) }}"
+                                                    class="card-img-top">
+                                            </a>
+                                        </div>
+                                        <div class="mt-2">
+                                            <a href="{{ route('productDetails', $product->slug) }}"
+                                                class="text-decoration-none d-flex justify-content-between">
+                                                <p class="fw-bold m-0 fs-6">{{ $product->name }}</p>
+                                                <p class="fw-bold m-0 fs-6">${{ $product->price }}</p>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-decoration-none">
+                                                <p>{{ $product->subCategory->name }}</p>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endfor
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif --}}
         </div>
     </div>
 @endsection
