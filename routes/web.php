@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
@@ -20,7 +21,7 @@ Route::get('/about', function () {
 })->name('about');
 Route::get('/blog', function () {
     return view('user.blog');
-})->name('blog'); 
+})->name('blog');
 Route::get('/checkout', function () {
     return view('user.checkout');
 })->name('checkout');
@@ -100,5 +101,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/trash', [UserController::class, 'trash'])->name('admin.account.trash');
         Route::get('/{id}/restore', [UserController::class, 'restore'])->name('admin.account.restore');
         Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('admin.account.destroy');
+    });
+    // Coupon Management
+    Route::prefix('coupon')->group(function () {
+        Route::get('/', [CouponController::class, 'index'])->name('admin.coupon');
+        Route::get('/create', [CouponController::class, 'create'])->name('admin.coupon.create');
+        Route::post('/create', [CouponController::class, 'store'])->name('admin.coupon.store');
+        Route::get('/{code}/edit', [CouponController::class, 'edit'])->name('admin.coupon.edit');
+        Route::put('/{code}/edit', [CouponController::class, 'update'])->name('admin.coupon.update');
+        Route::get('/{code}/delete', [CouponController::class, 'delete'])->name('admin.coupon.delete');
     });
 });

@@ -233,7 +233,7 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item ps-4" href="{{route('admin.product')}}">
+                                    <a class="dropdown-item ps-4" href="{{ route('admin.product') }}">
                                         <span
                                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -252,7 +252,7 @@
                                             Product
                                         </span>
                                     </a>
-                                    <a class="dropdown-item ps-4" href="{{route('admin.category')}}">
+                                    <a class="dropdown-item ps-4" href="{{ route('admin.category') }}">
                                         <span
                                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -270,10 +270,19 @@
                                             Category
                                         </span>
                                     </a>
-                                    <a class="dropdown-item ps-4" href="{{route('admin.subcategory')}}">
+                                    <a class="dropdown-item ps-4" href="{{ route('admin.subcategory') }}">
                                         <span
                                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-layers-subtract"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 4m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" /><path d="M16 16v2a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h2" /></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-layers-subtract">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M8 4m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" />
+                                                <path
+                                                    d="M16 16v2a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h2" />
+                                            </svg>
                                         </span>
                                         <span class="nav-link-title">
                                             Sub Category
@@ -284,7 +293,7 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('admin.account')}}">
+                        <a class="nav-link" href="{{ route('admin.account') }}">
                             <span
                                 class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/checkbox -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -322,7 +331,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('admin.coupon') }}">
                             <span
                                 class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/checkbox -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -338,7 +347,7 @@
                                 </svg>
                             </span>
                             <span class="nav-link-title">
-                                Voucher
+                                Coupon
                             </span>
                         </a>
                     </li>
@@ -402,9 +411,8 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item ps-4" href="#"
-                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button"
-                                        aria-expanded="false">
+                                    <a class="dropdown-item ps-4" href="#" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" role="button" aria-expanded="false">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -420,9 +428,8 @@
                                             Revenue
                                         </span>
                                     </a>
-                                    <a class="dropdown-item ps-4" href="#"
-                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button"
-                                        aria-expanded="false">
+                                    <a class="dropdown-item ps-4" href="#" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" role="button" aria-expanded="false">
                                         <span
                                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -469,9 +476,8 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item ps-4" href="#"
-                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button"
-                                        aria-expanded="false">
+                                    <a class="dropdown-item ps-4" href="#" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" role="button" aria-expanded="false">
                                         <span
                                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -487,9 +493,8 @@
                                             Create Post
                                         </span>
                                     </a>
-                                    <a class="dropdown-item ps-4" href="#"
-                                        data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button"
-                                        aria-expanded="false">
+                                    <a class="dropdown-item ps-4" href="#" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" role="button" aria-expanded="false">
                                         <span
                                             class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
