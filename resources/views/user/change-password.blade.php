@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row mb-4">
                 <div class="col-md-12">
-                    <h2 class="section-title">Reset your password</h2>
+                    <h2 class="section-title">Change your password</h2>
                 </div>
             </div>
             <div class="row mb-5">
@@ -20,7 +20,7 @@
                                     class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="cf-new-password">
                         </div>
-                        <button type="submit" class="btn btn-primary">Reset password</button>
+                        <button type="submit" class="btn btn-primary">Change password</button>
                     </form>
                 </div>
             </div>

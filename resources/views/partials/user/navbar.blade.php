@@ -10,10 +10,19 @@
                 </ul>
                 <a class="navbar-brand" href="{{ route('home') }}"> Furni.</a>
                 <ul class="custom-navbar-cta navbar-nav">
-                    <li>
-                        <a class="nav-link" href="#">
-                            <img src="{{ asset('assets/images/user/user.svg') }}">
-                        </a>
+                    <li class=" d-flex justify-content-center align-items-center">
+                        <div class="dropdown nav-link">
+                            <a class="" role="button" id="dropdownAccount" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img src="{{ asset('assets/images/user/user.svg') }}">
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownAccount">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item disabled" href="#">Setting</a></li>
+                                <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
+                                <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li>
                         <a class="nav-link nav-search">
