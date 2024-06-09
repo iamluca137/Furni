@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/user/carousel.css') }}" />
 
 @extends('layouts.user')
+@section('title', 'Furni.')
 @section('content')
     <div class="hero">
         <div class="container">

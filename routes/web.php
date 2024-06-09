@@ -17,6 +17,8 @@ Route::get('/shop/{category}', [HomeController::class, 'shopCategory'])->name('s
 Route::get('/shop/{category}/{subCategory}', [HomeController::class, 'shopSubCategory'])->name('shopSubCategory');
 Route::get('/product/{slug}', [ShopController::class, 'productDetails'])->name('productDetails');
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart');
+Route::post('/cart', [ShopController::class, 'cartPost'])->name('cartPost');
+Route::get('/cart/{id}/remove', [ShopController::class, 'removeCartItem'])->name('removeCartItem');
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'registerPost'])->name('registerPost');
 Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -36,6 +38,12 @@ Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('
 Route::post('forgot-password', [AuthController::class, 'forgotPasswordPost'])->name('forgotPasswordPost');
 Route::get('change-password/{token}', [AuthController::class, 'changePassword'])->name('changePassword');
 Route::post('change-password/{token}', [AuthController::class, 'changePasswordPost'])->name('changePasswordPost');
+Route::post('check-coupon', [ShopController::class, 'checkCoupon'])->name('checkCoupon');
+
+// Exception Route
+Route::get('/404', function () {
+    return view('exception.404');
+})->name('exception');
 
 // Admin Routes
 Route::prefix('admin')->group(function () {

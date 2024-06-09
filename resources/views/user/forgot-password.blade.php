@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'Forgot Password')
 @section('content')
     <!-- Start Blog Section -->
     <div class="login-section py-5 mt-5">

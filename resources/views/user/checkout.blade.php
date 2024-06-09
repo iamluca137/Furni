@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'Checkout')
 @section('content') 
     <div class="untree_co-section">
         <div class="container"> 

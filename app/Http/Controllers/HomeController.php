@@ -42,4 +42,14 @@ class HomeController extends Controller
         $products = Product::where('category_product_id', $subCategory->id)->get();
         return view('user.shop-by-subCategory', compact('category', 'categories', 'subCategory', 'products'));
     }
+
+    public function about()
+    {
+        return view('user.about');
+    }
+
+    public function blog()
+    {
+        return view('user.blog');
+    }
 }

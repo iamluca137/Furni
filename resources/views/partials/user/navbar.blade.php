@@ -17,10 +17,13 @@
                                 <img src="{{ asset('assets/images/user/user.svg') }}">
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownAccount">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item disabled" href="#">Setting</a></li>
-                                <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
-                                <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
+                                @if (Auth::check())
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li><a class="dropdown-item disabled" href="#">Setting</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                                @else
+                                    <li><a class="dropdown-item" href="{{ route('login') }}">Login/Register</a></li>
+                                @endif
                             </ul>
                         </div>
                     </li>

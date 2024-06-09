@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', $product->name)
 @section('content')
     <div class="mt-5">
         <div class="container">
@@ -18,25 +19,39 @@
                 </div>
                 <div class="col col-md-12 col-lg-4 ps-4">
                     <div class="col">
-                        <h2 class="name-product text-dark">SONDE MATTE NIGHTSTAND WITH DRAWER</h2>
-                        <p class="price-product text-dark fs-4 pt-3">$ 120.00</p>
-                        <p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate
-                            velit
-                            imperdiet dolor tempor tristique.</p>
+                        <h2 class="name-product text-dark">{{ strtoupper($product->name) }}</h2>
+                        <p class="price-product text-dark fs-4 pt-3">$ {{ $product->price }}</p>
+                        <p>{{ $product->short_description }}</p>
                     </div>
                     <div class="col mb-5 mt-4">
-                        <form action="{{ route('cart') }}" class="d-flex align-items-center">
+                        <form action="{{ route('cartPost') }}" method="post" class="d-flex align-items-center">
+                            @csrf
                             <div class="box-quantity me-4 border bg-light py-2">
                                 <span class="px-3 fs-5 text-dark fw-bold btn-quantity-minus"
                                     style="cursor: pointer">-</span>
                                 <input type="text" name="quantity" id="quantity" class="no-border w-1 bg-light fs-5"
-                                    style="width: 12px" value="1">
+                                    style="width: 40px; text-align: center" readonly>
                                 <span class="px-3 fs-5 text-dark fw-bold btn-quantity-plus" style="cursor: pointer">+</span>
                             </div>
+                            <input type="hidden" name="product_slug" value="{{ $product->slug }}" readonly>
+                            <input type="hidden" id="max-quantity" value="{{ $product->quantity }}">
                             <button class="btn btn-submit" type="submit">ADD TO CART</button>
                         </form>
+                        <div>
+                            @if (session('error'))
+                                <div class="mt-1 text-danger">{{ session('error') }}</div>
+                            @endif
+                        </div>
                     </div>
                     <div class="col">
+                        <div class="row">
+                            <div class="col-2 fw-bold">Quantity:</div>
+                            <div class="col">
+                                <p class="m-0">
+                                    {{ $product->quantity }} in stock
+                                </p>
+                            </div>
+                        </div>
                         <div class="row mb-1">
                             <div class="col-2 fw-bold">Category:</div>
                             <div class="col">
@@ -180,3 +195,35 @@
         </div>
     </div>
 @endsection
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // quantity default is 1
+        $('#quantity').val(1);
+        $('.btn-quantity-plus').click(function() {
+            var quantityInput = $('#quantity');
+            var currentValue = parseInt(quantityInput.val());
+            if (!isNaN(currentValue)) {
+                quantityInput.val(currentValue + 1);
+            }
+        });
+
+        $('.btn-quantity-minus').click(function() {
+            var quantityInput = $('#quantity');
+            var currentValue = parseInt(quantityInput.val());
+            if (!isNaN(currentValue) && currentValue > 1) {
+                quantityInput.val(currentValue - 1);
+            }
+        });
+        // when click plus or minus button, check if the quantity is greater than the max quantity. 
+        // If quantity is greater than the max quantity, set the quantity to the max quantity and consloe log the message.
+        $('.btn-quantity-plus, .btn-quantity-minus').click(function() {
+            var quantityInput = $('#quantity');
+            var maxQuantity = $('#max-quantity').val();
+            var currentValue = parseInt(quantityInput.val());
+            if (currentValue > maxQuantity) {
+                quantityInput.val(maxQuantity);
+            }
+        });
+    });
+</script>

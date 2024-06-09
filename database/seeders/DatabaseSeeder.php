@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Product::factory(100)->create()->each(function ($product) {
-        //     $product->images()->saveMany(ImageProduct::factory(4)->make());
-        // });
-        Coupon::factory(50)->create();
+        Product::factory(100)->create()->each(function ($product) {
+            $product->images()->saveMany(ImageProduct::factory(4)->make());
+        });
+        // Coupon::factory(50)->create();
     }
 }

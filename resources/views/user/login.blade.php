@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'Login')
 @section('content')
     <!-- Start Blog Section -->
     <div class="login-section py-5 mt-5">
@@ -18,11 +19,16 @@
                             @if (session('error'))
                                 <div class="mt-1 text-danger">{{ session('error') }}</div>
                             @endif
-
+                            @error('email')
+                                <div class="mt-1 text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="password" name="password">
+                            @error('password')
+                                <div class="mt-1 text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="d-flex justify-content-end">
                             <a href="{{ route('forgotPassword') }}" class="text-dark text-decoration-none">Forgot

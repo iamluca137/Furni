@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', $subCategory->name)
 @section('content')
     <!-- Start Hero Section -->
     <div class="hero">

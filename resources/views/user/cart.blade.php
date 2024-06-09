@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'Cart')
 @section('content')
     <!-- Start Hero Section -->
     <div class="hero">
@@ -12,16 +13,16 @@
     </div>
     <div class="container-xxl border-bottom"></div>
 
-    <div class="untree_co-section pt-5">
+    <div class="untree_co-section pt-5" style="font-size: 16px !important">
         <div class="container">
             <div class="row mb-5">
-                <form class="col-md-8" method="post">
+                <div class="col-md-8">
                     <div class="site-blocks-table">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th class="product-thumbnail">Image</th>
-                                    <th class="product-name">Product</th>
+                                    <th class="product-thumbnail">Product</th>
+                                    <th class="product-name">Name</th>
                                     <th class="product-price">Price</th>
                                     <th class="product-quantity">Quantity</th>
                                     <th class="product-total">Total</th>
@@ -29,84 +30,73 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <img src="{{ asset('assets/images/user/product-1.png') }}" alt="Image"
-                                            class="img-fluid">
-                                    </td>
-                                    <td class="product-name">
-                                        <h2 class="h5 text-black">Product 1</h2>
-                                    </td>
-                                    <td>$49.00</td>
-                                    <td>
-                                        <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                                            style="max-width: 120px;">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-black decrease"
-                                                    type="button">&minus;</button>
-                                            </div>
-                                            <input type="text" class="form-control text-center quantity-amount"
-                                                value="1" placeholder="" aria-label="Example text with button addon"
-                                                aria-describedby="button-addon1">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-black increase"
-                                                    type="button">&plus;</button>
-                                            </div>
-                                        </div>
+                                @php
+                                    $subTotal = 0;
+                                @endphp
+                                @foreach ($cartProducts as $key => $cartProduct)
+                                    @php
+                                        $product_id = $cartProduct['product_id'];
+                                        $product = App\Models\Product::find($product_id);
+                                        $subTotal += $cartProduct['quantity'] * $product->price;
+                                    @endphp
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <img src="{{ asset('assets/images/products/' . $product->images->first()->image) }}"
+                                                alt="Image" class="img-fluid">
+                                        </td>
+                                        <td class="product-name">
+                                            <p class="text-black m-0 p-0">{{ $product->name }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-black m-0 p-0">${{ $product->price }}</p>
 
-                                    </td>
-                                    <td>$49.00</td>
-                                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <img src="{{ asset('assets/images/user/product-2.png') }}" alt="Image"
-                                            class="img-fluid">
-                                    </td>
-                                    <td class="product-name">
-                                        <h2 class="h5 text-black">Product 2</h2>
-                                    </td>
-                                    <td>$49.00</td>
-                                    <td>
-                                        <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                                            style="max-width: 120px;">
-                                            <div class="input-group-prepend">
-                                                <button class="btn btn-outline-black decrease"
-                                                    type="button">&minus;</button>
-                                            </div>
-                                            <input type="text" class="form-control text-center quantity-amount"
-                                                value="1" placeholder="" aria-label="Example text with button addon"
-                                                aria-describedby="button-addon1">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-black increase"
-                                                    type="button">&plus;</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>$49.00</td>
-                                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            <p class="text-black m-0 p-0">{{ $cartProduct['quantity'] }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-black m-0 p-0">
+                                                ${{ $cartProduct['quantity'] * $product->price }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('removeCartItem', $product->id) }}">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                </form>
+                </div>
                 <div class="col-md-4 ps-5">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12">
-                                <label class="text-black h4" for="coupon">Coupon</label>
-                                <p>Enter your coupon code if you have one.</p>
-                            </div>
-                            <div class="row mb-5">
-                                <div class="col-md-8 mb-3 mb-md-0">
-                                    <input type="text" class="form-control py-3" id="coupon"
-                                        placeholder="Coupon Code">
+                            <form action="{{ route('checkCoupon') }}" method="post">
+                                @csrf
+                                <div class="col-md-12">
+                                    <label class="text-black h4" for="coupon">Coupon</label>
+                                    <p>Enter your coupon code if you have one.</p>
                                 </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-black">Apply</button>
+                                <div class="row mb-5">
+                                    <div class="col-md-8 mb-3 mb-md-0">
+                                        <input type="text" class="form-control py-3" name="coupon_code"
+                                            placeholder="Coupon Code">
+                                        <div class="mt-3">
+                                            @if (session('error'))
+                                                <span class="text-danger">{{ session('error') }}</span>
+                                            @endif
+                                            @if (session('success'))
+                                                <span class="text-success">{{ session('success') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-black">Apply</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                         <div class="row justify-content-end">
                             <div class="col-md-12">
@@ -116,25 +106,39 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <span class="text-black">Subtotal</span>
                                     </div>
-                                    <div class="col-md-6 text-right">
-                                        <strong class="text-black">$230.00</strong>
+                                    <div class="col-md-8 text-end" style="padding-right: 200px">
+                                        <strong class="text-black">${{ $subTotal }}</strong>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <span class="text-black">Discount</span>
+                                    </div>
+                                    <div class="col-md-8 text-end" style="padding-right: 200px">
+                                        @if (session('discount'))
+                                            <strong class="text-success">- ${{ session('discount') }}</strong>
+                                        @else
+                                            <strong class="text-black">$0.00</strong>
+                                        @endif
+
                                     </div>
                                 </div>
                                 <div class="row mb-5">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <span class="text-black">Total</span>
                                     </div>
-                                    <div class="col-md-6 text-right">
-                                        <strong class="text-black">$230.00</strong>
+                                    <div class="col-md-8 text-end" style="padding-right: 200px">
+                                        <strong class="text-black">${{ $subTotal - session('discount') }}</strong>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button class="btn btn-black btn-lg py-3 btn-block"
-                                            onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                                        <button class="btn btn-black btn-lg py-3 btn-block" type="submit">
+                                            Proceed To Checkout
+                                        </button>
                                     </div>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'Blog')
 @section('content')
     <!-- Start Hero Section -->
     <div class="hero mb-5">
@@ -14,7 +15,7 @@
                                 <a href="{{ route('home') }}" class="text-light text-decoration-none">Home</a>
                             </li>
                             <li class="breadcrumb-item fw-bold active" aria-current="page">Blog</li>
-                            
+
                         </ol>
                     </nav>
                 </div>

@@ -44,22 +44,17 @@ class AuthController extends Controller
 
     function loginPost(Request $request)
     {
-        $email = $request->email;
-        $password = $request->password;
-        if (($email && $email != '')) {
-            $user = User::where('email', $email)->first();
-            if ($user) {
-                if (Hash::check($password, $user->password)) {
-                    $request->session()->put('user', $user);
-                    return redirect()->route('home');
-                } else {
-                    return redirect()->route('login')->with('error', 'Email or password is wrong, please try again');
-                }
-            } else {
-                return redirect()->route('login')->with('error', 'Email or password is wrong, please try again');
-            }
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]); 
+
+        if(auth()->attempt($request->only('email', 'password'))){
+            // save cookie for 1 day
+            setcookie('email', $request->email, time() + 60 * 60 * 24);
+            return redirect()->route('home');
         } else {
             return redirect()->route('login')->with('error', 'Email or password is wrong, please try again');
-        }
+        } 
     }
 }
