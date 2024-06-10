@@ -19,8 +19,8 @@ body {
     font-family: "Salsa", cursive;
     font-weight: 400;
     line-height: 28px;
-    color: #6a6a6a;
-    font-size: 14px;
+    color: #222222;
+    font-size: 16px !important;
     background-color: #eff2f1;
 }
 
@@ -56,6 +56,8 @@ a.more {
     color: #000000;
     margin: 0;
     padding-bottom: 10px;
+    z-index: 1000;
+    text-align: center;
 }
 .custom-navbar .navbar-brand > span {
     opacity: 0.4;
@@ -1138,4 +1140,14 @@ input.search-product:focus-visible {
     color: #000;
     font-size: 24px;
     transition: opacity 1s ease !important;
+}
+.collapse-wrapper {
+    position: relative;
+    margin-top: 20px;
+}
+
+.collapse-wrapper #navbarsFurni {
+    position: absolute;
+    top: 0;
+    width: 100%;
 }

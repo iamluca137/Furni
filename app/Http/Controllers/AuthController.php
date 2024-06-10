@@ -47,14 +47,19 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-        ]); 
+        ]);
 
-        if(auth()->attempt($request->only('email', 'password'))){
+        if (auth()->attempt($request->only('email', 'password'))) {
             // save cookie for 1 day
             setcookie('email', $request->email, time() + 60 * 60 * 24);
             return redirect()->route('home');
         } else {
             return redirect()->route('login')->with('error', 'Email or password is wrong, please try again');
-        } 
+        }
+    }
+
+    function setting()
+    {
+        return view('user.setting');
     }
 }

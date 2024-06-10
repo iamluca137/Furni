@@ -52,4 +52,9 @@ class HomeController extends Controller
     {
         return view('user.blog');
     }
+
+    public function contact()
+    {
+        return view('user.contact');
+    }
 }

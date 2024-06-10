@@ -13,7 +13,7 @@
     </div>
     <div class="container-xxl border-bottom"></div>
 
-    <div class="untree_co-section pt-5" style="font-size: 16px !important">
+    <div class="untree_co-section pt-5">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md-8">

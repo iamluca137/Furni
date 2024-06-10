@@ -24,8 +24,6 @@ Route::post('register', [AuthController::class, 'registerPost'])->name('register
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'loginPost'])->name('loginPost');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('profile', [AuthController::class, 'profile'])->name('profile');
-Route::post('profile', [AuthController::class, 'profileUpdate'])->name('profileUpdate');
 Route::get('about', [HomeController::class, 'about'])->name('about');
 Route::get('blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('blog/{slug}', [HomeController::class, 'blogDetails'])->name('blogDetails');
@@ -40,6 +38,9 @@ Route::get('change-password/{token}', [AuthController::class, 'changePassword'])
 Route::post('change-password/{token}', [AuthController::class, 'changePasswordPost'])->name('changePasswordPost');
 Route::post('check-coupon', [ShopController::class, 'checkCoupon'])->name('checkCoupon');
 
+Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
+Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');
+Route::get('user/purchase', [AuthController::class, 'purchase'])->name('purchase');
 // Exception Route
 Route::get('/404', function () {
     return view('exception.404');

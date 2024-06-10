@@ -106,4 +106,8 @@ class ShopController extends Controller
             return redirect()->back()->with('error', 'Invalid coupon code');
         }
     }
+
+    public function checkout() {
+        return view('user.checkout');
+    }
 }
