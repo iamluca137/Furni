@@ -255,6 +255,16 @@ a.more {
     border-color: #f8b810;
 }
 
+.btn-notification {
+    color: #fff;
+    background-color: #e5f7f0;
+    border-color: #e5f7f0;
+}
+.btn-notification:hover {
+    color: #fff;
+    background-color: #c3f7e3;
+    border-color: #c3f7e3;
+}
 .btn.btn-brand {
     background: #263530;
     border-color: #263530;

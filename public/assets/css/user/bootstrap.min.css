@@ -2738,7 +2738,8 @@ fieldset:disabled .btn {
     color: #fff;
     background-color: #5c636a;
     border-color: #565e64;
-}
+} 
+
 .btn-check:focus + .btn-secondary,
 .btn-secondary:focus {
     color: #fff;
@@ -3741,7 +3742,6 @@ fieldset:disabled .btn {
 .nav-link:focus,
 .nav-link:hover {
     color: #dbb450;
-
 }
 .nav-link.disabled {
     color: #6c757d;
@@ -3784,7 +3784,7 @@ fieldset:disabled .btn {
 }
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-    color: #F8B810; 
+    color: #f8b810;
 }
 .nav-fill .nav-item,
 .nav-fill > .nav-link {
