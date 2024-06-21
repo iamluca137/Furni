@@ -7,6 +7,7 @@ use App\Models\CartProduct;
 use App\Models\Coupon;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class ShopController extends Controller
 {
@@ -24,11 +25,11 @@ class ShopController extends Controller
     {
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)->first();
-        $cartProducts = CartProduct::where('cart_id', $cart->id)->get()->toArray();
+        $cartProducts = CartProduct::where('cart_id', $cart->id)->get();
         return view('user.cart', compact('cartProducts'));
     }
 
-    public function cartPost(Request $request)
+    public function addItemToCart(Request $request)
     {
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)->first();
@@ -99,15 +100,71 @@ class ShopController extends Controller
             foreach ($cartProducts as $cartProduct) {
                 $total += $cartProduct->product->price * $cartProduct->quantity;
             }
-            $discount = $total * $coupon->discount / 100;
-            // return $discount;
+            $totalDiscount = $total * $coupon->discount / 100;
+            $discount = [
+                'code' => $coupon->code,
+                'discount' => $totalDiscount,
+            ];
             return redirect()->back()->with('discount', $discount);
         } else {
             return redirect()->back()->with('error', 'Invalid coupon code');
         }
     }
 
-    public function checkout() {
-        return view('user.checkout');
+    public function checkout()
+    {
+        $user = auth()->user();
+        $cart = Cart::where('user_id', $user->id)->first();
+        $cartProducts = CartProduct::where('cart_id', $cart->id)->get();
+
+        return view('user.checkout', compact('cartProducts'));
+    }
+
+    public function checkoutPost(Request $request)
+    {
+        // dd($request->all());
+        // $request->validate([
+        //     'c_country' => 'required',
+        //     'c_fname' => 'required',
+        //     'c_address' => 'required',
+        //     'c_city' => 'required',
+        //     'c_email' => 'required|email',
+        //     'c_phone' => 'required|regex:/(0)[0-9]{9}/',
+        // ], [
+        //     'c_country' => 'Country is required',
+        //     'c_fname' => 'First name is required',
+        //     'c_address' => 'Address is required',
+        //     'c_city' => 'City is required',
+        //     'c_email' => 'Email is required',
+        //     'c_email.email' => 'Email is invalid',
+        //     'c_phone' => 'Phone is required',
+        //     'c_phone.regex' => 'Phone is invalid',
+        // ]);
+
+
+        $user = auth()->user();
+        $coupon = Coupon::where('code', $request->c_coupon)->first();
+        if ($coupon) {
+            $cart = Cart::where('user_id', $user->id)->first();
+            $cartProducts = CartProduct::where('cart_id', $cart->id)->get();
+            $total = 0;
+            foreach ($cartProducts as $cartProduct) {
+                $total += $cartProduct->product->price * $cartProduct->quantity;
+            }
+            $discount = $total * ($coupon->discount / 100);
+        } else {
+            $discount = 0;
+        }
+    }
+
+    public function invoice()
+    {
+        return view('invoice.invoice');
+    }
+
+    public function removeCoupon()
+    {
+        session()->forget('discount');
+        return redirect()->back();
     }
 }

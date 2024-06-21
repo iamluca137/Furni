@@ -31,7 +31,6 @@
     </div>
     <!-- Footer -->
     @include('partials.user.footer')
-
     <script src="{{ asset('assets/js/user/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/user/tiny-slider.js') }}"></script>
     <script src="{{ asset('assets/js/user/custom.js') }}"></script>

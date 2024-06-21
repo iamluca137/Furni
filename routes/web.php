@@ -17,7 +17,7 @@ Route::get('/shop/{category}', [HomeController::class, 'shopCategory'])->name('s
 Route::get('/shop/{category}/{subCategory}', [HomeController::class, 'shopSubCategory'])->name('shopSubCategory');
 Route::get('/product/{slug}', [ShopController::class, 'productDetails'])->name('productDetails');
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart');
-Route::post('/cart', [ShopController::class, 'cartPost'])->name('cartPost');
+Route::post('/cart', [ShopController::class, 'addItemToCart'])->name('addItemToCart');
 Route::get('/cart/{id}/remove', [ShopController::class, 'removeCartItem'])->name('removeCartItem');
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'registerPost'])->name('registerPost');
@@ -37,10 +37,16 @@ Route::post('forgot-password', [AuthController::class, 'forgotPasswordPost'])->n
 Route::get('change-password/{token}', [AuthController::class, 'changePassword'])->name('changePassword');
 Route::post('change-password/{token}', [AuthController::class, 'changePasswordPost'])->name('changePasswordPost');
 Route::post('check-coupon', [ShopController::class, 'checkCoupon'])->name('checkCoupon');
+// Remove discount coupon
+Route::get('remove-coupon', [ShopController::class, 'removeCoupon'])->name('removeCoupon');
 
 Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
 Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');
 Route::get('user/purchase', [AuthController::class, 'purchase'])->name('purchase');
+
+Route::get('/invoice', function () {
+    return view('invoice.invoice');
+})->name('invoice');
 // Exception Route
 Route::get('/404', function () {
     return view('exception.404');

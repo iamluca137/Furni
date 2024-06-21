@@ -21,7 +21,7 @@
                              <ul class="dropdown-menu" aria-labelledby="dropdownAccount">
                                  @if (Auth::check())
                                      <li><a class="dropdown-item" href="{{ route('setting') }}">Setting</a></li>
-                                     <li><a class="dropdown-item" href="#">Purchase Order</a></li>
+                                     <li><a class="dropdown-item" href="{{ route('purchase') }}">Purchase Order</a></li>
                                      <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                                  @else
                                      <li><a class="dropdown-item" href="{{ route('login') }}">Login/Register</a></li>

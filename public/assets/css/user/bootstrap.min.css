@@ -3760,7 +3760,7 @@ fieldset:disabled .btn {
 }
 .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:hover {
-    border-color: #e9ecef #e9ecef #d6d6d6;
+    /* border-color: #e9ecef #e9ecef #d6d6d6; */
     isolation: isolate;
 }
 .nav-tabs .nav-link.disabled {
@@ -7193,6 +7193,11 @@ fieldset:disabled .btn {
         var(--bs-secondary-rgb),
         var(--bs-bg-opacity)
     ) !important;
+}
+.bg-gray {
+    --bs-bg-opacity: 1;
+    background-color: #b7b7b7 !important;
+    border-radius: 5px;
 }
 .bg-success {
     --bs-bg-opacity: 1;

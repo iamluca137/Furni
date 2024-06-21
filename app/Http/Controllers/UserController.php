@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => 'required|min:6|max:20|unique:users',
-            'fullname' => 'required|min:6|max:50',
+            'fullname' => 'required|min:2|max:50',
             'email' => 'required|email|unique:users',
             'password' => 'min:6|max:20|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'same:password',
@@ -91,7 +91,7 @@ class UserController extends Controller
                 'max:20',
                 Rule::unique('users')->ignore($user->id)
             ],
-            'fullname' => 'required|min:6|max:50',
+            'fullname' => 'required|min:2|max:50',
             'email' => [
                 'required',
                 'email',

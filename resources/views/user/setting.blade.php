@@ -54,7 +54,7 @@
             </div>
             <div class="col-md-9 p-0">
                 <div class="tab-content mb-3 ms-5" id="nav-tabContent">
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
                                 <p class="h4 mb-5">
@@ -345,7 +345,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade show active" id="nav-notification" role="tabpanel"
+                    <div class="tab-pane fade" id="nav-notification" role="tabpanel"
                         aria-labelledby="nav-notification-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
@@ -369,9 +369,45 @@
                                             </div>
                                             <span class="ml-auto mb-auto">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn-notification btn-sm rounded m-0 border-0 px-3"
-                                                        data-bs-toggle="dropdown"
-                                                        data-bs-display="static" aria-expanded="false">
+                                                    <button type="button"
+                                                        class="btn-notification btn-sm rounded m-0 border-0 px-3"
+                                                        data-bs-toggle="dropdown" data-bs-display="static"
+                                                        aria-expanded="false">
+                                                        <i class="fa-solid fa-ellipsis-vertical"
+                                                            style="color: #2CDD9B"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                                                        <button class="dropdown-item" type="button">
+                                                            <i class="mdi mdi-delete"></i> Delete
+                                                        </button>
+                                                        <button class="dropdown-item" type="button">
+                                                            <i class="mdi mdi-close"></i> Turn Off
+                                                        </button>
+                                                    </ul>
+                                                </div>
+                                                <br />
+                                                <div class="text-right text-center pt-1">3d</div>
+                                            </span>
+                                        </div>
+                                        <div
+                                            class="p-3 d-flex align-items-center justify-content-between border-bottom osahan-post-header">
+                                            <div class="d-flex align-items-center ">
+                                                <div
+                                                    class="dropdown-list-image mr-3 d-flex align-items-center bg-danger justify-content-center rounded-circle text-white">
+                                                    DRM
+                                                </div>
+                                                <div class="font-weight-bold mr-3">
+                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
+                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
+                                                        sit amet, porta non est.</div>
+                                                </div>
+                                            </div>
+                                            <span class="ml-auto mb-auto">
+                                                <div class="btn-group">
+                                                    <button type="button"
+                                                        class="btn-notification btn-sm rounded m-0 border-0 px-3"
+                                                        data-bs-toggle="dropdown" data-bs-display="static"
+                                                        aria-expanded="false">
                                                         <i class="fa-solid fa-ellipsis-vertical"
                                                             style="color: #2CDD9B"></i>
                                                     </button>

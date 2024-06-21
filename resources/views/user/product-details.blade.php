@@ -24,7 +24,7 @@
                         <p>{{ $product->short_description }}</p>
                     </div>
                     <div class="col mb-5 mt-4">
-                        <form action="{{ route('cartPost') }}" method="post" class="d-flex align-items-center">
+                        <form action="{{ route('addItemToCart') }}" method="post" class="d-flex align-items-center">
                             @csrf
                             <div class="box-quantity me-4 border bg-light py-2">
                                 <span class="px-3 fs-5 text-dark fw-bold btn-quantity-minus"

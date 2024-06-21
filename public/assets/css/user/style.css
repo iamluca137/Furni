@@ -24,9 +24,9 @@ body {
     background-color: #eff2f1;
 }
 
-input[type="text"] {
+input[type="text"]{
     font-family: "Kanit", cursive;
-}
+} 
 
 a {
     text-decoration: none;
@@ -254,7 +254,6 @@ a.more {
     background: #f8b810;
     border-color: #f8b810;
 }
-
 .btn-notification {
     color: #fff;
     background-color: #e5f7f0;
@@ -264,6 +263,16 @@ a.more {
     color: #fff;
     background-color: #c3f7e3;
     border-color: #c3f7e3;
+}
+.btn-gray {
+    color: #fff;
+    background-color: #5c636a;
+    border-color: #5c636a;
+}
+.btn-gray:hover {
+    color: #fff;
+    background-color: #4b4e52;
+    border-color: #4b4e52;
 }
 .btn.btn-brand {
     background: #263530;
