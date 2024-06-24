@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->decimal('price', 11, 2);
-            $table->varchar('short_description');
+            $table->string('short_description');
             $table->text('description');
             $table->integer('quantity');
             $table->unsignedInteger('category_product_id');

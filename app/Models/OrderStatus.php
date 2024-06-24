@@ -9,7 +9,7 @@ class StatusOrder extends Model
 {
     use HasFactory;
 
-    protected $table = 'status_orders';
+    protected $table = 'order_statuses';
     
     protected $primaryKey = 'id';
     

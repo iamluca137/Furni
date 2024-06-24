@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('note')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('order_status_id')->references('id')->on('status_orders')->onDelete('cascade');
+            $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
             $table->timestamps();
         });
     }
