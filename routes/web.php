@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
@@ -44,9 +46,12 @@ Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
 Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');
 Route::get('user/purchase', [AuthController::class, 'purchase'])->name('purchase');
 
-Route::get('/invoice', function () {
-    return view('invoice.invoice');
-})->name('invoice');
+Route::post('paypal', [PaymentController::class, 'paypal'])->name('paypal');
+Route::get('success', [PaymentController::class, 'success'])->name('success');
+Route::get('cancel', [PaymentController::class, 'cancel'])->name('cancel');
+
+
+Route::get('/invoice/{invoice_number}', [InvoiceController::class, 'invoice'])->name('invoice');
 // Exception Route
 Route::get('/404', function () {
     return view('exception.404');

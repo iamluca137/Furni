@@ -81,36 +81,6 @@
                                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
                                     placeholder="Write your notes here..."></textarea>
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label for="c_payment" class="text-black pb-3">Payment methods</label>
-                                <div class="border p-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="pay_DBT"
-                                            value="pay_DBT" checked>
-                                        <label class="form-check-label" for="pay_DBT">
-                                            Direct Bank Transfer
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod"
-                                            value="pay_Paypal" id="pay_Paypal" data-bs-toggle="collapse"
-                                            href="#collapsepaypal" role="button" aria-expanded="false"
-                                            aria-controls="collapsepaypal">
-                                        <label class="form-check-label" for="pay_Paypal">
-                                            Paypal
-                                        </label>
-                                        <div class="collapse" id="collapsepaypal">
-                                            <div class="py-2">
-                                                <p class="mb-0 text-secondary">You can pay with your credit card if you
-                                                    don’t have a PayPal account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="c_coupon_code" name="c_coupon"
-                                    value="{{ session('discount')['code'] ?? '' }}" readonly>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -189,9 +159,16 @@
                                 </table>
 
                                 <div class="form-group text-center">
-                                    <button class="btn btn-black rounded btn-sm fs-6 py-3 btn-block"
-                                        id="btn-checkout">Place
-                                        Order</button>
+
+                                    <form action="{{ route('paypal') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="total"
+                                            value="{{ $subTotal - (session('discount')['discount'] ?? 0) }}">
+                                        <button class="btn btn-black rounded btn-sm fs-6 py-3 btn-block"
+                                            id="btn-checkout">
+                                            Pay With Paypal
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
