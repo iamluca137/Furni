@@ -78,8 +78,7 @@
 
                             <div class="form-group mb-3">
                                 <label for="c_order_notes" class="text-black">Order Notes</label>
-                                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
-                                    placeholder="Write your notes here..."></textarea>
+                                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"></textarea>
                             </div>
                         </div>
                     </form>
@@ -158,15 +157,18 @@
                                     </tbody>
                                 </table>
 
-                                <div class="form-group text-center">
+                                <div class="form-group text-center d-flex justify-content-center">
 
                                     <form action="{{ route('paypal') }}" method="post">
                                         @csrf
-                                        <input type="hidden" name="total"
-                                            value="{{ $subTotal - (session('discount')['discount'] ?? 0) }}">
-                                        <button class="btn btn-black rounded btn-sm fs-6 py-3 btn-block"
-                                            id="btn-checkout">
-                                            Pay With Paypal
+                                        @if (session('discount'))
+                                            <input type="hidden" name="coupon"
+                                                value="{{ session('discount')['code'] }}">
+                                        @endif
+                                        <button
+                                            class="btn btn-secondary px-5 rounded btn-sm fs-6 py-3 btn-block text-center d-flex align-items-center">
+                                            <span class="pe-1">Pay With</span>
+                                            <img src="{{ asset('assets/images/generals/PayPal.png') }}" width="100px">
                                         </button>
                                     </form>
                                 </div>

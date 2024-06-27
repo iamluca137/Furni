@@ -51,7 +51,9 @@ Route::get('success', [PaymentController::class, 'success'])->name('success');
 Route::get('cancel', [PaymentController::class, 'cancel'])->name('cancel');
 
 
-Route::get('/invoice/{invoice_number}', [InvoiceController::class, 'invoice'])->name('invoice');
+Route::get('/invoice', function () {
+    return view('invoice.invoice');
+})->name('invoice');
 // Exception Route
 Route::get('/404', function () {
     return view('exception.404');

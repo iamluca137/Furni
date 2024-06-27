@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('order_status_id');
+            $table->string('payment_id');
             $table->unsignedInteger('user_id');
             $table->decimal('discount', 8, 2);
             $table->decimal('total_amount', 8, 2);
@@ -22,8 +22,10 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('note')->nullable();
+            $table->unsignedInteger('order_status_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
+            $table->foreign('payment_id')->references('payment_id')->on('payments')->onDelete('cascade');
             $table->timestamps();
         });
     }

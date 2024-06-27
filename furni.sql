@@ -110,4 +110,7 @@ INSERT INTO `users` (`username`, `fullname`, `avatar`, `password`, `email`, `pho
 ('zthanh123', 'van thanh', 'profile.png', '$2y$12$0vmjipqxDOB.ykMHuK/Kpec2vQvyvuFfHdThasUqB9CKG2YqxB4/y', 'Blackwlee04@gmail.com', '0382366012', 'Ha Noi, Viet Nam', 2, 1, NULL, NULL, '2024-04-10 16:35:14', '2024-04-10 16:35:14', NULL),
 ('cactus4g@gmail.com', NULL, 'profile.png', '$2y$12$1Fy.913iWS/4O6b5rludpuUWYyaCH6Wjus5B4tFtzyoxMp5IgzLh2', 'cactus4g@gmail.com', NULL, NULL, 2, 1, NULL, NULL, '2024-06-04 21:55:41', '2024-06-04 21:55:41', NULL);
 
- 
+INSERT INTO `carts` (`user_id`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL),
+(2, NULL, NULL),
+(3, NULL, NULL);
