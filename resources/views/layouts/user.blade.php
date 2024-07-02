@@ -16,25 +16,28 @@
     <link href="{{ asset('assets/css/user/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <title>@yield('title')</title>
+
+    @livewireStyles
 </head>
 
 <body>
 
-    <!-- Header/Navigation -->
-    @include('partials.user.navbar')
+    <!-- Header -->
+    <livewire:partials.header-user />
 
-    {{-- Search  --}}
-    @include('partials.user.search')
     {{-- Main --}}
     <div class="l-main">
         @yield('content')
     </div>
     <!-- Footer -->
-    @include('partials.user.footer')
+    <livewire:partials.footer-user />
+
     <script src="{{ asset('assets/js/user/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/user/tiny-slider.js') }}"></script>
     <script src="{{ asset('assets/js/user/custom.js') }}"></script>
     <script src="{{ asset('assets/js/user/search.js') }}"></script>
+
+    @livewireScripts
 </body>
 
 </html>

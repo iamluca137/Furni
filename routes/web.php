@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
+use App\Livewire\User\Checkout;
 use Illuminate\Support\Facades\Route;
 
 // Frontend Routes
@@ -29,8 +30,10 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('about', [HomeController::class, 'about'])->name('about');
 Route::get('blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('blog/{slug}', [HomeController::class, 'blogDetails'])->name('blogDetails');
+
 Route::get('checkout', [ShopController::class, 'checkout'])->name('checkout');
-Route::post('checkout', [ShopController::class, 'checkoutPost'])->name('checkoutPost');
+Route::post('checkout', [ShopController::class, 'paypal'])->name('paypal');
+
 Route::get('contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('services', [HomeController::class, 'services'])->name('services');
 Route::get('thankyou', [ShopController::class, 'thankyou'])->name('thankyou');
@@ -38,9 +41,6 @@ Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('
 Route::post('forgot-password', [AuthController::class, 'forgotPasswordPost'])->name('forgotPasswordPost');
 Route::get('change-password/{token}', [AuthController::class, 'changePassword'])->name('changePassword');
 Route::post('change-password/{token}', [AuthController::class, 'changePasswordPost'])->name('changePasswordPost');
-Route::post('check-coupon', [ShopController::class, 'checkCoupon'])->name('checkCoupon');
-// Remove discount coupon
-Route::get('remove-coupon', [ShopController::class, 'removeCoupon'])->name('removeCoupon');
 
 Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
 Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');

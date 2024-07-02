@@ -19,7 +19,7 @@ class Payment extends Model
         'payer_name',
         'payer_email',
         'payment_status',
-        'payment_method',
+        'payment_method', 
     ];
 
     public function order()

@@ -10,6 +10,7 @@ use App\Models\OrderProduct;
 use App\Models\Payment;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
@@ -23,12 +24,12 @@ class PaymentController extends Controller
             'c_email' => 'required|email',
             'c_phone' => 'required|regex:/(0)[0-9]{9}/',
         ], [
-            'c_fname' => 'First name is required',
-            'c_address' => 'Address is required',
-            'c_city' => 'City is required',
-            'c_email' => 'Email is required',
+            'c_fname.required' => 'First name is required',
+            'c_address.required' => 'Address is required',
+            'c_city.required' => 'City is required',
+            'c_email.required' => 'Email is required',
             'c_email.email' => 'Email is invalid',
-            'c_phone' => 'Phone is required',
+            'c_phone.required' => 'Phone is required',
             'c_phone.regex' => 'Phone is invalid',
         ]);
 
@@ -39,18 +40,17 @@ class PaymentController extends Controller
         foreach ($cartProducts as $cartProduct) {
             $subTotal += $cartProduct->product->price * $cartProduct->quantity;
         }
-        if (!empty($request->coupon) && $request->coupon != null) {
-            $coupon = Coupon::where('code', $request->coupon)->first();
+
+        if (Cache::has('discount')) {
+            $discountData = Cache::get('discount');
+            $coupon = $discountData['code'];
+            $discount = $discountData['discount'];
         } else {
             $coupon = null;
-        }
-        if ($coupon) {
-            $discount = $subTotal * ($coupon->discount / 100);
-        } else {
             $discount = 0;
-        }
+        } 
 
-        $total = $subTotal - $discount;
+        $total = sprintf("%.2f", $subTotal - $discount);
         // data for checkout
         $dataCheckout = [
             'c_country' => $request->c_country,
@@ -90,6 +90,8 @@ class PaymentController extends Controller
             ]
         ]);
 
+        // dd($response);
+
         if (isset($response['id']) && $response['id'] != null) {
             foreach ($response['links'] as $link) {
                 if ($link['rel'] == 'approve') {
@@ -97,7 +99,7 @@ class PaymentController extends Controller
                 }
             }
         } else {
-            return redirect()->back()->with('error', 'Something went wrong');
+            return redirect()->back()->with('errorCheckout', 'Something went wrong');
         }
     }
 
@@ -113,9 +115,9 @@ class PaymentController extends Controller
         // dd($dataCheckout);
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
             // Insert data into database 
+            //payment_id	amount	payer_name	payer_email	payment_status	payment_method 	
             $payment = new Payment();
             $payment->payment_id = $response['id'];
-            $payment->order_id = 1;
             $payment->amount = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
             $payment->payer_name = $response['payer']['name']['given_name'];
             $payment->payer_email = $response['payer']['email_address'];
@@ -132,16 +134,18 @@ class PaymentController extends Controller
                 'address' => $dataCheckout['c_address'],
                 'phone' => $dataCheckout['c_phone'],
                 'email' => $dataCheckout['c_email'],
-                'note' => $dataCheckout['note'],
+                'note' => $dataCheckout['c_order_notes'],
                 'order_status_id' => 1,
             ];
 
             $order = Order::create($order);
-            // remove discount coupon in stock
+            // update coupon quantity
             if ($dataCheckout['coupon']) {
                 $coupon = Coupon::where('code', $dataCheckout['coupon']->code)->first();
                 $coupon->quantity -= 1;
                 $coupon->save();
+                // remove discount from cache
+                Cache::forget('discount');
             }
 
             foreach ($dataCheckout['cartProducts'] as $cartProduct) {
@@ -162,6 +166,7 @@ class PaymentController extends Controller
             return redirect()->route('cancel');
         }
     }
+
     public function cancel()
     {
         return redirect()->route('checkout');
