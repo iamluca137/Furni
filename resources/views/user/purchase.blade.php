@@ -36,10 +36,10 @@
                             </button>
                         </li>
                         <li>
-                            <button class="nav-link px-1 link-dark" id="nav-payment-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-payment" type="button" role="tab" aria-controls="nav-payment"
+                            <button class="nav-link px-1 link-dark" id="nav-pending-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-pending" type="button" role="tab" aria-controls="nav-pending"
                                 aria-selected="false">
-                                Awaiting Payment
+                                Pending
                             </button>
                         </li>
                         <li>
@@ -47,13 +47,6 @@
                                 data-bs-target="#nav-shipping" type="button" role="tab" aria-controls="nav-shipping"
                                 aria-selected="false">
                                 Shipping
-                            </button>
-                        </li>
-                        <li>
-                            <button class="nav-link px-1 link-dark" id="nav-delivery-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-delivery" type="button" role="tab" aria-controls="nav-delivery"
-                                aria-selected="false">
-                                Awaiting Delivery
                             </button>
                         </li>
                         <li>
@@ -73,7 +66,7 @@
                         <li>
                             <button class="nav-link px-1 link-dark" id="nav-return-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-return" type="button" role="tab" aria-controls="nav-return"
-                                aria-selected="false" disabled>
+                                aria-selected="false" >
                                 Returns/Refunds
                             </button>
                         </li>
@@ -87,180 +80,124 @@
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
                                     <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
+                                        @foreach ($orders as $order)
+                                            <div class="item mb-3 p-3 bg-white border-bottom">
+                                                @foreach ($order->products as $product)
+                                                    @php
+                                                        $productDetail = \App\Models\Product::where(
+                                                            'id',
+                                                            $product['product_id'],
+                                                        )->first();
+                                                    @endphp
+                                                    <div class="d-flex align-items-center my-1">
+                                                        <div
+                                                            class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
+                                                            <img src="{{ asset('assets/images/products/' . $productDetail->images->first()->image) }}"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="font-weight-bold col-md-9">
+                                                            <div class="text-truncate">
+                                                                {{ strtoupper($productDetail->name) }}</div>
+                                                            <div class="row small">
+                                                                <div class="col-1">Category:</div>
+                                                                <div class="col">
+                                                                    <a href="{{ route('shopSubCategory', ['category' => $productDetail->subCategory->category->slug, 'subCategory' => $productDetail->subCategory->slug]) }}"
+                                                                        class="category-product px-1">{{ $productDetail->subCategory->name }}</a>,
+                                                                    <a href="{{ route('shopCategory', $productDetail->subCategory->category->slug) }}"
+                                                                        class="category-product px-1">{{ $productDetail->subCategory->category->name }}</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="small">x{{ $product['quantity'] }}</div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                                 <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
+                                                    class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
+                                                    <p class="status-order text-success d-flex align-items-center m-0">
+                                                        {{ $order->status->name }}</p>
+                                                    </p>
+                                                    <div class="action-box">
+                                                        @if ($order->status->id == 3)
+                                                            <button type="button"
+                                                                class="btn btn-secondary mx-2 btn-sm rounded">
+                                                                Feedback
+                                                            </button>
+                                                        @endif
+                                                        @if ($order->status->id == 1)
+                                                            <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
+                                                                Request Return/Refund
+                                                            </button>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
+                    <div class="tab-pane fade" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
                                     <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
+                                        @foreach ($orders as $order)
+                                            @if ($order->status->id == 1)
+                                                <div class="item mb-3 p-3 bg-white border-bottom">
+                                                    @foreach ($order->products as $product)
+                                                        @php
+                                                            $productDetail = \App\Models\Product::where(
+                                                                'id',
+                                                                $product['product_id'],
+                                                            )->first();
+                                                        @endphp
+                                                        <div class="d-flex align-items-center my-1">
+                                                            <div
+                                                                class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
+                                                                <img src="{{ asset('assets/images/products/' . $productDetail->images->first()->image) }}"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="font-weight-bold col-md-9">
+                                                                <div class="text-truncate">
+                                                                    {{ strtoupper($productDetail->name) }}</div>
+                                                                <div class="row small">
+                                                                    <div class="col-1">Category:</div>
+                                                                    <div class="col">
+                                                                        <a href="{{ route('shopSubCategory', ['category' => $productDetail->subCategory->category->slug, 'subCategory' => $productDetail->subCategory->slug]) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->name }}</a>,
+                                                                        <a href="{{ route('shopCategory', $productDetail->subCategory->category->slug) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->category->name }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="small">x{{ $product['quantity'] }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    <div
+                                                        class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
+                                                        <p class="status-order text-success d-flex align-items-center m-0">
+                                                            {{ $order->status->name }}</p>
+                                                        </p>
+                                                        <div class="action-box">
+                                                            @if ($order->status->id == 3)
+                                                                <button type="button"
+                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
+                                                                    Feedback
+                                                                </button>
+                                                            @endif
+                                                            @if ($order->status->id == 1)
+                                                                <button type="button"
+                                                                    class="btn btn-gray mx-2 btn-sm rounded">
+                                                                    Request Return/Refund
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -271,272 +208,126 @@
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
                                     <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
+                                        @foreach ($orders as $order)
+                                            @if ($order->status->id == 2)
+                                                <div class="item mb-3 p-3 bg-white border-bottom">
+                                                    @foreach ($order->products as $product)
+                                                        @php
+                                                            $productDetail = \App\Models\Product::where(
+                                                                'id',
+                                                                $product['product_id'],
+                                                            )->first();
+                                                        @endphp
+                                                        <div class="d-flex align-items-center my-1">
+                                                            <div
+                                                                class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
+                                                                <img src="{{ asset('assets/images/products/' . $productDetail->images->first()->image) }}"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="font-weight-bold col-md-9">
+                                                                <div class="text-truncate">
+                                                                    {{ strtoupper($productDetail->name) }}</div>
+                                                                <div class="row small">
+                                                                    <div class="col-1">Category:</div>
+                                                                    <div class="col">
+                                                                        <a href="{{ route('shopSubCategory', ['category' => $productDetail->subCategory->category->slug, 'subCategory' => $productDetail->subCategory->slug]) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->name }}</a>,
+                                                                        <a href="{{ route('shopCategory', $productDetail->subCategory->category->slug) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->category->name }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="small">x{{ $product['quantity'] }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    <div
+                                                        class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
+                                                        <p class="status-order text-success d-flex align-items-center m-0">
+                                                            {{ $order->status->name }}</p>
+                                                        </p>
+                                                        <div class="action-box">
+                                                            @if ($order->status->id == 3)
+                                                                <button type="button"
+                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
+                                                                    Feedback
+                                                                </button>
+                                                            @endif
+                                                            @if ($order->status->id == 1)
+                                                                <button type="button"
+                                                                    class="btn btn-gray mx-2 btn-sm rounded">
+                                                                    Request Return/Refund
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-delivery" role="tabpanel" aria-labelledby="nav-delivery-tab">
-                        <div class="row m-1 mb-5">
-                            <div class="col p-0 m-0">
-                                <div class="box shadow-sm rounded mb-3 p-0">
-                                    <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div> 
                     <div class="tab-pane fade" id="nav-completed" role="tabpanel" aria-labelledby="nav-completed-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
                                     <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
+                                        @foreach ($orders as $order)
+                                            @if ($order->status->id == 3)
+                                                <div class="item mb-3 p-3 bg-white border-bottom">
+                                                    @foreach ($order->products as $product)
+                                                        @php
+                                                            $productDetail = \App\Models\Product::where(
+                                                                'id',
+                                                                $product['product_id'],
+                                                            )->first();
+                                                        @endphp
+                                                        <div class="d-flex align-items-center my-1">
+                                                            <div
+                                                                class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
+                                                                <img src="{{ asset('assets/images/products/' . $productDetail->images->first()->image) }}"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="font-weight-bold col-md-9">
+                                                                <div class="text-truncate">
+                                                                    {{ strtoupper($productDetail->name) }}</div>
+                                                                <div class="row small">
+                                                                    <div class="col-1">Category:</div>
+                                                                    <div class="col">
+                                                                        <a href="{{ route('shopSubCategory', ['category' => $productDetail->subCategory->category->slug, 'subCategory' => $productDetail->subCategory->slug]) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->name }}</a>,
+                                                                        <a href="{{ route('shopCategory', $productDetail->subCategory->category->slug) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->category->name }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="small">x{{ $product['quantity'] }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    <div
+                                                        class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
+                                                        <p class="status-order text-success d-flex align-items-center m-0">
+                                                            {{ $order->status->name }}</p>
+                                                        </p>
+                                                        <div class="action-box">
+                                                            @if ($order->status->id == 3)
+                                                                <button type="button"
+                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
+                                                                    Feedback
+                                                                </button>
+                                                            @endif
+                                                            @if ($order->status->id == 1)
+                                                                <button type="button"
+                                                                    class="btn btn-gray mx-2 btn-sm rounded">
+                                                                    Request Return/Refund
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -547,88 +338,61 @@
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
                                     <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
+                                        @foreach ($orders as $order)
+                                            @if ($order->status->id == 4)
+                                                <div class="item mb-3 p-3 bg-white border-bottom">
+                                                    @foreach ($order->products as $product)
+                                                        @php
+                                                            $productDetail = \App\Models\Product::where(
+                                                                'id',
+                                                                $product['product_id'],
+                                                            )->first();
+                                                        @endphp
+                                                        <div class="d-flex align-items-center my-1">
+                                                            <div
+                                                                class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
+                                                                <img src="{{ asset('assets/images/products/' . $productDetail->images->first()->image) }}"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="font-weight-bold col-md-9">
+                                                                <div class="text-truncate">
+                                                                    {{ strtoupper($productDetail->name) }}</div>
+                                                                <div class="row small">
+                                                                    <div class="col-1">Category:</div>
+                                                                    <div class="col">
+                                                                        <a href="{{ route('shopSubCategory', ['category' => $productDetail->subCategory->category->slug, 'subCategory' => $productDetail->subCategory->slug]) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->name }}</a>,
+                                                                        <a href="{{ route('shopCategory', $productDetail->subCategory->category->slug) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->category->name }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="small">x{{ $product['quantity'] }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    <div
+                                                        class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
+                                                        <p class="status-order text-success d-flex align-items-center m-0">
+                                                            {{ $order->status->name }}</p>
+                                                        </p>
+                                                        <div class="action-box">
+                                                            @if ($order->status->id == 3)
+                                                                <button type="button"
+                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
+                                                                    Feedback
+                                                                </button>
+                                                            @endif
+                                                            @if ($order->status->id == 1)
+                                                                <button type="button"
+                                                                    class="btn btn-gray mx-2 btn-sm rounded">
+                                                                    Request Return/Refund
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -639,88 +403,61 @@
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
                                     <div class="box-body p-0">
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
+                                        @foreach ($orders as $order)
+                                            @if ($order->status->id == 5)
+                                                <div class="item mb-3 p-3 bg-white border-bottom">
+                                                    @foreach ($order->products as $product)
+                                                        @php
+                                                            $productDetail = \App\Models\Product::where(
+                                                                'id',
+                                                                $product['product_id'],
+                                                            )->first();
+                                                        @endphp
+                                                        <div class="d-flex align-items-center my-1">
+                                                            <div
+                                                                class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
+                                                                <img src="{{ asset('assets/images/products/' . $productDetail->images->first()->image) }}"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="font-weight-bold col-md-9">
+                                                                <div class="text-truncate">
+                                                                    {{ strtoupper($productDetail->name) }}</div>
+                                                                <div class="row small">
+                                                                    <div class="col-1">Category:</div>
+                                                                    <div class="col">
+                                                                        <a href="{{ route('shopSubCategory', ['category' => $productDetail->subCategory->category->slug, 'subCategory' => $productDetail->subCategory->slug]) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->name }}</a>,
+                                                                        <a href="{{ route('shopCategory', $productDetail->subCategory->category->slug) }}"
+                                                                            class="category-product px-1">{{ $productDetail->subCategory->category->name }}</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="small">x{{ $product['quantity'] }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                    <div
+                                                        class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
+                                                        <p class="status-order text-success d-flex align-items-center m-0">
+                                                            {{ $order->status->name }}</p>
+                                                        </p>
+                                                        <div class="action-box">
+                                                            @if ($order->status->id == 3)
+                                                                <button type="button"
+                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
+                                                                    Feedback
+                                                                </button>
+                                                            @endif
+                                                            @if ($order->status->id == 1)
+                                                                <button type="button"
+                                                                    class="btn btn-gray mx-2 btn-sm rounded">
+                                                                    Request Return/Refund
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item mb-3 p-3 bg-white border-bottom">
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center my-1">
-                                                <div
-                                                    class="dropdown-list-image me-3 d-flex align-items-center justify-content-center ">
-                                                    <img src="https://down-vn.img.susercontent.com/file/6130f482c68c505ae53cdade105e43d6_tn"
-                                                        alt="">
-                                                </div>
-                                                <div class="font-weight-bold">
-                                                    <div class="text-truncate">DAILY RUNDOWN: MONDAY</div>
-                                                    <div class="small">Nunc purus metus, aliquam vitae venenatis
-                                                        sit amet, porta non est.</div>
-                                                    <div class="small">x1</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="d-flex align-items-center border-top mt-4 justify-content-between pt-4">
-                                                <p class="status-order text-success d-flex align-items-center m-0">Waiting
-                                                    Payment</p>
-                                                <div class="action-box">
-                                                    <button type="button" class="btn btn-secondary mx-2 btn-sm rounded">
-                                                        Feedback
-                                                    </button>
-                                                    <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                        Request Return/Refund
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

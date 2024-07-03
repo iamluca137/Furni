@@ -63,8 +63,4 @@ class AuthController extends Controller
         return view('user.setting');
     }
 
-    public function purchase()
-    {
-        return view('user.purchase');
-    }
 }

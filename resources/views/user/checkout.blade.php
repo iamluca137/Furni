@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-6 mb-5 mb-md-0 ps-0">
                     <h2 class="h3 mb-3 text-black">Billing Details</h2>
-                    <form method="post" action="{{ route('paypal') }}">
+                    <form method="post" action="{{ route('checkoutPost') }}">
                         @csrf
                         <div class="p-3 p-lg-5 border bg-white">
                             <div class="form-group mb-3">
@@ -82,15 +82,35 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group mb-5">
+                            <div class="form-group mb-3">
                                 <label for="c_order_notes" class="text-black">Order Notes</label>
                                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"></textarea>
                             </div>
-                            <div class="form-group text-center d-flex justify-content-center">
+                            <div class="form-group">
+                                <label class="text-black pb-2">Payment Method <span class="text-danger">*</span></label>
+
+                                <div class="border p-2 d-flex align-items-center border-bottom-0">
+                                    <input class="form-check-input m-0" type="radio" name="c_payment_method"
+                                        id="payment_method_direct" value="direct">
+                                    <label for="payment_method_direct">Direct Bank Transfer</label>
+                                </div>
+
+                                <div class="border p-2 d-flex align-items-center">
+                                    <input class="form-check-input m-0" type="radio" name="c_payment_method"
+                                        id="payment_method_paypal" value="paypal">
+                                    <label for="payment_method_paypal">Paypal</label>
+                                </div>
+                                @error('c_payment_method')
+                                    <div class="mt-1 text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group text-center d-flex justify-content-center mt-5">
                                 <button type="submit"
                                     class="btn btn-secondary px-5 rounded btn-sm fs-6 py-3 btn-block text-center d-flex align-items-center">
-                                    <span class="pe-1">Pay With</span>
-                                    <img src="{{ asset('assets/images/generals/PayPal.png') }}" width="100px">
+                                    <span class="pe-1">
+                                        Complete Order
+                                    </span>
                                 </button>
                             </div>
                         </div>

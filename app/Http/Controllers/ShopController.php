@@ -24,6 +24,7 @@ class ShopController extends Controller
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)->first();
         $cartProducts = CartProduct::where('cart_id', $cart->id)->get();
+        // dd($cartProducts);
         return view('user.cart', compact('cartProducts'));
     }
 
@@ -80,11 +81,14 @@ class ShopController extends Controller
 
     public function checkout()
     {
-        return view('user.checkout');
-    }
-
-    public function thankyou()
-    {
-        return view('user.thankyou');
+        $user = auth()->user();
+        $cart = Cart::where('user_id', $user->id)->first();
+        $cartProducts = CartProduct::where('cart_id', $cart->id)->get();
+        // check if cart is empty
+        if ($cartProducts->count() == 0) {
+            return redirect()->route('cart');
+        } else {
+            return view('user.checkout', compact('cartProducts'));
+        }
     }
 }

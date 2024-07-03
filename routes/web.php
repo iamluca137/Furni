@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
@@ -44,9 +45,11 @@ Route::post('change-password/{token}', [AuthController::class, 'changePasswordPo
 
 Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
 Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');
-Route::get('user/purchase', [AuthController::class, 'purchase'])->name('purchase');
 
-Route::post('paypal', [PaymentController::class, 'paypal'])->name('paypal');
+// Route::get('user/orders', [PurchaseController::class, 'orders'])->name('orders');
+Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
+
+Route::post('checkoutPost', [PaymentController::class, 'checkoutPost'])->name('checkoutPost');
 Route::get('success', [PaymentController::class, 'success'])->name('success');
 Route::get('cancel', [PaymentController::class, 'cancel'])->name('cancel');
 

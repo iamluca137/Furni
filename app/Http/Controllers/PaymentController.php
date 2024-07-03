@@ -15,7 +15,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaymentController extends Controller
 {
-    public function paypal(Request $request)
+    public function checkoutPost(Request $request)
     {
         $request->validate([
             'c_fname' => 'required',
@@ -23,6 +23,7 @@ class PaymentController extends Controller
             'c_city' => 'required',
             'c_email' => 'required|email',
             'c_phone' => 'required|regex:/(0)[0-9]{9}/',
+            'c_payment_method' => 'required',
         ], [
             'c_fname.required' => 'First name is required',
             'c_address.required' => 'Address is required',
@@ -31,6 +32,7 @@ class PaymentController extends Controller
             'c_email.email' => 'Email is invalid',
             'c_phone.required' => 'Phone is required',
             'c_phone.regex' => 'Phone is invalid',
+            'c_payment_method.required' => 'Payment method is required',
         ]);
 
         $user = auth()->user();
@@ -53,6 +55,7 @@ class PaymentController extends Controller
         $total = sprintf("%.2f", $subTotal - $discount);
         // data for checkout
         $dataCheckout = [
+            'c_payment_method' => $request->c_payment_method, // 'paypal' or 'direct
             'c_country' => $request->c_country,
             'c_fname' => $request->c_fname,
             'c_lname' => $request->c_lname,
@@ -71,63 +74,118 @@ class PaymentController extends Controller
 
         session()->put('dataCheckout', $dataCheckout);
 
-        $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
-        $provider->getAccessToken();
-        $response = $provider->createOrder([
-            "intent" => "CAPTURE",
-            "application_context" => [
-                "return_url" => route('success'),
-                "cancel_url" => route('cancel')
-            ],
-            "purchase_units" => [
-                [
-                    "amount" => [
-                        "currency_code" => "USD",
-                        "value" => $total
+        // Check payment method
+        if ($request->c_payment_method == 'paypal') {
+            $provider = new PayPalClient;
+            $provider->setApiCredentials(config('paypal'));
+            $provider->getAccessToken();
+            $response = $provider->createOrder([
+                "intent" => "CAPTURE",
+                "application_context" => [
+                    "return_url" => route('success'),
+                    "cancel_url" => route('cancel')
+                ],
+                "purchase_units" => [
+                    [
+                        "amount" => [
+                            "currency_code" => "USD",
+                            "value" => $total
+                        ]
                     ]
                 ]
-            ]
-        ]);
+            ]);
 
-        // dd($response);
+            // dd($response);
 
-        if (isset($response['id']) && $response['id'] != null) {
-            foreach ($response['links'] as $link) {
-                if ($link['rel'] == 'approve') {
-                    return redirect()->away($link['href']);
+            if (isset($response['id']) && $response['id'] != null) {
+                foreach ($response['links'] as $link) {
+                    if ($link['rel'] == 'approve') {
+                        return redirect()->away($link['href']);
+                    }
                 }
+            } else {
+                return redirect()->back()->with('errorCheckout', 'Something went wrong');
             }
         } else {
-            return redirect()->back()->with('errorCheckout', 'Something went wrong');
+            // Payment method = direct
+            // redirect route success
+            return redirect()->route('success');
         }
     }
 
     public function success(Request $request)
     {
-        $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
-        $provider->getAccessToken();
-        $response = $provider->capturePaymentOrder($request->token);
-        // dd($response);
-
         $dataCheckout = session()->get('dataCheckout');
         // dd($dataCheckout);
-        if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            // Insert data into database 
-            //payment_id	amount	payer_name	payer_email	payment_status	payment_method 	
-            $payment = new Payment();
-            $payment->payment_id = $response['id'];
-            $payment->amount = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
-            $payment->payer_name = $response['payer']['name']['given_name'];
-            $payment->payer_email = $response['payer']['email_address'];
-            $payment->payment_status = $response['status'];
-            $payment->payment_method = "PayPal";
-            $payment->save();
+        // Check payment method
+        if ($dataCheckout['c_payment_method'] == 'paypal') {
+            $provider = new PayPalClient;
+            $provider->setApiCredentials(config('paypal'));
+            $provider->getAccessToken();
+            $response = $provider->capturePaymentOrder($request->token);
+            // dd($response);
+            if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+                // Insert data into database 
+                //payment_id	amount	payer_name	payer_email	payment_status	payment_method 	
+                $payment = new Payment();
+                $payment->payment_id = $response['id'];
+                $payment->amount = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
+                $payment->payer_name = $response['payer']['name']['given_name'];
+                $payment->payer_email = $response['payer']['email_address'];
+                $payment->payment_status = $response['status'];
+                $payment->payment_method = "PayPal";
+                $payment->save();
 
+                $order = [
+                    'order_status_id' => 1,
+                    'payment_method' => 'PayPal', // 'paypal' or 'direct
+                    'payment_id' => $payment->payment_id,
+                    'user_id' => auth()->user()->id,
+                    'discount' => $dataCheckout['discount'],
+                    'total_amount' => $dataCheckout['total'],
+                    'country' => $dataCheckout['c_country'],
+                    'city' => $dataCheckout['c_city'],
+                    'first_name' => $dataCheckout['c_fname'],
+                    'last_name' => $dataCheckout['c_lname'],
+                    'address' => $dataCheckout['c_address'],
+                    'zip_code' => $dataCheckout['c_postal_zip'],
+                    'phone' => $dataCheckout['c_phone'],
+                    'email' => $dataCheckout['c_email'],
+                    'note' => $dataCheckout['c_order_notes'],
+                ];
+
+                $order = Order::create($order);
+                // update coupon quantity
+                if ($dataCheckout['coupon']) {
+                    $coupon = Coupon::where('code', $dataCheckout['coupon'])->first();
+                    $coupon->quantity -= 1;
+                    $coupon->save();
+                    // remove discount from cache
+                    Cache::forget('discount');
+                }
+
+                foreach ($dataCheckout['cartProducts'] as $cartProduct) {
+                    $orderProduct = [
+                        'order_id' => $order->id,
+                        'product_id' => $cartProduct->product_id,
+                        'quantity' => $cartProduct->quantity,
+                    ];
+                    OrderProduct::create($orderProduct);
+                    $cartProduct->delete();
+                    // Update quantity in stock
+                    $product = Product::find($cartProduct->product_id);
+                    $product->quantity -= $cartProduct->quantity;
+                    $product->save();
+                }
+                return view('user.thankyou');
+            } else {
+                return redirect()->route('cancel');
+            }
+        } else {
             $order = [
                 'order_status_id' => 1,
-                'payment_id' => $payment->payment_id,
+                'payment_method' => 'Direct', // 'paypal' or 'direct
+                'payment_id' => null,
                 'user_id' => auth()->user()->id,
                 'discount' => $dataCheckout['discount'],
                 'total_amount' => $dataCheckout['total'],
@@ -165,9 +223,7 @@ class PaymentController extends Controller
                 $product->quantity -= $cartProduct->quantity;
                 $product->save();
             }
-            return redirect()->route('thankyou');
-        } else {
-            return redirect()->route('cancel');
+            return view('user.thankyou');
         }
     }
 
