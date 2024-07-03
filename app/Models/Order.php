@@ -19,11 +19,15 @@ class Order extends Model
         'user_id',
         'discount',
         'total_amount',
-        'fullname',
+        'country',
+        'city',
+        'first_name',
+        'last_name',
         'address',
+        'zip_code',
         'phone',
         'email',
-        'note',
+        'note', 
     ];
 
     public function status()

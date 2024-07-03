@@ -48,7 +48,7 @@ class PaymentController extends Controller
         } else {
             $coupon = null;
             $discount = 0;
-        } 
+        }
 
         $total = sprintf("%.2f", $subTotal - $discount);
         // data for checkout
@@ -126,22 +126,26 @@ class PaymentController extends Controller
             $payment->save();
 
             $order = [
-                'payment_id' => $payment->id,
+                'order_status_id' => 1,
+                'payment_id' => $payment->payment_id,
                 'user_id' => auth()->user()->id,
                 'discount' => $dataCheckout['discount'],
                 'total_amount' => $dataCheckout['total'],
-                'fullname' => $dataCheckout['c_fname'],
+                'country' => $dataCheckout['c_country'],
+                'city' => $dataCheckout['c_city'],
+                'first_name' => $dataCheckout['c_fname'],
+                'last_name' => $dataCheckout['c_lname'],
                 'address' => $dataCheckout['c_address'],
+                'zip_code' => $dataCheckout['c_postal_zip'],
                 'phone' => $dataCheckout['c_phone'],
                 'email' => $dataCheckout['c_email'],
                 'note' => $dataCheckout['c_order_notes'],
-                'order_status_id' => 1,
             ];
 
             $order = Order::create($order);
             // update coupon quantity
             if ($dataCheckout['coupon']) {
-                $coupon = Coupon::where('code', $dataCheckout['coupon']->code)->first();
+                $coupon = Coupon::where('code', $dataCheckout['coupon'])->first();
                 $coupon->quantity -= 1;
                 $coupon->save();
                 // remove discount from cache

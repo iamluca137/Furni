@@ -17,10 +17,14 @@ return new class extends Migration
             $table->unsignedInteger('user_id');
             $table->decimal('discount', 8, 2);
             $table->decimal('total_amount', 8, 2);
-            $table->string('fullname');
+            $table->string('country');
+            $table->string('city');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('address');
-            $table->string('phone');
+            $table->string('zip_code');
             $table->string('email');
+            $table->string('phone');
             $table->string('note')->nullable();
             $table->unsignedInteger('order_status_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

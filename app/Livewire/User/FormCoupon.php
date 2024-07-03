@@ -38,7 +38,7 @@ class FormCoupon extends Component
                 'discount' => $totalDiscount,
             ];
 
-            Cache::put('discount',  $discount, now()->addMinutes(2000));
+            Cache::put('discount',  $discount, now()->addMinutes(60));
 
             return redirect()->back()->with('discount', $discount);
         } else {

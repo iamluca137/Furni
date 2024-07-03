@@ -83,8 +83,8 @@ class ShopController extends Controller
         return view('user.checkout');
     }
 
-    // public function thankyou()
-    // {
-    //     return view('user.thankyou');
-    // }
+    public function thankyou()
+    {
+        return view('user.thankyou');
+    }
 }
