@@ -31,15 +31,16 @@ class Order extends Model
         'note', 
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    } 
+
     public function status()
     {
         return $this->belongsTo(OrderStatus::class, 'order_status_id', 'id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
 
     public function payment()
     {

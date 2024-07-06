@@ -66,7 +66,7 @@
                         <li>
                             <button class="nav-link px-1 link-dark" id="nav-return-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-return" type="button" role="tab" aria-controls="nav-return"
-                                aria-selected="false" >
+                                aria-selected="false" disabled>
                                 Returns/Refunds
                             </button>
                         </li>
@@ -117,18 +117,22 @@
                                                         {{ $order->status->name }}</p>
                                                     </p>
                                                     <div class="action-box">
-                                                        @if ($order->status->id == 3)
-                                                            <button type="button"
-                                                                class="btn btn-secondary mx-2 btn-sm rounded">
-                                                                Feedback
-                                                            </button>
-                                                        @endif
                                                         @if ($order->status->id == 1)
                                                             <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
-                                                                Request Return/Refund
+                                                                Cancel
                                                             </button>
                                                         @endif
-
+                                                        @if ($order->status->id == 3) 
+                                                            <button type="button" class="btn btn-info mx-2 btn-sm rounded">
+                                                                Invoice
+                                                            </button>
+                                                        @endif
+                                                        @if ($order->status->id == 4)
+                                                            <button type="button"
+                                                                class="btn btn-primary mx-2 btn-sm rounded">
+                                                                Buy Again
+                                                            </button>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,16 +185,10 @@
                                                             {{ $order->status->name }}</p>
                                                         </p>
                                                         <div class="action-box">
-                                                            @if ($order->status->id == 3)
-                                                                <button type="button"
-                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
-                                                                    Feedback
-                                                                </button>
-                                                            @endif
                                                             @if ($order->status->id == 1)
                                                                 <button type="button"
                                                                     class="btn btn-gray mx-2 btn-sm rounded">
-                                                                    Request Return/Refund
+                                                                    Cancel
                                                                 </button>
                                                             @endif
                                                         </div>
@@ -245,20 +243,6 @@
                                                         <p class="status-order text-success d-flex align-items-center m-0">
                                                             {{ $order->status->name }}</p>
                                                         </p>
-                                                        <div class="action-box">
-                                                            @if ($order->status->id == 3)
-                                                                <button type="button"
-                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
-                                                                    Feedback
-                                                                </button>
-                                                            @endif
-                                                            @if ($order->status->id == 1)
-                                                                <button type="button"
-                                                                    class="btn btn-gray mx-2 btn-sm rounded">
-                                                                    Request Return/Refund
-                                                                </button>
-                                                            @endif
-                                                        </div>
                                                     </div>
                                                 </div>
                                             @endif
@@ -267,7 +251,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="tab-pane fade" id="nav-completed" role="tabpanel" aria-labelledby="nav-completed-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
@@ -311,16 +295,10 @@
                                                             {{ $order->status->name }}</p>
                                                         </p>
                                                         <div class="action-box">
-                                                            @if ($order->status->id == 3)
+                                                            @if ($order->status->id == 3) 
                                                                 <button type="button"
-                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
-                                                                    Feedback
-                                                                </button>
-                                                            @endif
-                                                            @if ($order->status->id == 1)
-                                                                <button type="button"
-                                                                    class="btn btn-gray mx-2 btn-sm rounded">
-                                                                    Request Return/Refund
+                                                                    class="btn btn-info mx-2 btn-sm rounded">
+                                                                    Invoice
                                                                 </button>
                                                             @endif
                                                         </div>
@@ -376,16 +354,10 @@
                                                             {{ $order->status->name }}</p>
                                                         </p>
                                                         <div class="action-box">
-                                                            @if ($order->status->id == 3)
+                                                            @if ($order->status->id == 4)
                                                                 <button type="button"
-                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
-                                                                    Feedback
-                                                                </button>
-                                                            @endif
-                                                            @if ($order->status->id == 1)
-                                                                <button type="button"
-                                                                    class="btn btn-gray mx-2 btn-sm rounded">
-                                                                    Request Return/Refund
+                                                                    class="btn btn-primary mx-2 btn-sm rounded">
+                                                                    Buy Again
                                                                 </button>
                                                             @endif
                                                         </div>
@@ -398,7 +370,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-return" role="tabpanel" aria-labelledby="nav-return-tab">
+                    {{-- <div class="tab-pane fade" id="nav-return" role="tabpanel" aria-labelledby="nav-return-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">
@@ -441,11 +413,7 @@
                                                             {{ $order->status->name }}</p>
                                                         </p>
                                                         <div class="action-box">
-                                                            @if ($order->status->id == 3)
-                                                                <button type="button"
-                                                                    class="btn btn-secondary mx-2 btn-sm rounded">
-                                                                    Feedback
-                                                                </button>
+                                                            @if ($order->status->id == 3) 
                                                             @endif
                                                             @if ($order->status->id == 1)
                                                                 <button type="button"
@@ -462,7 +430,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
