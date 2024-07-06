@@ -63,4 +63,10 @@ class AuthController extends Controller
         return view('user.setting');
     }
 
+    public function logout()
+    { 
+        auth()->logout();
+        return redirect()->route('home');
+    }
+
 }

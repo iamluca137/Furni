@@ -14,49 +14,53 @@ use App\Http\Controllers\UserController;
 use App\Livewire\User\Checkout;
 use Illuminate\Support\Facades\Route;
 
-// Frontend Routes
+// Pages
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('about', [HomeController::class, 'about'])->name('about');
+Route::get('contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('services', [HomeController::class, 'services'])->name('services');
+
+// Shop Routes
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 Route::get('/shop/{category}', [HomeController::class, 'shopCategory'])->name('shopCategory');
 Route::get('/shop/{category}/{subCategory}', [HomeController::class, 'shopSubCategory'])->name('shopSubCategory');
 Route::get('/product/{slug}', [ShopController::class, 'productDetails'])->name('productDetails');
+
+// Cart Routes
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart');
 Route::post('/cart', [ShopController::class, 'addItemToCart'])->name('addItemToCart');
 Route::get('/cart/{id}/remove', [ShopController::class, 'removeCartItem'])->name('removeCartItem');
+
+// Auth Routes
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'registerPost'])->name('registerPost');
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'loginPost'])->name('loginPost');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('about', [HomeController::class, 'about'])->name('about');
-Route::get('blog', [HomeController::class, 'blog'])->name('blog');
-Route::get('blog/{slug}', [HomeController::class, 'blogDetails'])->name('blogDetails');
-
-Route::get('checkout', [ShopController::class, 'checkout'])->name('checkout');
-Route::post('checkout', [ShopController::class, 'paypal'])->name('paypal');
-
-Route::get('contact', [HomeController::class, 'contact'])->name('contact');
-Route::get('services', [HomeController::class, 'services'])->name('services');
-Route::get('thankyou', [ShopController::class, 'thankyou'])->name('thankyou');
 Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
 Route::post('forgot-password', [AuthController::class, 'forgotPasswordPost'])->name('forgotPasswordPost');
 Route::get('change-password/{token}', [AuthController::class, 'changePassword'])->name('changePassword');
 Route::post('change-password/{token}', [AuthController::class, 'changePasswordPost'])->name('changePasswordPost');
-
 Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
 Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');
 
-// Route::get('user/orders', [PurchaseController::class, 'orders'])->name('orders');
-Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
+// Blog
+Route::get('blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('blog/{slug}', [HomeController::class, 'blogDetails'])->name('blogDetails');
 
+// Checkout
+Route::get('checkout', [ShopController::class, 'checkout'])->name('checkout');
 Route::post('checkoutPost', [PaymentController::class, 'checkoutPost'])->name('checkoutPost');
+Route::get('thankyou', [ShopController::class, 'thankyou'])->name('thankyou');
 Route::get('success', [PaymentController::class, 'success'])->name('success');
 Route::get('cancel', [PaymentController::class, 'cancel'])->name('cancel');
 
-
+// Order 
+Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
 Route::get('/invoice', function () {
     return view('invoice.invoice');
 })->name('invoice');
+
 // Exception Route
 Route::get('/404', function () {
     return view('exception.404');
