@@ -70,9 +70,9 @@
                         <button class="nav-link text-dark active" id="nav-description-tab" data-bs-toggle="tab"
                             data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description"
                             aria-selected="true">Description</button>
-                        <button class="nav-link text-dark" id="nav-review-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
-                            aria-selected="false">Review
+                        <button class="nav-link text-dark" id="nav-related-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-related" type="button" role="tab" aria-controls="nav-related"
+                            aria-selected="false">Related Product
                             (0)</button>
                     </div>
                 </nav>
@@ -99,99 +99,45 @@
                             <div class="col">L- 450x550cm, M- 330x550cm, S- 220x330cm</div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                        <div class="row box-review mt-4 ms-3 text-dark">
-                            <h3 class="p-0">Review</h3>
-                            <span class="border mb-4 border-dark" style="width: 90px"></span>
-                            <div class="comment mb-4">
-                                <div class="row ">
-                                    <div class="col col-md-1 col-lg-1 ps-0">
-                                        <img src="{{ asset('assets/images/accounts/account-1.png') }}"
-                                            class="rounded-circle" width="50px">
-                                    </div>
-                                    <div class="col col-md-11 col-lg-11 ps-0">
-                                        <form action="#" method="post">
-                                            <div class="mb-3">
-                                                <textarea class="form-control" name="" id="" rows="4"></textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-submit py-2">Post</button>
-                                        </form>
+                    <div class="tab-pane fade" id="nav-related" role="tabpanel" aria-labelledby="nav-related-tab">
+                        <div class="row box-related mt-4 ms-3 text-dark"> 
+                            @if (!empty($relatedProducts))
+                                <div class="related-product p-0">
+                                    <div class="container p-0 mb-4">
+                                        <div class="d-flex justify-content-between">
+                                            @foreach ($relatedProducts as $product)
+                                                <div class="col-12 col-md-4 col-lg-3 mb-5">
+                                                    <div class="col card-pro">
+                                                        <div class="image-related-product">
+                                                            <a href="{{ route('productDetails', $product->slug) }}"
+                                                                class="text-decoration-none">
+                                                                <img src="{{ asset('assets/images/products/' . $product->images->first()->image) }}"
+                                                                    class="card-img-top">
+                                                            </a>
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <a href="{{ route('productDetails', $product->slug) }}"
+                                                                class="text-decoration-none d-flex justify-content-between">
+                                                                <p class="fw-bold m-0 fs-6">{{ $product->name }}</p>
+                                                                <p class="fw-bold m-0 fs-6">${{ $product->price }}</p>
+                                                            </a>
+                                                        </div>
+                                                        <div>
+                                                            <a href="#" class="text-decoration-none">
+                                                                <p>{{ $product->subCategory->name }}</p>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="list-review p-0">
-                                <ul class="p-0">
-                                    @for ($i = 0; $i < 3; $i++)
-                                        <li class="list-item mt-4">
-                                            <div class="row">
-                                                <div class="col col-md-1 col-lg-1">
-                                                    <img src="{{ asset('assets/images/accounts/account-1.png') }}"
-                                                        class="rounded-circle" width="50px">
-                                                </div>
-                                                <div class="col col-md-11 col-lg-11 ps-0">
-                                                    <div class="d-flex justify-content-start">
-                                                        <p class="fw-bold mb-0">Alex CDHSJD</p>
-                                                        <p class="px-2 mb-0">·</p>
-                                                        <p class="mb-0">1h</p>
-                                                    </div>
-                                                    <div class="row">
-                                                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non
-                                                            rerum
-                                                            cum incidunt error. Itaque debitis animi doloribus molestiae, ad
-                                                            dolores.Lorem ipsum dolor, sit amet consectetur adipisicing
-                                                            elit.
-                                                            Non rerum
-                                                            cum incidunt error. Itaque debitis animi doloribus molestiae, ad
-                                                            dolores.
-                                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non
-                                                            rerum
-                                                            cum incidunt error. Itaque debitis animi doloribus molestiae, ad
-                                                            dolores.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    @endfor
-                                </ul>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- @if (!empty($relatedProducts))
-                <div class="related-product">
-                    <h3 class="mb-5 text-dark">Related Product</h3>
-                    <div class="container p-0 mb-4">
-                        <div class="row">
-                            @foreach ($relatedProducts as $product)
-                                <div class="col-12 col-md-4 col-lg-3 mb-5">
-                                    <div class="col card-pro">
-                                        <div class="image-related-product">
-                                            <a href="{{ route('productDetails', $product->slug) }}"
-                                                class="text-decoration-none">
-                                                <img src="{{ asset('assets/images/products/' . $product->images->first()->image) }}"
-                                                    class="card-img-top">
-                                            </a>
-                                        </div>
-                                        <div class="mt-2">
-                                            <a href="{{ route('productDetails', $product->slug) }}"
-                                                class="text-decoration-none d-flex justify-content-between">
-                                                <p class="fw-bold m-0 fs-6">{{ $product->name }}</p>
-                                                <p class="fw-bold m-0 fs-6">${{ $product->price }}</p>
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <a href="#" class="text-decoration-none">
-                                                <p>{{ $product->subCategory->name }}</p>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endif --}}
         </div>
     </div>
 @endsection
