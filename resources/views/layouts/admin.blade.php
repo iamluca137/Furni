@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>@yield('title')</title>
     <!-- CSS files -->
     <link href="{{ asset('assets/css/admin/tabler.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/admin/tabler-flags.css') }}" rel="stylesheet" />
@@ -23,21 +23,23 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
+
+    @livewireStyles
 </head>
 
 <body>
     <script src="{{ asset('assets/js/admin/demo-theme.js') }}"></script>
     <div class="page">
-        <!-- Navbar -->
-        @include('partials.admin.navbar')
-        <!-- End Navbar -->
+        <!-- Header -->
+        <livewire:partials.header-admin />
+
         <div class="page-wrapper">
             <!-- Page body -->
             @yield('content')
             <!-- Footer -->
-            @include('partials.admin.footer')
-            <!-- End Footer -->
+            <livewire:partials.footer-admin />
         </div>
+        
     </div>
 
 
@@ -52,6 +54,8 @@
     <!-- Tabler Core -->
     <script src="{{ asset('assets/js/admin/tabler.js') }}" defer></script>
     <script src="{{ asset('assets/js/admin/demo.js') }}" defer></script>
+
+    @livewireScripts
 </body>
 
 </html>

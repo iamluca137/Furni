@@ -54,6 +54,7 @@ Route::post('checkoutPost', [PaymentController::class, 'checkoutPost'])->name('c
 Route::get('thankyou', [ShopController::class, 'thankyou'])->name('thankyou');
 Route::get('success', [PaymentController::class, 'success'])->name('success');
 Route::get('cancel', [PaymentController::class, 'cancel'])->name('cancel');
+Route::get('/{id}/invoice', [PurchaseController::class, 'invoice'])->name('order.invoice');
 
 // Order 
 Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
@@ -128,4 +129,13 @@ Route::prefix('admin')->group(function () {
         Route::put('/{code}/edit', [CouponController::class, 'update'])->name('admin.coupon.update');
         Route::get('/{code}/delete', [CouponController::class, 'delete'])->name('admin.coupon.delete');
     });
+    // Order Management
+    Route::prefix('order')->group(function () {
+        Route::get('/', [PurchaseController::class, 'index'])->name('admin.order');
+        Route::get('/{id}/edit', [PurchaseController::class, 'edit'])->name('admin.order.edit');
+        Route::put('/{id}/edit', [PurchaseController::class, 'update'])->name('admin.order.update');
+    });
+
+
+    Route::get('/payment', [PurchaseController::class, 'payment'])->name('admin.payment');
 });
