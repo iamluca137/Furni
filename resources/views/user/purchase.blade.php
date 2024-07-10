@@ -36,10 +36,10 @@
                             </button>
                         </li>
                         <li>
-                            <button class="nav-link px-1 link-dark" id="nav-pending-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-pending" type="button" role="tab" aria-controls="nav-pending"
+                            <button class="nav-link px-1 link-dark" id="nav-processing-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-processing" type="button" role="tab" aria-controls="nav-processing"
                                 aria-selected="false">
-                                Pending
+                                Processing
                             </button>
                         </li>
                         <li>
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-pending" role="tabpanel" aria-labelledby="nav-pending-tab">
+                    <div class="tab-pane fade" id="nav-processing" role="tabpanel" aria-labelledby="nav-processing-tab">
                         <div class="row m-1 mb-5">
                             <div class="col p-0 m-0">
                                 <div class="box shadow-sm rounded mb-3 p-0">

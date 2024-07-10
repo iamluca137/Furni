@@ -72,7 +72,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-6">
-                                    <p class="h3">Company</p>
+                                    <p class="h3 fw-bold">Store Address</p>
                                     <address>
                                         Street Address<br />
                                         State, City<br />
@@ -81,16 +81,19 @@
                                     </address>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <p class="h3">Client</p>
+                                    <p class="h3 fw-bold">Customer Address</p>
                                     <address>
-                                        Street Address<br />
-                                        State, City<br />
-                                        Region, Postal Code<br />
-                                        ctr@example.com
+                                        {{ $invoice->address }}<br />
+                                        {{ $invoice->city }}<br />
+                                        {{ $invoice->country }}<br />
+                                        {{ $invoice->email }}
                                     </address>
                                 </div>
                                 <div class="col-12 my-5">
-                                    <h1>Invoice INV/001/15</h1>
+                                    <h1 class="mb-1">Invoice {{ $invoice->invoice_id }}</h1>
+                                    <h3>
+                                        {{ $invoice->date }}
+                                    </h3>
                                 </div>
                             </div>
                             <table class="table table-transparent table-responsive">

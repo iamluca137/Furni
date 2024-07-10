@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
@@ -58,9 +59,7 @@ Route::get('/{id}/invoice', [PurchaseController::class, 'invoice'])->name('order
 
 // Order 
 Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
-Route::get('/invoice', function () {
-    return view('invoice.invoice');
-})->name('invoice');
+Route::get('/invoice/{id}', [OrderController::class, 'invoice'])->name('invoice');
 
 // Exception Route
 Route::get('/404', function () {
@@ -131,9 +130,9 @@ Route::prefix('admin')->group(function () {
     });
     // Order Management
     Route::prefix('order')->group(function () {
-        Route::get('/', [PurchaseController::class, 'index'])->name('admin.order');
-        Route::get('/{id}/edit', [PurchaseController::class, 'edit'])->name('admin.order.edit');
-        Route::put('/{id}/edit', [PurchaseController::class, 'update'])->name('admin.order.update');
+        Route::get('/', [OrderController::class, 'index'])->name('admin.order');
+        Route::get('/{id}/edit', [OrderController::class, 'edit'])->name('admin.order.edit');
+        Route::put('/{id}/edit', [OrderController::class, 'update'])->name('admin.order.update');
     });
 
 

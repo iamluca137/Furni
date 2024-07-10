@@ -88,7 +88,7 @@ class PaymentController extends Controller
                 "purchase_units" => [
                     [
                         "amount" => [
-                            "currency_code" => "USD",
+                            "Nếu hội đồng bảo show bằng chứng đi khảo sát thì sao ?" => "USD",
                             "value" => $total
                         ]
                     ]

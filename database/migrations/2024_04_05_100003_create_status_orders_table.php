@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
-            // Pending (Xử lý đơn hàng)
+            // Processing (Xử lý đơn hàng)
             // Shipping (Đang giao hàng)
             // Completed (Hoàn thành)
             // Cancelled (Đã hủy)

@@ -46,4 +46,9 @@ class Order extends Model
     {
         return $this->belongsTo(Payment::class, 'payment_id', 'payment_id');
     }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class, 'order_id', 'id');
+    }
 }

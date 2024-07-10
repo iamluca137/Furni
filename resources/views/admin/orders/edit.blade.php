@@ -138,32 +138,30 @@
                                     <div class="row row-cards">
                                         <div class="row mt-3">
                                             <div class="col-3 fw-bold">Payment Method:</div>
-                                            <div class="col">PayPal</div>
+                                            <div class="col">{{ $order->payment_method }}</div>
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-3 fw-bold">ID Payment:</div>
-                                            <div class="col">43KJJFD833</div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-3 fw-bold">ID Payment:</div>
-                                            <div class="col">43KJJFD833</div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-3 fw-bold">Amount:</div>
-                                            <div class="col">$500</div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-3 fw-bold">Name:</div>
-                                            <div class="col">Luca Jvan</div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-3 fw-bold">Email:</div>
-                                            <div class="col">Blackwhilee04@gmail.com</div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-3 fw-bold">Date:</div>
-                                            <div class="col">13/07/2024</div>
-                                        </div>
+                                        @if ($payment)
+                                            <div class="row mt-3">
+                                                <div class="col-3 fw-bold">ID Payment:</div>
+                                                <div class="col">{{ $payment->payment_id }}</div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-3 fw-bold">Amount:</div>
+                                                <div class="col">${{ $payment->amount }}</div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-3 fw-bold">Name:</div>
+                                                <div class="col">{{ $payment->payer_name }}</div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-3 fw-bold">Email:</div>
+                                                <div class="col">{{ $payment->payer_email }}</div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-3 fw-bold">Date:</div>
+                                                <div class="col">{{ $payment->created_at }}</div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -183,22 +181,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex py-1 align-items-center">
-                                                            <span class="avatar me-2"
-                                                                style="background-image: url(http://127.0.0.1:8000/assets/images/products/8.png)">
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                    <td>Bradley Larson </td>
-                                                    <td>
-                                                        74
-                                                    </td>
-                                                    <td>
-                                                        $765
-                                                    </td>
-                                                </tr>
+                                                @foreach ($orderProducts as $orderProduct)
+                                                    @php
+                                                        $product = App\Models\Product::find($orderProduct->product_id);
+                                                    @endphp
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex py-1 align-items-center">
+                                                                <span class="avatar me-2"
+                                                                    style="background-image: url({{ asset('assets/images/products/' . $product->images->first()->image) }})">
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ $product->name }}</td>
+                                                        <td>
+                                                            {{ $orderProduct->quantity }}
+                                                        </td>
+                                                        <td>
+                                                            ${{ $orderProduct->quantity * $product->price }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -219,26 +222,36 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Georgette Turcotte <strong class="mx-2">x</strong>
-                                                    1</td>
-                                                <td>$410.73</td>
-                                            </tr>
+                                            @php
+                                                $subTotal = 0;
+                                            @endphp
+                                            @foreach ($orderProducts as $orderProduct)
+                                                @php
+                                                    $product = App\Models\Product::find($orderProduct->product_id);
+                                                    $subTotal += $orderProduct->quantity * $product->price;
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $product->name }} <strong class="mx-2">x</strong>
+                                                        {{ $orderProduct->quantity }}</td>
+                                                    <td>${{ $orderProduct->quantity * $product->price }}</td>
+                                                </tr>
+                                            @endforeach
+
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Order Subtotal</strong>
                                                 </td>
-                                                <td class="text-black">$410.73</td>
+                                                <td class="text-black">${{ $subTotal }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Discount</strong></td>
                                                 <td class="text-black i_discount">
-                                                    $0
+                                                    ${{ $order->discount }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
                                                 <td class="text-black font-weight-bold">
-                                                    <strong>$410.73</strong>
+                                                    <strong>${{ $order->total_amount }}</strong>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -257,7 +270,11 @@
                                         <div class="col">
                                             <div class="mb-3 me-3">
                                                 <select class="form-select" name="status">
-                                                    <option value="GGG">GGG</option>
+                                                    @foreach ($statuses as $status)
+                                                        <option value="{{ $status->id }}"
+                                                            {{ $status->id == $order->order_status_id ? 'selected' : '' }}>
+                                                            {{ $status->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             @error('status')

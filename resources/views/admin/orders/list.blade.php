@@ -36,7 +36,7 @@
                     <h2 class="page-title">
                         Orders
                     </h2>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -69,7 +69,7 @@
                                             <td>{{ $order->payment_method }} </td>
                                             <td>
                                                 @if ($order->order_status_id == 1)
-                                                    <span class="badge bg-lime me-1"></span> Pending
+                                                    <span class="badge bg-lime me-1"></span> Processing
                                                 @elseif ($order->order_status_id == 2)
                                                     <span class="badge bg-yellow me-1"></span> Shipping
                                                 @elseif ($order->order_status_id == 3)
@@ -94,15 +94,17 @@
                                                     <div class="dropdown-menu dropdown-menu-end">
                                                         <a class="dropdown-item text-info"
                                                             href="{{ route('admin.order.edit', $order->id) }}">
-                                                            Update  
+                                                            Update
                                                         </a>
-                                                        <a class="dropdown-item text-warning"
-                                                            href="{{ route('order.invoice', $order->id) }}">
-                                                            Invoice
-                                                        </a>
-                                                    </div> 
+                                                        @if ($order->order_status_id == 3)
+                                                            <a class="dropdown-item text-warning"
+                                                                href="{{ route('invoice', $order->id) }}">
+                                                                Invoice
+                                                            </a>
+                                                        @endif
+                                                    </div>
                                                 </span>
-                                            </td>	
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
