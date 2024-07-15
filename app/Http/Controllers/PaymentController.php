@@ -231,4 +231,16 @@ class PaymentController extends Controller
     {
         return redirect()->route('checkout');
     }
+
+    public function index()
+    {
+        $payments = Payment::orderBy('id', 'desc')->paginate(10);
+        return view('admin.payments.index', compact('payments'));
+    }
+
+    public function show($id)
+    {
+        $payment = Payment::find($id);
+        return view('admin.payments.detail', compact('payment'));
+    }
 }

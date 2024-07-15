@@ -16,6 +16,12 @@
         background-color: #e5f7f0;
         border-color: #d8f7eb;
     }
+
+    .modalCenter {
+        top: 50% !important;
+        transform: translateY(-25%) !important;
+
+    }
 </style>
 @section('content')
     <div class="container mb-5">
@@ -37,8 +43,8 @@
                         </li>
                         <li>
                             <button class="nav-link px-1 link-dark" id="nav-processing-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-processing" type="button" role="tab" aria-controls="nav-processing"
-                                aria-selected="false">
+                                data-bs-target="#nav-processing" type="button" role="tab"
+                                aria-controls="nav-processing" aria-selected="false">
                                 Processing
                             </button>
                         </li>
@@ -118,21 +124,16 @@
                                                     </p>
                                                     <div class="action-box">
                                                         @if ($order->status->id == 1)
-                                                            <button type="button" class="btn btn-gray mx-2 btn-sm rounded">
+                                                            <a href="{{ route('order.cancel', $order->id) }}"
+                                                                class="btn btn-gray mx-2 btn-sm rounded">
                                                                 Cancel
-                                                            </button>
+                                                            </a>
                                                         @endif
-                                                        @if ($order->status->id == 3) 
-                                                            <button type="button" class="btn btn-info mx-2 btn-sm rounded">
+                                                        @if ($order->status->id == 3)
+                                                            <a href="#" class="btn btn-info mx-2 btn-sm rounded">
                                                                 Invoice
-                                                            </button>
-                                                        @endif
-                                                        @if ($order->status->id == 4)
-                                                            <button type="button"
-                                                                class="btn btn-primary mx-2 btn-sm rounded">
-                                                                Buy Again
-                                                            </button>
-                                                        @endif
+                                                            </a>
+                                                        @endif 
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,10 +187,10 @@
                                                         </p>
                                                         <div class="action-box">
                                                             @if ($order->status->id == 1)
-                                                                <button type="button"
+                                                                <a href="{{ route('order.cancel', $order->id) }}"
                                                                     class="btn btn-gray mx-2 btn-sm rounded">
                                                                     Cancel
-                                                                </button>
+                                                                </a>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -295,7 +296,7 @@
                                                             {{ $order->status->name }}</p>
                                                         </p>
                                                         <div class="action-box">
-                                                            @if ($order->status->id == 3) 
+                                                            @if ($order->status->id == 3)
                                                                 <button type="button"
                                                                     class="btn btn-info mx-2 btn-sm rounded">
                                                                     Invoice
@@ -353,13 +354,7 @@
                                                         <p class="status-order text-success d-flex align-items-center m-0">
                                                             {{ $order->status->name }}</p>
                                                         </p>
-                                                        <div class="action-box">
-                                                            @if ($order->status->id == 4)
-                                                                <button type="button"
-                                                                    class="btn btn-primary mx-2 btn-sm rounded">
-                                                                    Buy Again
-                                                                </button>
-                                                            @endif
+                                                        <div class="action-box"> 
                                                         </div>
                                                     </div>
                                                 </div>

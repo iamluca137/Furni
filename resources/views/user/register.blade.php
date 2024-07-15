@@ -94,7 +94,6 @@
                 <script type="text/javascript">
                     $(window).on('load', function() {
                         // click button to show modal
-                        console.log(123);
                         $('.exampleModal').modal('show');
                     });
                 </script>

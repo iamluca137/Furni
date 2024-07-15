@@ -8,7 +8,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\OrderStatus;
 use App\Models\Payment;
-use App\Models\Product; 
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -69,5 +69,13 @@ class OrderController extends Controller
     {
         $invoice = Invoice::where('order_id', $id)->first();
         return view('invoice.invoice', compact('invoice'));
+    }
+
+    public function cancel($id)
+    {
+        $order = Order::find($id);
+        $order->order_status_id = 4;
+        $order->save();
+        return redirect()->back()->with('success', 'Order has been cancelled');
     }
 }

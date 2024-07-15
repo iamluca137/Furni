@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CreditController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
@@ -60,6 +61,7 @@ Route::get('/{id}/invoice', [PurchaseController::class, 'invoice'])->name('order
 // Order 
 Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
 Route::get('/invoice/{id}', [OrderController::class, 'invoice'])->name('invoice');
+Route::get('/order/{id}/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
 
 // Exception Route
 Route::get('/404', function () {
@@ -134,7 +136,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/{id}/edit', [OrderController::class, 'edit'])->name('admin.order.edit');
         Route::put('/{id}/edit', [OrderController::class, 'update'])->name('admin.order.update');
     });
-
-
-    Route::get('/payment', [PurchaseController::class, 'payment'])->name('admin.payment');
+    // Payment Management
+    Route::prefix('payment')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('admin.payment');
+        Route::get('/{id}', [PaymentController::class, 'show'])->name('admin.payment.show');
+    }); 
 });
