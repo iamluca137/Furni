@@ -63,6 +63,9 @@ Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purc
 Route::get('/invoice/{id}', [OrderController::class, 'invoice'])->name('invoice');
 Route::get('/order/{id}/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
 
+// Chat
+Route::get('chat', [HomeController::class, 'chat'])->name('chat');
+
 // Exception Route
 Route::get('/404', function () {
     return view('exception.404');
