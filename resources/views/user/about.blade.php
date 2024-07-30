@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'About')
 @section('content')
     <!-- Start Hero Section -->
     <div class="hero">

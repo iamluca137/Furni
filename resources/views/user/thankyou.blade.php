@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', 'Thank You!')
 @section('content')
     <div class="untree_co-section">
         <div class="container">
@@ -15,7 +16,7 @@
                     </span>
                     <h2 class="display-3 text-black">Thank you!</h2>
                     <p class="lead mb-5">You order was successfuly completed.</p>
-                    <p><a href="shop.html" class="btn btn-sm btn-outline-black">Back to shop</a></p>
+                    <p><a href="{{ route('shop') }}" class="btn btn-sm btn-outline-black">Back to shop</a></p>
                 </div>
             </div>
         </div>

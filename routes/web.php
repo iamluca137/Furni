@@ -1,55 +1,68 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
+use App\Livewire\User\Checkout;
 use Illuminate\Support\Facades\Route;
 
+// Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [HomeController::class, 'shop'])->name('shop');
 Route::get('/shop/{category}', [HomeController::class, 'shopCategory'])->name('shopCategory');
 Route::get('/shop/{category}/{subCategory}', [HomeController::class, 'shopSubCategory'])->name('shopSubCategory');
 Route::get('/product/{slug}', [ShopController::class, 'productDetails'])->name('productDetails');
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart');
+Route::post('/cart', [ShopController::class, 'addItemToCart'])->name('addItemToCart');
+Route::get('/cart/{id}/remove', [ShopController::class, 'removeCartItem'])->name('removeCartItem');
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('register', [AuthController::class, 'registerPost'])->name('registerPost');
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'loginPost'])->name('loginPost');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('about', [HomeController::class, 'about'])->name('about');
+Route::get('blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('blog/{slug}', [HomeController::class, 'blogDetails'])->name('blogDetails');
 
-Route::get('/about', function () {
-    return view('user.about');
-})->name('about');
-Route::get('/blog', function () {
-    return view('user.blog');
-})->name('blog');
-Route::get('/checkout', function () {
-    return view('user.checkout');
-})->name('checkout');
-Route::get('/contact', function () {
-    return view('user.contact');
-})->name('contact');
-Route::get('/services', function () {
-    return view('user.services');
-})->name('services');
+Route::get('checkout', [ShopController::class, 'checkout'])->name('checkout');
+Route::post('checkout', [ShopController::class, 'paypal'])->name('paypal');
 
-Route::get('/thankyou', function () {
-    return view('user.thankyou');
-})->name('thankyou');
-Route::get('/login', function () {
-    return view('user.login');
-})->name('login');
-Route::get('/register', function () {
-    return view('user.register');
-})->name('register');
-Route::get('/forgot-password', function () {
-    return view('user.forgot-password');
-})->name('forgot-password');
-Route::get('/reset-password', function () {
-    return view('user.reset-password');
-})->name('reset-password');
+Route::get('contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('services', [HomeController::class, 'services'])->name('services');
+Route::get('thankyou', [ShopController::class, 'thankyou'])->name('thankyou');
+Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgotPassword');
+Route::post('forgot-password', [AuthController::class, 'forgotPasswordPost'])->name('forgotPasswordPost');
+Route::get('change-password/{token}', [AuthController::class, 'changePassword'])->name('changePassword');
+Route::post('change-password/{token}', [AuthController::class, 'changePasswordPost'])->name('changePasswordPost');
 
+Route::get('user/setting', [AuthController::class, 'setting'])->name('setting');
+Route::post('user/setting', [AuthController::class, 'settingUpdate'])->name('settingUpdate');
+
+// Route::get('user/orders', [PurchaseController::class, 'orders'])->name('orders');
+Route::get('user/purchase', [PurchaseController::class, 'purchase'])->name('purchase');
+
+Route::post('checkoutPost', [PaymentController::class, 'checkoutPost'])->name('checkoutPost');
+Route::get('success', [PaymentController::class, 'success'])->name('success');
+Route::get('cancel', [PaymentController::class, 'cancel'])->name('cancel');
 
 
+Route::get('/invoice', function () {
+    return view('invoice.invoice');
+})->name('invoice');
+// Exception Route
+Route::get('/404', function () {
+    return view('exception.404');
+})->name('exception');
+
+// Admin Routes
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');

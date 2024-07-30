@@ -65,8 +65,8 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
-    public function invoices()
+    public function orders()
     {
-        return $this->hasMany(Invoice::class, 'user_id', 'id');
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }

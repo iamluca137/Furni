@@ -15,7 +15,8 @@ class UserController extends Controller
     // List accounts
     public function index()
     {
-        $users = User::paginate(10);
+        // arrage by id desc
+        $users = User::orderBy('id', 'desc')->paginate(10);
         $trashes = User::onlyTrashed()->get();
         return view('admin.accounts.list', compact('users', 'trashes'));
     }
@@ -31,7 +32,7 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => 'required|min:6|max:20|unique:users',
-            'fullname' => 'required|min:6|max:50',
+            'fullname' => 'required|min:2|max:50',
             'email' => 'required|email|unique:users',
             'password' => 'min:6|max:20|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'same:password',
@@ -90,7 +91,7 @@ class UserController extends Controller
                 'max:20',
                 Rule::unique('users')->ignore($user->id)
             ],
-            'fullname' => 'required|min:6|max:50',
+            'fullname' => 'required|min:2|max:50',
             'email' => [
                 'required',
                 'email',
@@ -154,7 +155,7 @@ class UserController extends Controller
 
     public function trash()
     {
-        $trashes = User::onlyTrashed()->paginate(10);
+        $trashes = User::onlyTrashed()->orderBy('id', 'desc')->paginate(10);
         return view('admin.accounts.trash', compact('trashes'));
     }
 
@@ -162,7 +163,7 @@ class UserController extends Controller
     {
         $user = User::onlyTrashed()->find($id);
         if ($user->restore()) {
-            return redirect()->route('admin.account')->with('success', 'Account restored successfully');
+            return redirect()->route('admin.account.trash')->with('success', 'Account restored successfully');
         } else {
             return redirect()->route('admin.account.trash')->with('error', 'Failed to restore account');
         }
@@ -176,7 +177,7 @@ class UserController extends Controller
             if ($user->avatar != "profile.png") {
                 unlink('assets/images/accounts/' . $user->avatar);
             }
-            return redirect()->route('admin.account')->with('success', 'Account deleted permanently');
+            return redirect()->route('admin.account.trash')->with('success', 'Account deleted permanently');
         } else {
             return redirect()->route('admin.account.trash')->with('error', 'Failed to delete account permanently');
         }

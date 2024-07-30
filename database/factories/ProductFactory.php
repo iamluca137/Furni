@@ -19,7 +19,9 @@ class ProductFactory extends Factory
         return [
             'name' => fake()->name(),
             'slug' => fake()->slug(),
-            'price' => fake()->numberBetween(10, 10000),
+            'price' => fake()->randomFloat(2, 11, 1000),
+            // short_description is varchar 255
+            'short_description' =>  fake()->text(255),
             'description' => fake()->text(),
             'quantity' => fake()->numberBetween(1, 100),
             'category_product_id' => fake()->numberBetween(1, 25),

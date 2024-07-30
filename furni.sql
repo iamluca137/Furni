@@ -1,706 +1,116 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Apr 06, 2024 at 04:06 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `furni`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `carts`
---
-
-CREATE TABLE `carts` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
-  `quantity` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
-
-CREATE TABLE `categories` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `categories`
---
-
-INSERT INTO `categories` (`id`, `name`, `slug`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Sofas', 'sofas', 'sofas.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(2, 'Armchairs', 'armchairs', 'armchairs.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(3, 'Easy chairs', 'easy-chairs', 'easy-chairs.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(4, 'Chaise longues', 'chaise-longues', 'chaise-longues.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(5, 'Day beds', 'day-beds', 'day-beds.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(6, 'Small sofas', 'small-sofas', 'small-sofas.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(7, 'Cushions', 'cushions', 'cushions.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(8, 'Chairs', 'chairs', 'chairs.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(9, 'Stools', 'stools', 'stools.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(10, 'Indoor benches', 'indoor-benches', 'indoor-benches.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(11, 'Tables', 'tables', 'tables.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(12, 'Console Tables', 'console-tables', 'console-tables.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(13, 'Bookcases', 'bookcases', 'bookcases.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(14, 'Storage walls', 'storage-walls', 'storage-walls.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(15, 'Sideboards', 'sideboards', 'sideboards.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(16, 'TV cabinets', 'tv-cabinets', 'tv-cabinets.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(17, 'Wall shelves', 'wall-shelves', 'wall-shelves.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(18, 'Beds', 'beds', 'beds.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(19, 'Bedside tables', 'bedside-tables', 'bedside-tables.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(20, 'Wardrobes', 'wardrobes', 'wardrobes.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(21, 'Mattresses', 'mattresses', 'mattresses.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(22, 'Pillows', 'pillows', 'pillows.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(23, 'Mirrors', 'mirrors', 'mirrors.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(24, 'Table lamps', 'table-lamps', 'table-lamps.jpg', '2024-04-05 04:00:00', '2024-04-05 04:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `comments`
---
-
-CREATE TABLE `comments` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
-  `content` text NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `coupons`
---
-
-CREATE TABLE `coupons` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `code` varchar(255) NOT NULL,
-  `discount` int(10) UNSIGNED NOT NULL,
-  `quantity` int(10) UNSIGNED NOT NULL,
-  `valid_from` datetime NOT NULL,
-  `valid_until` datetime NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `image_products`
---
-
-CREATE TABLE `image_products` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `invoices`
---
-
-CREATE TABLE `invoices` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `fullname` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `order_id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(2, '2024_04_05_110000_create_user_roles_table', 1),
-(3, '2024_04_05_110001_create_user_statuses_table', 1),
-(4, '2024_04_05_110002_create_users_table', 1),
-(5, '2024_04_05_110003_create_coupons_table', 1),
-(6, '2024_04_05_110004_create_tags_table', 1),
-(7, '2024_04_05_110005_create_categories_table', 1),
-(8, '2024_04_05_110006_create_product_statuses_table', 1),
-(9, '2024_04_05_110007_create_products_table', 1),
-(10, '2024_04_05_110008_create_product_tags_table', 1),
-(11, '2024_04_05_110009_create_comments_table', 1),
-(12, '2024_04_05_110010_create_image_products_table', 1),
-(13, '2024_04_05_110011_create_carts_table', 1),
-(14, '2024_04_05_110012_create_status_orders_table', 1),
-(15, '2024_04_05_110013_create_orders_table', 1),
-(16, '2024_04_05_110014_create_invoices_table', 1),
-(17, '2024_04_05_110015_create_password_reset_tokens_table', 1),
-(18, '2024_04_05_110016_create_failed_jobs_table', 1),
-(19, '2024_04_05_110017_create_personal_access_tokens_table', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orders`
---
-
-CREATE TABLE `orders` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `order_status_id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
-  `coupon_id` int(10) UNSIGNED NOT NULL,
-  `shipping` decimal(8,2) NOT NULL,
-  `quantity` int(10) UNSIGNED NOT NULL,
-  `total_amount` decimal(8,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `password_reset_tokens`
---
-
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
-
-CREATE TABLE `products` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `price` decimal(8,2) NOT NULL,
-  `sku` varchar(255) NOT NULL,
-  `info` text NOT NULL,
-  `description` text NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `category_product_id` int(10) UNSIGNED NOT NULL,
-  `product_status_id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_statuses`
---
-
-CREATE TABLE `product_statuses` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `product_statuses`
---
-
-INSERT INTO `product_statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Active', '2021-06-06 17:00:00', '2021-06-06 17:00:00'),
-(2, 'Inactive', '2021-06-06 17:00:00', '2021-06-06 17:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_tags`
---
-
-CREATE TABLE `product_tags` (
-  `tag_id` int(10) UNSIGNED NOT NULL,
-  `product_id` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `status_orders`
---
-
-CREATE TABLE `status_orders` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tags`
---
-
-CREATE TABLE `tags` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `fullname` varchar(255) NOT NULL,
-  `avatar` varchar(255) NOT NULL DEFAULT 'profile.png',
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL DEFAULT 2,
-  `status_id` int(10) UNSIGNED NOT NULL DEFAULT 1,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `users` (`id`, `username`, `fullname`, `avatar`, `password`, `email`, `role_id`, `status_id`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'user1', 'user1', 'profile.png', '$2y$10$3Zz9Zz1Zz9Zz1Zz9Zz1ZzO', 'blackwhilee04@gmail.com', 1, 1, '2024-04-05 04:00:00', NULL, '2024-04-05 04:00:00', '2024-04-05 04:00:00');
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_roles`
---
-
-CREATE TABLE `user_roles` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user_roles`
---
-
-INSERT INTO `user_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(2, 'User', '2024-04-05 04:00:00', '2024-04-05 04:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_statuses`
---
-
-CREATE TABLE `user_statuses` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user_statuses`
---
-
-INSERT INTO `user_statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Active', '2024-04-05 04:00:00', '2024-04-05 04:00:00'),
-(2, 'Inactive', '2024-04-05 04:00:00', '2024-04-05 04:00:00');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `carts`
---
-ALTER TABLE `carts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `carts_user_id_foreign` (`user_id`),
-  ADD KEY `carts_product_id_foreign` (`product_id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `categories_slug_unique` (`slug`);
-
---
--- Indexes for table `comments`
---
-ALTER TABLE `comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `comments_user_id_foreign` (`user_id`),
-  ADD KEY `comments_product_id_foreign` (`product_id`);
-
---
--- Indexes for table `coupons`
---
-ALTER TABLE `coupons`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indexes for table `image_products`
---
-ALTER TABLE `image_products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `image_products_product_id_foreign` (`product_id`);
-
---
--- Indexes for table `invoices`
---
-ALTER TABLE `invoices`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `invoices_user_id_foreign` (`user_id`),
-  ADD KEY `invoices_order_id_foreign` (`order_id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `orders_order_status_id_foreign` (`order_status_id`),
-  ADD KEY `orders_product_id_foreign` (`product_id`),
-  ADD KEY `orders_coupon_id_foreign` (`coupon_id`);
-
---
--- Indexes for table `password_reset_tokens`
---
-ALTER TABLE `password_reset_tokens`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `products_category_product_id_foreign` (`category_product_id`),
-  ADD KEY `products_product_status_id_foreign` (`product_status_id`);
-
---
--- Indexes for table `product_statuses`
---
-ALTER TABLE `product_statuses`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `product_tags`
---
-ALTER TABLE `product_tags`
-  ADD KEY `product_tags_tag_id_foreign` (`tag_id`),
-  ADD KEY `product_tags_product_id_foreign` (`product_id`);
-
---
--- Indexes for table `status_orders`
---
-ALTER TABLE `status_orders`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tags`
---
-ALTER TABLE `tags`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_username_unique` (`username`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `users_role_id_foreign` (`role_id`),
-  ADD KEY `users_status_id_foreign` (`status_id`);
-
---
--- Indexes for table `user_roles`
---
-ALTER TABLE `user_roles`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_statuses`
---
-ALTER TABLE `user_statuses`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `carts`
---
-ALTER TABLE `carts`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `comments`
---
-ALTER TABLE `comments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `coupons`
---
-ALTER TABLE `coupons`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `image_products`
---
-ALTER TABLE `image_products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `invoices`
---
-ALTER TABLE `invoices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `product_statuses`
---
-ALTER TABLE `product_statuses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `status_orders`
---
-ALTER TABLE `status_orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tags`
---
-ALTER TABLE `tags`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_roles`
---
-ALTER TABLE `user_roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `user_statuses`
---
-ALTER TABLE `user_statuses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `carts`
---
-ALTER TABLE `carts`
-  ADD CONSTRAINT `carts_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `carts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `comments`
---
-ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `image_products`
---
-ALTER TABLE `image_products`
-  ADD CONSTRAINT `image_products_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `invoices`
---
-ALTER TABLE `invoices`
-  ADD CONSTRAINT `invoices_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `invoices_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_coupon_id_foreign` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `orders_order_status_id_foreign` FOREIGN KEY (`order_status_id`) REFERENCES `status_orders` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `orders_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_category_product_id_foreign` FOREIGN KEY (`category_product_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `products_product_status_id_foreign` FOREIGN KEY (`product_status_id`) REFERENCES `product_statuses` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `product_tags`
---
-ALTER TABLE `product_tags`
-  ADD CONSTRAINT `product_tags_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `product_tags_tag_id_foreign` FOREIGN KEY (`tag_id`) REFERENCES `tags` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `users_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `user_statuses` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `category_statuses` ( `name`, `created_at`, `updated_at`) VALUES
+('Active', NULL, NULL),
+('Inactive', NULL, NULL);
+
+ 
+INSERT INTO `product_statuses` (`name`, `created_at`, `updated_at`) VALUES
+('Active', NULL, NULL),
+('Inactive', NULL, NULL),
+('Out of Stock', NULL, NULL);
+
+
+INSERT INTO `user_roles` (`name`, `created_at`, `updated_at`) VALUES
+('Admin', NULL, NULL),
+('Client', NULL, NULL);
+
+
+INSERT INTO `user_statuses` (`name`, `created_at`, `updated_at`) VALUES
+('Active', NULL, NULL),
+('Inactive', NULL, NULL),
+('Banned', NULL, NULL);
+
+INSERT INTO `categories` (`name`, `slug`, `image`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('Beds', 'beds', '1715695856_beds.png', 1, '2024-04-22 23:25:07', '2024-05-14 00:10:56', NULL),
+('Sofas', 'sofas', '1715695839_sofas.png', 1, '2024-04-22 23:46:44', '2024-05-14 00:10:39', NULL),
+('Lamps', 'lamps', '1715695876_lamps.png', 1, '2024-04-22 23:46:57', '2024-05-14 00:11:16', NULL),
+('Outdoor', 'outdoor', '1715695883_outdoor.png', 1, '2024-04-22 23:47:22', '2024-05-14 00:11:23', NULL),
+('Storage', 'storage', '1715695888_storage.png', 1, '2024-04-22 23:47:35', '2024-05-14 00:11:28', NULL),
+('Chairs', 'chairs', '1715695894_chairs.png', 1, '2024-04-22 23:47:50', '2024-05-14 00:11:34', NULL),
+('Tables', 'tables', '1715695901_tables.png', 1, '2024-04-22 23:48:04', '2024-05-14 00:11:41', NULL),
+('Rugs', 'rugs', '1715695906_rugs.png', 1, '2024-04-22 23:49:23', '2024-05-14 00:11:46', NULL),
+('Accessories', 'accessories', '1715695933_accessories.png', 1, '2024-04-22 23:49:44', '2024-05-14 00:12:13', NULL);
+
+
+
+
+INSERT INTO `coupons` (`code`, `discount`, `quantity`, `valid_from`, `valid_until`, `created_at`, `updated_at`) VALUES
+('0EKVS0Y1JS', 10, 8, '2023-11-30 22:52:33', '2024-09-09 13:05:33', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('B1Q5DVCPVL', 47, 79, '2023-08-02 07:52:14', '2024-09-19 03:01:46', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('R8P5GS3B9C', 82, 1, '2024-04-20 16:09:11', '2024-07-05 07:41:14', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('OUPT9WDRBH', 20, 67, '2023-07-17 21:04:51', '2024-06-15 16:26:41', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('HENXXV7JDJ', 7, 83, '2023-06-26 16:19:44', '2025-05-26 14:34:49', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('F94ZRI0XZ2', 77, 15, '2023-09-26 08:29:22', '2024-09-10 06:56:42', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('0WCECQZYU7', 1, 22, '2023-06-20 16:03:26', '2024-08-24 17:36:46', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('92WL14O315', 94, 90, '2023-06-04 16:11:34', '2024-07-03 08:44:45', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+('UVHV0T0P2I', 84, 20, '2023-10-25 18:44:58', '2024-08-31 16:34:03', '2024-06-03 06:00:56', '2024-06-03 06:00:56'),
+( 'M5R62QL37C', 26, 96, '2024-01-20 10:35:11', '2025-04-19 11:04:56', '2024-06-03 06:00:56', '2024-06-03 06:00:56');
+
+
+
+INSERT INTO `sub_categories` (`name`, `slug`, `image`, `category_id`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('Daybed', 'daybed', '1714121520_daybed.jpg', 1, 1, '2024-04-25 18:52:00', '2024-04-25 19:45:25', NULL),
+('Home office chairs', 'home-office-chairs', '1714122530_home_office_chairs.jpg', 6, 1, '2024-04-25 19:08:50', '2024-04-25 19:08:50', NULL),
+('Dining chairs', 'dining-chairs', '1714122516_dining_chairs.jpg', 6, 1, '2024-04-25 19:08:36', '2024-04-25 19:08:36', NULL),
+('Sofa beds', 'sofa-beds', '1714121705_sofa_beds.jpg', 1, 1, '2024-04-25 18:55:05', '2024-04-25 18:55:05', NULL),
+('Storage beds', 'storage-beds', '1714121750_storage_beds.jpg', 1, 1, '2024-04-25 18:55:50', '2024-04-25 18:55:50', NULL),
+('2.5 Seater sofas', '2-5-seater-sofas', '1714121899_2.5_seater_sofas.jpg', 2, 1, '2024-04-25 18:58:19', '2024-04-25 18:58:19', NULL),
+('2 Seater sofas', '2-seater-sofas', '1714121928_2_Seater_sofas.jpg', 2, 1, '2024-04-25 18:58:48', '2024-04-25 18:58:48', NULL),
+('3 Seater sofas', '3-seater-sofas', '1714121952_3_Seater_sofas.jpg', 2, 1, '2024-04-25 18:59:12', '2024-04-25 18:59:12', NULL),
+('Chaise longue sofas', 'chaise-longue-sofas', '1714121979_chaise_longue_sofas.jpg', 2, 1, '2024-04-25 18:59:39', '2024-04-25 18:59:39', NULL),
+( 'Corner sofas', 'corner-sofas', '1714122009_corner_sofas.jpg', 2, 1, '2024-04-25 19:00:09', '2024-04-25 19:00:09', NULL),
+( 'Footstools', 'footstools', '1714122102_footstools.jpg', 2, 1, '2024-04-25 19:01:42', '2024-04-25 19:01:42', NULL),
+( 'Large and 4 seater sofas', 'large-and-4-seater-sofas', '1714122115_Large_and_4_seater_sofas.jpg', 2, 1, '2024-04-25 19:01:55', '2024-04-25 19:01:55', NULL),
+( 'Modular sofas', 'modular-sofas', '1714122133_modular_sofas.jpg', 2, 1, '2024-04-25 19:02:13', '2024-04-25 19:02:13', NULL),
+( 'Office sofas', 'office-sofas', '1714122151_office_sofas.jpg', 2, 1, '2024-04-25 19:02:31', '2024-04-25 19:02:31', NULL),
+( 'Floor lamps', 'floor-lamps', '1714122196_floor_lamps.jpg', 3, 1, '2024-04-25 19:03:16', '2024-04-25 19:03:16', NULL),
+( 'Light bulbs', 'light-bulbs', '1714122220_light_bulbs.jpg', 3, 1, '2024-04-25 19:03:40', '2024-04-25 19:03:40', NULL),
+( 'Pendants', 'pendants', '1714122240_pendants.jpg', 3, 1, '2024-04-25 19:04:00', '2024-04-25 19:04:00', NULL),
+( 'Table lamps', 'table-lamps', '1714122254_table_lamps.jpg', 3, 1, '2024-04-25 19:04:14', '2024-04-25 19:04:14', NULL),
+( 'Wall lamps', 'wall-lamps', '1714122277_wall_lamps.jpg', 3, 1, '2024-04-25 19:04:37', '2024-04-25 19:04:37', NULL),
+( 'Leather rugs', 'leather-rugs', '1714122320_leather_rugs.jpg', 8, 1, '2024-04-25 19:05:20', '2024-04-25 19:05:20', NULL),
+( 'Rectangular rugs', 'rectangular-rugs', '1714122354_rectangular_rugs.jpg', 8, 1, '2024-04-25 19:05:54', '2024-04-25 19:05:54', NULL),
+( 'Round rugs', 'round-rugs', '1714122373_round_rugs.jpg', 8, 1, '2024-04-25 19:06:13', '2024-04-25 19:06:13', NULL),
+( 'Armchairs', 'armchairs', '1714122402_armchairs.jpg', 6, 1, '2024-04-25 19:06:42', '2024-04-25 19:06:42', NULL),
+( 'Barstools', 'barstools', '1714122423_barstools.jpg', 6, 1, '2024-04-25 19:07:03', '2024-04-25 19:07:03', NULL),
+( 'Benches', 'benches', '1714122494_benches.jpg', 6, 1, '2024-04-25 19:08:14', '2024-04-25 19:08:14', NULL),
+( 'Outdoor chairs', 'outdoor-chairs', '1714122545_outdoor_chairs.jpg', 6, 1, '2024-04-25 19:09:05', '2024-04-25 19:09:05', NULL),
+( 'Recliners', 'recliners', '1714122560_recliners.jpg', 6, 1, '2024-04-25 19:09:20', '2024-04-25 19:09:20', NULL),
+( 'Seat cushions', 'seat-cushions', '1714122582_seat_cushions.jpg', 6, 1, '2024-04-25 19:09:42', '2024-04-25 19:09:42', NULL),
+( 'Bar tables', 'bar-tables', '1714122639_bar_tables.jpg', 7, 1, '2024-04-25 19:10:39', '2024-04-25 19:10:39', NULL),
+( 'Bedside tables', 'bedside-tables', '1714122652_bedside_tables.jpg', 7, 1, '2024-04-25 19:10:52', '2024-04-25 19:10:52', NULL),
+( 'Coffee tables', 'coffee-tables', '1714122666_coffee_tables.jpg', 7, 1, '2024-04-25 19:11:06', '2024-04-25 19:11:06', NULL),
+( 'Conference tables', 'conference-tables', '1714122680_conference_tables.jpg', 7, 1, '2024-04-25 19:11:20', '2024-04-25 19:11:20', NULL),
+( 'Desks', 'desks', '1714122691_desks.jpg', 7, 1, '2024-04-25 19:11:31', '2024-04-25 19:11:31', NULL),
+( 'Dining tables', 'dining-tables', '1714122703_dining_tables.jpg', 7, 1, '2024-04-25 19:11:43', '2024-04-25 19:11:43', NULL),
+( 'Extendable dining tables', 'extendable-dining-tables', '1714122715_extendable_dining_tables.jpg', 7, 1, '2024-04-25 19:11:55', '2024-04-25 19:11:55', NULL),
+( 'Outdoor tables', 'outdoor-tables', '1714122728_outdoor_tables.jpg', 7, 1, '2024-04-25 19:12:08', '2024-04-25 19:12:08', NULL),
+( 'Side tables', 'side-tables', '1714122742_side_tables.jpg', 7, 1, '2024-04-25 19:12:22', '2024-04-25 19:12:22', NULL),
+( 'Bookcases and shelves', 'bookcases-and-shelves', '1714122804_bookcases_and_shelves.jpg', 5, 1, '2024-04-25 19:13:24', '2024-04-25 19:13:24', NULL),
+( 'Chest of drawers', 'chest-of-drawers', '1714122821_chest_of_drawers.jpg', 5, 1, '2024-04-25 19:13:41', '2024-04-25 19:13:41', NULL),
+( 'Console tables', 'console-tables', '1714122834_console_tables.jpg', 5, 1, '2024-04-25 19:13:54', '2024-04-25 19:13:54', NULL),
+( 'Hallway furniture', 'hallway-furniture', '1714122846_hallway_furniture.jpg', 5, 1, '2024-04-25 19:14:06', '2024-04-25 19:14:06', NULL),
+( 'Night stands', 'night-stands', '1714122860_night_stands.jpg', 5, 1, '2024-04-25 19:14:20', '2024-04-25 19:14:20', NULL),
+( 'Office storage', 'office-storage', '1714122872_office_storage.jpg', 5, 1, '2024-04-25 19:14:32', '2024-04-25 19:14:32', NULL),
+( 'Sideboards', 'sideboards', '1714122884_sideboards.jpg', 5, 1, '2024-04-25 19:14:44', '2024-04-25 19:14:44', NULL),
+( 'TV-Units', 'tv-units', '1714122898_TV-units.jpg', 5, 1, '2024-04-25 19:14:58', '2024-04-25 19:14:58', NULL),
+( 'Wall systems', 'wall-systems', '1714122909_wall_systems.jpg', 5, 1, '2024-04-25 19:15:09', '2024-04-25 19:15:09', NULL),
+( 'Care products', 'care-products', '1714122966_care_products.jpg', 9, 1, '2024-04-25 19:16:06', '2024-04-25 19:16:06', NULL),
+( 'Cushions', 'cushions', '1714122979_cushions.jpg', 9, 1, '2024-04-25 19:16:19', '2024-04-25 19:16:19', NULL),
+( 'Decoration', 'decoration', '1714122991_decoration.jpg', 9, 1, '2024-04-25 19:16:31', '2024-04-25 19:16:31', NULL),
+( 'Furniture accessories', 'furniture-accessories', '1714123008_furniture_acessories.jpg', 9, 1, '2024-04-25 19:16:48', '2024-04-25 19:16:48', NULL),
+( 'Gallery', 'gallery', '1714123019_gallery.jpg', 9, 1, '2024-04-25 19:16:59', '2024-04-25 19:16:59', NULL),
+( 'Mirrors', 'mirrors', '1714123030_mirrors.jpg', 9, 1, '2024-04-25 19:17:10', '2024-04-25 19:17:10', NULL),
+( 'Throws and bedspreads', 'throws-and-bedspreads', '1714123041_throws_and_bedspreads.jpg', 9, 1, '2024-04-25 19:17:21', '2024-04-25 19:17:21', NULL),
+( 'Vases', 'vases', '1714123052_vases.jpg', 9, 1, '2024-04-25 19:17:32', '2024-04-25 19:17:32', NULL);
+
+
+INSERT INTO `users` (`username`, `fullname`, `avatar`, `password`, `email`, `phone`, `address`, `role`, `status`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('@Cactus137', 'LeVanThanh', 'profile.png', '$2y$12$0vmjipqxDOB.ykMHuK/Kpec2vQvyvuFfHdThasUqB9CKG2YqxB4/y', 'Blackwhilee04@gmail.com', '0382606012', 'Ha Noi, Viet Nam', 1, 1, NULL, NULL, '2024-04-10 16:35:14', '2024-04-10 16:35:14', NULL),
+('zthanh123', 'van thanh', 'profile.png', '$2y$12$0vmjipqxDOB.ykMHuK/Kpec2vQvyvuFfHdThasUqB9CKG2YqxB4/y', 'Blackwlee04@gmail.com', '0382366012', 'Ha Noi, Viet Nam', 2, 1, NULL, NULL, '2024-04-10 16:35:14', '2024-04-10 16:35:14', NULL),
+('cactus4g@gmail.com', NULL, 'profile.png', '$2y$12$1Fy.913iWS/4O6b5rludpuUWYyaCH6Wjus5B4tFtzyoxMp5IgzLh2', 'cactus4g@gmail.com', NULL, NULL, 2, 1, NULL, NULL, '2024-06-04 21:55:41', '2024-06-04 21:55:41', NULL);
+
+INSERT INTO `carts` (`user_id`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL),
+(2, NULL, NULL),
+(3, NULL, NULL);

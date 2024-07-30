@@ -86,4 +86,6 @@ class CouponController extends Controller
             return redirect()->route('admin.coupon')->with('error', 'Coupon deleted failed');
         }
     } 
+
+    
 }

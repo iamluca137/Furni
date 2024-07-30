@@ -20,6 +20,7 @@ class Product extends Model
         'price',
         'sku',
         'info',
+        'short_description',
         'description',
         'quantity',
         'category_product_id',

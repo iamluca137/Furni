@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status_orders', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
+            // Pending (Xử lý đơn hàng)
+            // Shipping (Đang giao hàng)
+            // Completed (Hoàn thành)
+            // Cancelled (Đã hủy)
+            // Returns/Refunds (Trả hàng/hoàn tiền)  
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status_orders');
+        Schema::dropIfExists('order_statuses');
     }
 };

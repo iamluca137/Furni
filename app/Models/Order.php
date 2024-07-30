@@ -10,35 +10,40 @@ class Order extends Model
     use HasFactory;
 
     protected $table = 'orders';
-    
+
     protected $primaryKey = 'id';
-    
+
     protected $fillable = [
         'order_status_id',
-        'product_id',
-        'coupon_id',
-        'shipping',
-        'quantity',
+        'payment_method', 
+        'payment_id',
+        'user_id',
+        'discount',
         'total_amount',
+        'country',
+        'city',
+        'first_name',
+        'last_name',
+        'address',
+        'zip_code',
+        'phone',
+        'email',
+        'note', 
     ];
 
-    public function invoice()
+    public function user()
     {
-        return $this->hasOne(Invoice::class, 'order_id', 'id');
-    }
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    } 
 
     public function status()
     {
-        return $this->belongsTo(StatusOrder::class, 'order_status_id', 'id');
+        return $this->belongsTo(OrderStatus::class, 'order_status_id', 'id');
     }
 
-    public function coupon()
-    {
-        return $this->belongsTo(Coupon::class, 'coupon_id', 'id');
-    } 
 
-    public function products()
+    public function payment()
     {
-        return $this->belongsToMany(Product::class, 'order_products', 'order_id', 'product_id');
+        return $this->belongsTo(Payment::class, 'payment_id', 'payment_id');
     }
 }

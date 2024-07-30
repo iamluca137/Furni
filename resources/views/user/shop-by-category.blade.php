@@ -1,4 +1,5 @@
 @extends('layouts.user')
+@section('title', $category->name)
 @section('content')
     <!-- Start Hero Section -->
     <div class="hero">
@@ -6,9 +7,9 @@
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-6 p-0 ">
                     <div class="mb-5">
-                        <a href="#" class="text-decoration-none">
+                        <a href="{{ route('shop') }}" class="text-decoration-none">
                             <i class="fa-solid fa-arrow-left-long "></i>
-                            <span class="ps-1">###</span>
+                            <span class="ps-1">Shop</span>
                         </a>
                     </div>
                     <h1 class="m-0">{{ $category->name }}</h1>
